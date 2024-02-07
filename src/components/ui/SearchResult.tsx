@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { useAllProductsQuery } from "@/services/productsApi";
 import SearchCard from "./cards/SearchCard";
+import { useAllProductsQuery } from "@/services/productsQuery";
 type SearchResultsProps = {
   products?: ProductData[] | undefined;
   searchQuery?: string | null;
@@ -15,9 +14,9 @@ const SearchResults = ({ searchQuery }: SearchResultsProps) => {
       )
     : allProducts.products;
 
-  useEffect(() => {
-    console.log("Live search with query:", searchQuery);
-  }, [searchQuery]);
+  // useEffect(() => {
+  //   searchQuery && console.log("Live search with query:", searchQuery);
+  // }, [searchQuery]);
 
   return (
     <section className="z-10 absolute top-full w-full">

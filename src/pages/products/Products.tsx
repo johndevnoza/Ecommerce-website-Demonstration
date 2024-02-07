@@ -1,8 +1,8 @@
-import { useAllProductsQuery } from "@/services/productsApi";
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import { Link } from "react-router-dom";
 import useSearchStore from "@/services/searchContext";
+import { useAllProductsQuery } from "@/services/productsQuery";
 // import SearchResult from "@/components/ui/SearchResult";
 
 // import { ProductsLoading } from "@/components/ui/loadings/ProductListLoading";

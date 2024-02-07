@@ -13,7 +13,7 @@ const useSearchStore = create<SearchState>((set) => ({
     set({ isSearchActive: true });
   },
   deactivateSearch: () => {
-    console.log("Deactivating search...");
+    // console.log("Deactivating search...");
     set({ isSearchActive: false });
   },
 }));

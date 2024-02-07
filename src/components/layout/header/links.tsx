@@ -72,7 +72,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/products">About Us</Link>
+              <Link to="/about">About Us</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(
@@ -82,7 +82,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/products">Contact</Link>
+              <Link to="/contact">Contact</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(
@@ -92,7 +92,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/products">Offices</Link>
+              <Link to="/offices">Offices</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(
@@ -102,7 +102,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/products">Map</Link>
+              <Link to="/map">Map</Link>
             </NavigationMenuLink>
           </NavigationMenuContent>
         </NavigationMenuItem>

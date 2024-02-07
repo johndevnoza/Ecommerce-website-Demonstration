@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { XCircle } from "lucide-react";
 import { buttonVariants } from "./button";
 import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useAllProductsQuery } from "@/services/productsQuery";
 import SearchResults from "./SearchResult";
-import { useAllProductsQuery } from "@/services/productsApi";
-import { XCircle } from "lucide-react";
 import useSearchStore from "@/services/searchContext";
 
 const ProductSearchBar = ({ isLoading }: any) => {
@@ -14,23 +14,22 @@ const ProductSearchBar = ({ isLoading }: any) => {
   const activateSearch = useSearchStore((state) => state.activateSearch);
   const deactivateSearch = useSearchStore((state) => state.deactivateSearch);
 
+  const query = searchParams.get("q");
   useEffect(() => {
-    const query = searchParams.get("q");
     if (query) {
       console.log("Activating search...");
       activateSearch();
       setSearchTerm(query);
       console.log("Search term:", query);
     } else {
-      console.log("Deactivating search...");
+      // console.log("Deactivating search...");
       deactivateSearch();
       console.log("No search term");
     }
-  }, [searchParams, activateSearch, deactivateSearch]);
+  }, [activateSearch, deactivateSearch, query]);
 
   if (isPending) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
-
   const products = data?.products || [];
 
   return (

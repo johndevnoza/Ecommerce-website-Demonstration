@@ -8,14 +8,11 @@ import SignIn from "@/components/ui/user/SignIn";
 import Profile from "@/components/ui/user/Profile";
 import Cart from "@/components/ui/user/Cart";
 import ProductSearchBar from "@/components/ui/ProductSearchBar";
-import useSearchStore from "@/services/searchContext";
 
 // mocking user AUTH
 const user: string = "signsed";
 
 export default function Header() {
-  
-
   return (
     <div className="sticky z-50 top-0 bg-background inset-x-0 h-16">
       <header className="relative w-full">
