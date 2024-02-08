@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useAllProductsQuery } from "@/services/productsQuery";
 import SearchResults from "./SearchResult";
 import useSearchStore from "@/services/searchContext";
+import { Input } from "./input";
 
 const ProductSearchBar = ({ isLoading }: any) => {
   const { data, isPending, error } = useAllProductsQuery();
@@ -35,14 +36,13 @@ const ProductSearchBar = ({ isLoading }: any) => {
   return (
     <div className="w-full grid place-items-center relative">
       <div className="flex w-full justify-center">
-        <input
+        <Input
           type="text"
+          className="w-[70%]"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder={isLoading ? "Loading..." : ""}
-          className={cn(
-            buttonVariants({ variant: "outline", className: "w-[70%]" })
-          )}
+         
         />
       </div>
       {searchTerm && (

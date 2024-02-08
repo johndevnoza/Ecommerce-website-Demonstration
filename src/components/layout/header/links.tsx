@@ -32,16 +32,17 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Links() {
   // const location = useLocation();
-
+  const { t } = useTranslation();
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger className={cn(buttonVariants())}>
-            Navigation
+            {t("navigation")}
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <NavigationMenuLink
@@ -52,7 +53,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/products">All Products</Link>
+              <Link to="/products"> {t("allProducts")}</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(
@@ -62,7 +63,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/products/categories">Categories</Link>
+              <Link to="/products/categories"> {t("categories")}</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(
@@ -72,7 +73,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/about">About Us</Link>
+              <Link to="/about"> {t("aboutUs")}</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(
@@ -82,7 +83,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/contact">Contact</Link>
+              <Link to="/contact"> {t("contact")}</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(
@@ -92,7 +93,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/offices">Offices</Link>
+              <Link to="/offices"> {t("offices")}</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(
@@ -102,7 +103,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/map">Map</Link>
+              <Link to="/map"> {t("map")}</Link>
             </NavigationMenuLink>
           </NavigationMenuContent>
         </NavigationMenuItem>

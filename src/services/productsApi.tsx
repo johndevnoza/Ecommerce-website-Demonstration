@@ -6,8 +6,9 @@ export async function fetchAllProducts() {
 
 export async function fetchCategories() {
   return await axios
-    .get(`${apiUrl}categories`, { params: { _sort: "title" } })
+    .get(`${apiUrl}product-category`, { params: { _sort: "title" } })
     .then((res) => res.data);
+    
 }
 
 export async function fetchSingleCategory(categoryId: string) {

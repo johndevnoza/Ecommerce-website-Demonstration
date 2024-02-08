@@ -12,4 +12,8 @@ declare interface linkProps {
   path: string;
 }
 
+declare type CategoriesProps = {
+  name: string
+  id: string
+}
 

@@ -6,11 +6,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { buttonVariants } from "../button";
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "../button";
 import { Inbox, LogOut, SubscriptIcon, User } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function Profile() {
+  const { t } = useTranslation();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -18,32 +21,32 @@ export default function Profile() {
           className={cn(
             buttonVariants({
               variant: "outline",
-              className: "flex gap-2",
+              className: "flex gap-2  ",
             })
           )}
         >
-          <span>Profile</span>
+          <span> {t("profile")}</span>
           <User />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel> {t("myAccount")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex gap-1">
           <User className="w-5" />
-          <span>Profile</span>
+          <span> {t("profile")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex gap-1">
           <Inbox className="w-5" />
-          <span>Inbox</span>
+          <span> {t("inbox")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex gap-1">
           <SubscriptIcon className="w-5" />
-          <span>Subscription</span>
+          <span> {t("subscription")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex gap-1">
           <LogOut className="w-5" />
-          <span>Log out</span>
+          <span> {t("logOut")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
