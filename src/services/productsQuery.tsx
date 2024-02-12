@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import {
   fetchAllProducts,
   fetchCategories,
-  fetchProductSearch,
   fetchSingleCategory,
   fetchSingleProduct,
 } from "./productsApi";
@@ -10,7 +9,7 @@ import {
 export function useAllProductsQuery() {
   return useQuery({
     queryKey: ["allProducts"],
-    queryFn: fetchAllProducts,
+    queryFn:  fetchAllProducts,
   });
 }
 
@@ -28,18 +27,9 @@ export function useSingleCategoryQuery(categoryId: string) {
   });
 }
 
-export function useSingleProductQuery(productId: number | string) {
-  return useQuery({
-    queryKey: ["singleProduct", productId],
-    queryFn: () => fetchSingleProduct(productId),
-  });
-}
-
-export function useProductSearchQuery(searchTerm: string) {
-  return useQuery({
-    queryKey: ["productSearch", searchTerm],
-    queryFn: () => {
-      return fetchProductSearch(searchTerm);
-    },
-  });
-}
+// export function useProductSearchQuery(searchTerm: string ) {
+//   return useQuery({
+//     queryKey: ["productSearch", searchTerm],
+//     queryFn: () => fetchProductSearch(searchTerm),
+//   });
+// }

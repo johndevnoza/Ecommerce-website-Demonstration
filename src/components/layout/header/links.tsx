@@ -63,7 +63,7 @@ export default function Links() {
                 })
               )}
             >
-              <Link to="/products/categories"> {t("categories")}</Link>
+              <Link to="/product-category"> {t("categories")}</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(

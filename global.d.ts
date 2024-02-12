@@ -1,6 +1,6 @@
 declare type ProductData = {
   title: string;
-  price?: string | number;
+  price?: number | biginit;
   description?: string;
   image?: string;
   category?: string;
@@ -13,7 +13,6 @@ declare interface linkProps {
 }
 
 declare type CategoriesProps = {
-  name: string
-  id: string
-}
-
+  name: string;
+  id: string;
+};

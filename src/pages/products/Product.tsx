@@ -1,11 +1,24 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
-import { useSingleProductQuery } from "@/services/productsQuery";
+import { fetchSingleProduct } from "@/services/productsApi";
+import { useQuery } from "@tanstack/react-query";
 
-export default function Product({ productId }: any) {
-  const { data: product } = useSingleProductQuery(productId);
-  console.log(product);
+export default function Product() {
+  const { data, isPending, error } = useQuery({
+    queryKey: ["productSearch"],
+    queryFn: () => fetchSingleProduct(),
+  });
+  console.log(data);
 
-  return <MaxWidthWrapper>Product</MaxWidthWrapper>;
+  if (isPending) return <div>Loading...</div>;
+  if (error) return <div>An error occurred: {error.message}</div>;
+  return (
+    <MaxWidthWrapper>
+      {data.products.map((product: ProductData) => (
+        <div key={product.id}>{product.title}</div>
+      ))}
+      <div>asdasdasd</div>
+    </MaxWidthWrapper>
+  );
 }
 
 //  function Post({ id }) {

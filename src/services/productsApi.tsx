@@ -5,24 +5,23 @@ export async function fetchAllProducts() {
 }
 
 export async function fetchCategories() {
-  return await axios
-    .get(`${apiUrl}product-category`, { params: { _sort: "title" } })
-    .then((res) => res.data);
-    
+  return await axios.get(`${apiUrl}product-category`).then((res) => res.data);
 }
 
 export async function fetchSingleCategory(categoryId: string) {
   return await axios
-    .get(`https://fakestoreapi.com/products/category/${categoryId}`)
+    .get(`${apiUrl}product?categoryName=${categoryId}`)
     .then((res) => res.data);
 }
 
-export async function fetchSingleProduct(productId: number | string) {
-  return await axios.get(`${apiUrl}${productId}`).then((res) => res.data);
+export async function fetchSingleProduct() {
+  return await axios
+    .get(`http://localhost:3000/product?productName=Iphone`)
+    .then((res) => res.data);
 }
 
-export async function fetchProductSearch(searchTerm: string) {
+export async function fetchProductSearch(searchUrl: string) {
   return await axios
-    .get(`${apiUrl}product?searchTerm=${searchTerm}`)
+    .get(`${apiUrl}product?productName=${searchUrl}`)
     .then((res) => res.data);
 }

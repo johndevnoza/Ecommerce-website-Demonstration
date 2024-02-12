@@ -14,9 +14,8 @@ export default function Categories() {
   return (
     <MaxWidthWrapper className="mt-8">
       <section className="w-full flex justify-between">
-        {isLoading && <div>testing</div>}
         {categories.map((category: CategoriesProps) => (
-          <Link to={`/products/categories/${category.name}`} key={category.id}>
+          <Link to={`/product-category/${category.name}`} key={category.id}>
             <Button variant={category.name === id ? "default" : "secondary"}>
               {category.name}
             </Button>

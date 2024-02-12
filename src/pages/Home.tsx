@@ -1,4 +1,5 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
+import Autoplay from "embla-carousel-autoplay";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ProductCard from "@/components/ui/cards/ProductCard";
@@ -15,11 +16,11 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { t } from "i18next";
 
 export default function Home() {
   const { isPending, error, data } = useAllProductsQuery();
   const { data: categories } = useCategoriesQuery();
-  console.log(categories);
 
   if (isPending) return <div>testing</div>;
   if (error) return "An error has occurred: " + error.message;
@@ -49,17 +50,24 @@ export default function Home() {
                   >
                     <Link to={`/products/${item.id}`}>
                       <Card>
-                        <CardContent className="flex flex-col">
-                          <CardHeader>
+                        <CardContent className="flex flex-col gap-4 p-4">
+                          <CardHeader className="flex flex-row items-center p-0 justify-between px-0">
                             <CardTitle className="line-clamp-1 text-center">
-                              {item.title}
+                              {t(item.title)}
                             </CardTitle>
-                            <Button>{item.price}$</Button>
+                            <div className="flex bg-background rounded-md">
+                              <Button className="rounded-e-none ">
+                                {item.price - 40}$
+                              </Button>
+                              <Button className="rounded-s-none " disabled>
+                                {item.price - 1}$
+                              </Button>
+                            </div>
                           </CardHeader>
                           <img
                             src={item.image}
                             alt={item.title}
-                            className=" h-[100px] "
+                            className=" h-[100px] object-cover rounded-sm"
                           />
                         </CardContent>
                       </Card>
@@ -72,12 +80,23 @@ export default function Home() {
             </Carousel>
           </section>
           {/* Homepage categories */}
-          <Carousel className="rounded-lg border bg-card text-card-foreground shadow-sm">
-            <CarouselContent className="flex ">
+          <Carousel
+            opts={{
+              align: "end",
+              loop: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 2000,
+              }),
+            ]}
+            className="rounded-lg border bg-card text-card-foreground shadow-sm"
+          >
+            <CarouselContent className="">
               {categories.map((category: CategoriesProps) => (
                 <CarouselItem
                   key={category.id}
-                  className="md:basis-1/3 lg:basis-1/5 "
+                  className="md:basis-1/3 lg:basis-1/5 basis-1/3 "
                 >
                   <Link to={`/products/categories/${category.name}`}>
                     <Button>{category.name}</Button>

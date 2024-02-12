@@ -1,8 +1,9 @@
 import { Card, CardTitle } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { memo } from "react";
 
-export default function SearchCard({ image, title, price }: ProductData) {
+function SearchCard({ image, title, price }: ProductData) {
   return (
     <Card
       className={cn(
@@ -32,3 +33,5 @@ export default function SearchCard({ image, title, price }: ProductData) {
     </Card>
   );
 }
+
+export default memo(SearchCard);
