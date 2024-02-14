@@ -24,19 +24,17 @@ const LanguageSwitch = () => {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <div
-          className={cn(
-            buttonVariants({
-              variant: "outline",
-              className: "flex gap-2  ",
-            })
-          )}
-        >
-          <LucideLanguages />
-        </div>
+      <DropdownMenuTrigger
+        className={cn(
+          buttonVariants({
+            variant: "outline",
+            className: "flex gap-2  data-[state=open]:border-primary",
+          })
+        )}
+      >
+        <LucideLanguages />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="flex flex-col gap-1">
+      <DropdownMenuContent align="end" className="flex flex-col gap-1">
         <DropdownMenuLabel> {t("languages")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {languages.map((language) => (

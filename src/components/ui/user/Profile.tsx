@@ -16,18 +16,17 @@ export default function Profile() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <div
-          className={cn(
-            buttonVariants({
-              variant: "outline",
-              className: "flex gap-2  ",
-            })
-          )}
-        >
-          <span> {t("profile")}</span>
-          <User />
-        </div>
+      <DropdownMenuTrigger
+        className={cn(
+          buttonVariants({
+            variant: "outline",
+            className:
+              "flex gap-2  data-[state=open]:border-primary  data-[state=open]:scale-110",
+          })
+        )}
+      >
+        <span className="hidden lg:block"> {t("profile")}</span>
+        <User />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel> {t("myAccount")}</DropdownMenuLabel>

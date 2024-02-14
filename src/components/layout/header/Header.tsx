@@ -10,6 +10,10 @@ import Cart from "@/components/ui/user/Cart";
 import ProductSearchBar from "@/components/ui/ProductSearchBar";
 import LanguageSwitch from "@/components/LanguageSwitch";
 
+import { Menu } from "lucide-react";
+import BurgerMenu from "@/components/ui/BurgerMenu";
+import BurgerMenuTest from "@/components/ui/BurgerMenuTest";
+
 // mocking user AUTH
 const user: string = "signsed";
 
@@ -34,12 +38,14 @@ export default function Header() {
               <Links />
             </div>
             <ProductSearchBar />
-            <div className="flex gap-4 items-center justify-center">
+            <div className="md:flex gap-1 hidden">
               {user === "signed" ? <SignIn /> : <Profile />}
               <Cart />
               <ModeToggle />
-              <LanguageSwitch/>
+              <LanguageSwitch />
             </div>
+            <BurgerMenu user={user} />
+            <BurgerMenuTest user={user} />
           </div>
           {/* </div> */}
         </MaxWidthWrapper>
