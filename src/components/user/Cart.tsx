@@ -7,11 +7,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../sheet.tsx";
+} from "../ui/sheet.tsx";
 import { cn, formatPrice } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { buttonVariants } from "../button";
-import { Separator } from "../separator";
+import { buttonVariants } from "../ui/button.tsx";
+import { Separator } from "../ui/separator.tsx";
 
 const Cart = () => {
   const itemCount = 0;

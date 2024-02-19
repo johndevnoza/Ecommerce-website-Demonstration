@@ -1,23 +1,24 @@
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "../../ui/button";
-import { ModeToggle } from "@/components/mode-toggle";
-import Links from "./links";
 import { Link } from "react-router-dom";
+import { buttonVariants } from "../../ui/button";
+import { useUserStore } from "@/services/authContext";
+import { ModeToggle } from "@/components/mode-toggle";
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
-import SignIn from "@/components/ui/user/SignIn";
-import Profile from "@/components/ui/user/Profile";
-import Cart from "@/components/ui/user/Cart";
 import ProductSearchBar from "@/components/ui/ProductSearchBar";
-import LanguageSwitch from "@/components/LanguageSwitch";
-
-import { Menu } from "lucide-react";
-import BurgerMenu from "@/components/ui/BurgerMenu";
 import BurgerMenuTest from "@/components/ui/BurgerMenuTest";
-
-// mocking user AUTH
-const user: string = "signsed";
+import LanguageSwitch from "@/components/LanguageSwitch";
+import Profile from "@/components/user/NavProfile";
+import SignIn from "@/components/user/SignIn";
+import Cart from "@/components/user/Cart";
+import Links from "./links";
 
 export default function Header() {
+  const user = useUserStore((state) => state.user);
+  const authorized = useUserStore((state) => state.authorized);
+
+  console.log(user, " user");
+  console.log(authorized, "authorized");
+
   return (
     <div className="sticky z-50 top-0 bg-background border-b-2 border-border inset-x-0 h-16">
       <header className="relative w-full">
@@ -39,12 +40,11 @@ export default function Header() {
             </div>
             <ProductSearchBar />
             <div className="md:flex gap-1 hidden">
-              {user === "signed" ? <SignIn /> : <Profile />}
+              {authorized ? <Profile /> : <SignIn />}
               <Cart />
               <ModeToggle />
               <LanguageSwitch />
             </div>
-            <BurgerMenu user={user} />
             <BurgerMenuTest user={user} />
           </div>
           {/* </div> */}

@@ -7,6 +7,7 @@ import Product from "@/pages/products/Product";
 import Categories from "@/pages/Categories";
 import Category from "@/pages/Category";
 import Login from "@/components/form/Login";
+import Register from "./components/form/Register";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path=":id" element={<Category />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
       <Footer />
     </>

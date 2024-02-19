@@ -7,12 +7,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "../button";
+import { buttonVariants } from "../ui/button";
 import { Inbox, LogOut, SubscriptIcon, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useUserStore } from "@/services/authContext";
 
 export default function Profile() {
+  // const { data: userData } = useUsersQuery();
+
   const { t } = useTranslation();
+  const { logout } = useUserStore();
+  const user = useUserStore((state) => state.user);
+  console.log(user);
 
   return (
     <DropdownMenu>
@@ -33,7 +39,7 @@ export default function Profile() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex gap-1">
           <User className="w-5" />
-          <span> {t("profile")}</span>
+          <span> {user ? user.first_name : t("profile")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex gap-1">
           <Inbox className="w-5" />
@@ -45,7 +51,7 @@ export default function Profile() {
         </DropdownMenuItem>
         <DropdownMenuItem className="flex gap-1">
           <LogOut className="w-5" />
-          <span> {t("logOut")}</span>
+          <span onClick={logout}> {t("logOut")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

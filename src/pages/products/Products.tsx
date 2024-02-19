@@ -12,7 +12,6 @@ export const Products = () => {
   const { isSearchActive } = useSearchStore();
 
   const goBlur: string = "mt-8 blur ";
-  console.log(isSearchActive, "asdasdasdas");
 
   if (isPending) return <div>testing</div>;
   if (error) return "An error has occurred: " + error.message;

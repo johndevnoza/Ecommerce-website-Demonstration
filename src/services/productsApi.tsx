@@ -1,16 +1,15 @@
-import axios from "axios";
-const apiUrl: string = import.meta.env.VITE_API_BASE_URL;
+import axios from "./baseURLAxios";
 export async function fetchAllProducts() {
-  return await axios.get(`${apiUrl}product`).then((res) => res.data);
+  return await axios.get(`product`).then((res) => res.data);
 }
 
 export async function fetchCategories() {
-  return await axios.get(`${apiUrl}product-category`).then((res) => res.data);
+  return await axios.get(`product-category`).then((res) => res.data);
 }
 
 export async function fetchSingleCategory(categoryId: string) {
   return await axios
-    .get(`${apiUrl}product?categoryName=${categoryId}`)
+    .get(`product?categoryName=${categoryId}`)
     .then((res) => res.data);
 }
 
@@ -22,6 +21,9 @@ export async function fetchSingleProduct() {
 
 export async function fetchProductSearch(searchUrl: string) {
   return await axios
-    .get(`${apiUrl}product?productName=${searchUrl}`)
+    .get(`product?productName=${searchUrl}`)
     .then((res) => res.data);
 }
+
+
+// user / current - user;

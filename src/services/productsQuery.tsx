@@ -9,7 +9,7 @@ import {
 export function useAllProductsQuery() {
   return useQuery({
     queryKey: ["allProducts"],
-    queryFn:  fetchAllProducts,
+    queryFn: fetchAllProducts,
   });
 }
 

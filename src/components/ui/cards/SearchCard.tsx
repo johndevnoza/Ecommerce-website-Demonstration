@@ -1,36 +1,24 @@
-import { Card, CardTitle } from "@/components/ui/card";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { memo } from "react";
+import { twMerge } from "tailwind-merge";
 
-function SearchCard({ image, title, price }: ProductData) {
+function SearchCard({ image, title, price, className }: CardProps) {
   return (
-    <Card
-      className={cn(
-        buttonVariants({
-          variant: "ghost",
-          className:
-            "flex gap-2 justify-between items-center py-4 overflow-hidden",
-        })
-      )}
-    >
-      <img
-        src={image}
-        alt={title}
-        className="object-cover  w-[50px] object-center self-center"
-      />
-      <CardTitle className="line-clamp-1 py-2">{title}</CardTitle>
-      <Button
-        variant={
-          typeof price === "number" && price < Number(15)
-            ? "default"
-            : "destructive"
-        }
-        size={"sm"}
+    <>
+      <div
+        className={twMerge(
+          "flex gap-2 justify-between items-center overflow-hidden",
+          className
+        )}
       >
-        {price}$
-      </Button>
-    </Card>
+        <img
+          src={image}
+          alt={title}
+          className="object-cover w-[50px] h-[50px] object-center"
+        />
+        <title className="line-clamp-1 py-2">{title}</title>
+        <p className="p-0">{price}$</p>
+      </div>
+    </>
   );
 }
 

@@ -1,10 +1,14 @@
+// login
 import { z } from "zod";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import MaxWidthWrapper from "../ui/MaxWidthWrapper";
+import axios from "../../services/baseURLAxios";
+import { useUserStore } from "@/services/authContext";
 
 const schema = z.object({
   email: z.string().email(),
@@ -12,8 +16,12 @@ const schema = z.object({
 });
 
 type FormFields = z.infer<typeof schema>;
+const LOGIN_URL = "auth/login";
 
 const Login = () => {
+  const { login } = useUserStore();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -28,11 +36,24 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log(data);
+      const response = await axios.post(LOGIN_URL, {
+        email: data.email,
+        password: data.password,
+      });
+
+      const token = response.data.access_token;
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      localStorage.setItem("accessToken", token);
+      console.log(token);
+      if (token) {
+        login();
+        navigate("/products");
+      }
     } catch (error) {
+      console.log(error);
       setError("root", {
-        message: "This email is already taken",
+        message: "ragac errori",
       });
     }
   };

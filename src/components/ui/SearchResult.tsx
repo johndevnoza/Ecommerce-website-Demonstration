@@ -13,17 +13,17 @@ const SearchResults = ({
   clearInput,
 }: SearchResultsProps) => {
   return (
-    <section className="z-20 absolute top-full w-full">
-      <div className="flex flex-col bg-secondary rounded-md w-full">
+    <section className="z-20 absolute top-[108%] md:w-[500px]  w-[380px]">
+      <div className="flex flex-col bg-secondary rounded-md gap-1 p-1">
         {searchUrl
           ? searchingProducts.map((product: ProductData) => (
               <Link
-                className="w-full py-1"
+                className="w-full bg-card hover:bg-background/60 last:rounded-b-sm first:rounded-t-sm"
                 key={product.id}
                 to={`/products/${product.title}`}
                 onClick={clearInput}
               >
-                <SearchCard key={product.id} {...product} />
+                <SearchCard className="p-2" key={product.id} {...product} />
               </Link>
             ))
           : null}

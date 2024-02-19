@@ -1,12 +1,8 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
-import Autoplay from "embla-carousel-autoplay";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ProductCard from "@/components/ui/cards/ProductCard";
-import {
-  useAllProductsQuery,
-  useCategoriesQuery,
-} from "@/services/productsQuery";
+import { useAllProductsQuery } from "@/services/productsQuery";
 import {
   Carousel,
   CarouselContent,
@@ -17,10 +13,10 @@ import {
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { t } from "i18next";
+import { HomeCategories } from "@/components/ui/homePage custom/HomeCategories";
 
 export default function Home() {
   const { isPending, error, data } = useAllProductsQuery();
-  const { data: categories } = useCategoriesQuery();
 
   if (isPending) return <div>testing</div>;
   if (error) return "An error has occurred: " + error.message;
@@ -29,7 +25,6 @@ export default function Home() {
       <div className="border-x-2 border-border">
         <div className="flex w-full flex-col gap-6 py-8">
           {/* Best Offers */}
-
           <section className="flex flex-col gap-2">
             <div
               className={cn(
@@ -79,34 +74,7 @@ export default function Home() {
               <CarouselNext />
             </Carousel>
           </section>
-          {/* Homepage categories */}
-          <Carousel
-            opts={{
-              align: "end",
-              loop: true,
-            }}
-            plugins={[
-              Autoplay({
-                delay: 2000,
-              }),
-            ]}
-            className="rounded-lg border bg-card text-card-foreground shadow-sm"
-          >
-            <CarouselContent className="">
-              {categories.map((category: CategoriesProps) => (
-                <CarouselItem
-                  key={category.id}
-                  className="md:basis-1/3 lg:basis-1/5 basis-1/3 "
-                >
-                  <Link to={`/products/categories/${category.name}`}>
-                    <Button>{category.name}</Button>
-                  </Link>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
+          <HomeCategories />
           {/* Homepage All products */}
           <section className="flex flex-col gap-2">
             <div

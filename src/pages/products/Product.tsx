@@ -7,7 +7,6 @@ export default function Product() {
     queryKey: ["productSearch"],
     queryFn: () => fetchSingleProduct(),
   });
-  console.log(data);
 
   if (isPending) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;

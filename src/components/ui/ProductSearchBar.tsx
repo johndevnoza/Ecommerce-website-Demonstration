@@ -21,16 +21,17 @@ const ProductSearchBar = () => {
     queryFn: () => fetchProductSearch(searchTerm),
   });
   const products: ProductData[] = data?.products || [];
-  console.log(searchTerm, "searchterm");
 
   const [isSearching, setIsSearching] = useState(false);
   const handleBlur = () => {
     setIsSearching(false);
+    setTimeout(() => {
+      setSearchTerm("");
+    }, 300);
   };
   const handleFocus = () => {
     setIsSearching(true);
   };
-  console.log(isLoading, "isloadingasd");
 
   return (
     <div className="w-full grid place-items-center relative">
@@ -54,11 +55,13 @@ const ProductSearchBar = () => {
           className="absolute right-[18%] z-40 hover:scale-110 animate-pulse"
         />
       )}
-      <SearchResults
-        clearInput={() => setSearchTerm("")}
-        searchingProducts={products}
-        searchUrl={debauncedSearch}
-      />
+      {searchTerm ? (
+        <SearchResults
+          clearInput={() => setSearchTerm("")}
+          searchingProducts={products}
+          searchUrl={debauncedSearch}
+        />
+      ) : null}
     </div>
   );
 };

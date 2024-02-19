@@ -33,6 +33,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { MenuIcon, Navigation, Navigation2, NavigationIcon, NavigationOff } from "lucide-react";
 
 export default function Links() {
   // const location = useLocation();
@@ -41,9 +42,11 @@ export default function Links() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className={cn(buttonVariants())}>
-            {t("navigation")}
-          </NavigationMenuTrigger>
+          <NavigationMenuTrigger
+            className={cn(
+              buttonVariants({ className: "group-data-[state=open]:p-5" })
+            )}
+          ></NavigationMenuTrigger>
           <NavigationMenuContent>
             <NavigationMenuLink
               className={cn(

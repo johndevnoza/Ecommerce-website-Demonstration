@@ -1,8 +1,8 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
-import Cart from "./user/Cart";
-import SignIn from "./user/SignIn";
-import Profile from "./user/Profile";
+import Cart from "../user/Cart";
+import SignIn from "../user/SignIn";
+import Profile from "../user/NavProfile";
 import { ModeToggle } from "../mode-toggle";
 import LanguageSwitch from "../LanguageSwitch";
 import { cn } from "@/lib/utils";

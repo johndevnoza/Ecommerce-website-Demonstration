@@ -1,10 +1,12 @@
 import { cn } from "@/lib/utils";
 import { User } from "lucide-react";
-import { buttonVariants } from "../button";
+import { buttonVariants } from "../ui/button";
+import { Link } from "react-router-dom";
 
 export default function SignIn() {
   return (
-    <div
+    <Link
+      to={"/login"}
       className={cn(
         buttonVariants({
           variant: "outline",
@@ -14,6 +16,6 @@ export default function SignIn() {
     >
       <span>Sign in</span>
       <User />
-    </div>
+    </Link>
   );
 }
