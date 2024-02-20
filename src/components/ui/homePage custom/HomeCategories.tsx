@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../button";
 import Autoplay from "embla-carousel-autoplay";
 
-export const HomeCategories = () => {
+function HomeCategories(): JSX.Element | string {
   const { data: categories, isPending, error } = useCategoriesQuery();
 
   if (isPending) return <div>testing</div>;
@@ -45,4 +45,5 @@ export const HomeCategories = () => {
       <CarouselNext />
     </Carousel>
   );
-};
+}
+export default HomeCategories;

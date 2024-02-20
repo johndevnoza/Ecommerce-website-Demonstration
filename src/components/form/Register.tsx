@@ -1,24 +1,34 @@
 // register
 import { z } from "zod";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "@/services/authContext";
 import { SubmitHandler, useForm } from "react-hook-form";
 import MaxWidthWrapper from "../ui/MaxWidthWrapper";
+import {
+  Component,
+  Mail,
+  MailCheck,
+  Phone,
+  PhoneCall,
+  User,
+  UserCheck,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   first_name: z.string().min(2).max(50),
   last_name: z.string().min(2).max(50),
-  phone_number: z.string().min(9),
+  phone_number: z.string().min(9).max(9),
 });
 type FormFields = z.infer<typeof schema>;
 
 const Register = () => {
-  const { login, registerUser } = useUserStore();
+  const { registerUser } = useUserStore();
   const navigate = useNavigate();
 
   const {
@@ -35,7 +45,6 @@ const Register = () => {
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
       await registerUser(data);
-      login();
       navigate("/login");
     } catch (error) {
       error;
@@ -51,44 +60,65 @@ const Register = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex lg:flex-row flex-col gap-1">
-            <div className="flex lg:w-1/2 flex-col gap-1">
+            <div className="flex lg:w-1/2 flex-col gap-1 relative">
               <Input
+                className=""
                 {...register("first_name")}
                 type="text"
                 placeholder="First name"
               />
+              {!errors.first_name ? (
+                <UserCheck className="absolute right-2  top-2" />
+              ) : (
+                <User className="absolute right-2 animate-pulse  top-2" />
+              )}
               {errors.first_name && (
                 <div className="text-red-500">{errors.first_name.message}</div>
               )}
             </div>
-            <div className="flex lg:w-1/2 flex-col lg:flex-row gap-1">
+            <div className="flex relative lg:w-1/2 flex-col lg:flex-row gap-1">
               <Input
                 {...register("last_name")}
                 type="text"
                 placeholder="Last name"
               />
+              {!errors.last_name ? (
+                <UserCheck className="absolute right-2 top-2" />
+              ) : (
+                <User className="absolute right-2 animate-pulse top-2" />
+              )}
               {errors.last_name && (
                 <div className="text-red-500">{errors.last_name.message}</div>
               )}
             </div>
           </div>
           <div className="flex flex-col lg:flex-row gap-1 w-full">
-            <div className="flex flex-col lg:w-1/2 gap-1">
+            <div className="flex relative flex-col lg:w-1/2 gap-1">
               <Input
                 {...register("password")}
                 type="password"
                 placeholder="Password"
               />
+              {!errors.password ? (
+                <Component className="absolute right-2 top-2" />
+              ) : (
+                <Component className="absolute right-2 animate-bounce top-2" />
+              )}
               {errors.password && (
                 <div className="text-red-500">{errors.password.message}</div>
               )}
             </div>
-            <div className="flex lg:w-1/2 flex-col gap-1">
+            <div className="flex relative lg:w-1/2 flex-col gap-1">
               <Input
                 {...register("phone_number")}
                 type="text"
                 placeholder="Phone Number"
               />
+              {!errors.phone_number ? (
+                <PhoneCall className="absolute right-2  top-2" />
+              ) : (
+                <Phone className="absolute right-2 animate-pulse  top-2" />
+              )}
               {errors.phone_number && (
                 <div className="text-red-500">
                   {errors.phone_number.message}
@@ -96,8 +126,13 @@ const Register = () => {
               )}
             </div>
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex relative flex-col gap-1">
             <Input {...register("email")} type="text" placeholder="Email" />
+            {!errors.email ? (
+              <MailCheck className="absolute right-2  top-2" />
+            ) : (
+              <Mail className="absolute right-2 animate-pulse  top-2" />
+            )}
             {errors.email && (
               <div className="text-red-500">{errors.email.message}</div>
             )}
@@ -111,7 +146,12 @@ const Register = () => {
         </form>
         <div className="flex  gap-1 items-center justify-center">
           <p>Have an Account? </p>
-          <Button variant={"secondary"}>Log in</Button>
+          <Link
+            className={cn(buttonVariants({ variant: "secondary" }))}
+            to={"/login"}
+          >
+            Log in
+          </Link>
         </div>
       </div>
     </MaxWidthWrapper>

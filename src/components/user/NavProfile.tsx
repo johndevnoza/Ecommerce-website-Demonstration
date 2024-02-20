@@ -11,6 +11,7 @@ import { buttonVariants } from "../ui/button";
 import { Inbox, LogOut, SubscriptIcon, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useUserStore } from "@/services/authContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   // const { data: userData } = useUsersQuery();
@@ -18,7 +19,7 @@ export default function Profile() {
   const { t } = useTranslation();
   const { logout } = useUserStore();
   const user = useUserStore((state) => state.user);
-  console.log(user);
+  const navigate = useNavigate();
 
   return (
     <DropdownMenu>
@@ -49,7 +50,10 @@ export default function Profile() {
           <SubscriptIcon className="w-5" />
           <span> {t("subscription")}</span>
         </DropdownMenuItem>
-        <DropdownMenuItem className="flex gap-1">
+        <DropdownMenuItem
+          onClick={() => navigate("login")}
+          className="flex gap-1"
+        >
           <LogOut className="w-5" />
           <span onClick={logout}> {t("logOut")}</span>
         </DropdownMenuItem>

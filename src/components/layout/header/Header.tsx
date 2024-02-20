@@ -16,9 +16,6 @@ export default function Header() {
   const user = useUserStore((state) => state.user);
   const authorized = useUserStore((state) => state.authorized);
 
-  console.log(user, " user");
-  console.log(authorized, "authorized");
-
   return (
     <div className="sticky z-50 top-0 bg-background border-b-2 border-border inset-x-0 h-16">
       <header className="relative w-full">
@@ -27,7 +24,7 @@ export default function Header() {
           <div className="flex h-16 items-center justify-between">
             <div className="flex gap-2">
               <Link
-                to="/"
+                to={"/"}
                 className={cn(
                   buttonVariants({
                     variant: "outline",

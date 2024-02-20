@@ -2,6 +2,7 @@ import axios from "./baseURLAxios";
 import { create } from "zustand";
 import { fetchCurrentUser } from "./usersQuery";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { useNavigate } from "react-router-dom";
 const REGISTER_URL = "auth/register";
 
 type User = {
@@ -32,9 +33,9 @@ export const useUserStore = create<Store>()(
             "Authorization"
           ] = `Bearer ${storedToken}`;
           const initialUser = await fetchCurrentUser();
-          localStorage.setItem("userInfo", JSON.stringify(initialUser));
+          localStorage.setItem("User-storage", JSON.stringify(initialUser));
           let storedUser: User | null = null;
-          const userInfo = localStorage.getItem("userInfo");
+          const userInfo = localStorage.getItem("User-storage");
           if (userInfo) {
             storedUser = JSON.parse(userInfo);
           }
@@ -44,7 +45,7 @@ export const useUserStore = create<Store>()(
       logout: () => {
         delete axios.defaults.headers.common["Authorization"];
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("userInfo");
+        localStorage.removeItem("User-storage");
         set({ user: null, authorized: false });
       },
       registerUser: async (data) => {
@@ -56,8 +57,6 @@ export const useUserStore = create<Store>()(
             last_name: data.last_name,
             phone_number: data.phone_number,
           });
-          console.log(response);
-          const token = response.data.access_token;
         } catch (error) {
           throw new Error("something went wrong");
         }
@@ -65,7 +64,7 @@ export const useUserStore = create<Store>()(
     }),
     {
       name: "User-storage",
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

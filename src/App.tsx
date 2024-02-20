@@ -8,6 +8,7 @@ import Categories from "@/pages/Categories";
 import Category from "@/pages/Category";
 import Login from "@/components/form/Login";
 import Register from "./components/form/Register";
+import UseProtectedRoute from "./hooks/useProtectedRoute";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route element={<UseProtectedRoute />}></Route>
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<Product />} />
         <Route path="/product-category" element={<Categories />}>
