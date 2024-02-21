@@ -1,11 +1,15 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
-import { fetchSingleProduct } from "@/services/productsApi";
+import ProductDetails from "@/components/ui/cards/ProductDetails";
+import { fetchProductSearch } from "@/services/productsApi";
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
 export default function Product() {
+  const { id }: any = useParams();
+
   const { data, isPending, error } = useQuery({
-    queryKey: ["productSearch"],
-    queryFn: () => fetchSingleProduct(),
+    queryKey: ["single Product", id],
+    queryFn: () => fetchProductSearch(id),
   });
 
   if (isPending) return <div>Loading...</div>;
@@ -13,7 +17,7 @@ export default function Product() {
   return (
     <MaxWidthWrapper>
       {data.products.map((product: ProductData) => (
-        <div key={product.id}>{product.title}</div>
+        <ProductDetails {...product} key={product.id} />
       ))}
       <div>asdasdasd</div>
     </MaxWidthWrapper>

@@ -5,15 +5,18 @@ declare type ProductData = {
   image?: string;
   category?: string;
   id?: number;
+  imageStyle?: string;
 };
 declare type CardProps = {
-  title: string;
+  title?: string;
   price?: number | biginit;
   description?: string;
   image?: string;
   category?: string;
   id?: number;
   className?: string;
+  created_at?: string;
+  updated_at?: string;
 };
 
 declare interface linkProps {

@@ -19,7 +19,7 @@ export const Products = () => {
   return (
     <MaxWidthWrapper className={isSearchActive ? goBlur : "mt-8"}>
       <div className="flex w-full flex-col gap-6">
-        <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0">
+        <div className="grid md:grid-cols-3 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
           {data.products.map((item: ProductData) => (
             <Link key={item.id} to={`/products/${item.id}`}>
               <ProductCard {...item} />

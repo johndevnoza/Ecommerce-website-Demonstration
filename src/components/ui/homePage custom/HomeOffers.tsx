@@ -35,20 +35,24 @@ const HomeOffers: React.FC = () => {
             {data.products.map((item: ProductData) => (
               <CarouselItem
                 key={item.id}
-                className="md:basis-1/2 lg:basis-1/3 "
+                className="basis-1/2 md:basis-1/3 lg:basis-1/4 "
               >
                 <Link to={`/products/${item.id}`}>
                   <div className="bg-card rounded-md">
-                    <div className="flex flex-col gap-4 p-4">
+                    <div className="flex flex-col gap-4 p-2 lg:p-4">
                       <div className="flex flex-row items-center justify-between bg-background rounded-lg ">
                         <CardTitle className="line-clamp-1 text-center justify-center px-3">
                           {t(item.title)}
                         </CardTitle>
                         <div className="flex">
-                          <Button className="rounded-e-none ">
+                          <Button className="rounded-e-none md:p-2">
                             {item.price - 40}$
                           </Button>
-                          <Button className="rounded-s-none " disabled>
+                          <Button
+                            variant={"ghost"}
+                            className="rounded-s-none md:p-2"
+                            disabled
+                          >
                             {item.price - 1}$
                           </Button>
                         </div>

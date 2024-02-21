@@ -11,7 +11,8 @@ import Profile from "@/components/user/NavProfile";
 import SignIn from "@/components/user/SignIn";
 import Cart from "@/components/user/Cart";
 import Links from "./links";
-
+import { PropagationStopper } from "@/hooks/PropagationStopper";
+import { UnAuthedDialog } from "@/components/UnAuthedDialog";
 export default function Header() {
   const user = useUserStore((state) => state.user);
   const authorized = useUserStore((state) => state.authorized);

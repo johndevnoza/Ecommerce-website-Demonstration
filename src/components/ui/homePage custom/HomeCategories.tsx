@@ -35,7 +35,7 @@ function HomeCategories(): JSX.Element | string {
             key={category.id}
             className="md:basis-1/3 lg:basis-1/5 basis-1/3 "
           >
-            <Link to={`/products/categories/${category.name}`}>
+            <Link to={`/product-category/${category.name}`}>
               <Button>{category.name}</Button>
             </Link>
           </CarouselItem>

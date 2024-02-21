@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { User } from "lucide-react";
-import { buttonVariants } from "../ui/button";
 import { Link } from "react-router-dom";
+import { buttonVariants } from "../ui/button";
 
 export default function SignIn() {
   return (

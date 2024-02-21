@@ -3,7 +3,6 @@ import {
   fetchAllProducts,
   fetchCategories,
   fetchSingleCategory,
-  fetchSingleProduct,
 } from "./productsApi";
 
 export function useAllProductsQuery() {
