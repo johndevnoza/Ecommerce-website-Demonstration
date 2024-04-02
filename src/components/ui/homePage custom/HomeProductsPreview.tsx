@@ -24,12 +24,13 @@ const HomeProductsPreview: React.FC = () => {
       queryClient.invalidateQueries();
     },
   });
-  const removeFromCartMutation = useMutation({
-    mutationFn: async (item: ProductData) => removeFromCart(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-    },
-  });
+  // in process
+  // const removeFromCartMutation = useMutation({
+  //   mutationFn: async (item: ProductData) => removeFromCart(item),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries();
+  //   },
+  // });
 
   if (isPending) return <div>testing</div>;
   if (error) return "An error has occurred: " + error.message;
@@ -106,13 +107,13 @@ const HomeProductsPreview: React.FC = () => {
               >
                 <ShoppingCart />
               </InteractiveButton>
-              <div
+              {/* <div
                 onClick={() => {
                   removeFromCartMutation.mutate(item);
                 }}
               >
                 remove
-              </div>
+              </div> */}
             </div>
           </div>
         ))}
