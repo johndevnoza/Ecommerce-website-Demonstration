@@ -1,67 +1,120 @@
-import { Button, buttonVariants } from "@/components/ui/button";
-import ProductCard from "@/components/ui/cards/ProductCard";
+import { buttonVariants } from "@/components/ui/button";
 import { useAllProductsQuery } from "@/services/productsQuery";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { Ghost, ShoppingCart, Star } from "lucide-react";
+import { FolderHeart, ShoppingCart } from "lucide-react";
+import InteractiveButton from "../InteractiveButton";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addToCart, removeFromCart } from "@/services/useCartsQuery.tsx";
+import { addToFavorites } from "@/services/FavoritesStorage";
 
 const HomeProductsPreview: React.FC = () => {
   const { data, isPending, error } = useAllProductsQuery();
+
+  const queryClient = useQueryClient();
+  const handleAddToCart = useMutation({
+    mutationFn: async (item: ProductData) => addToCart(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+  const handleAddToFavorites = useMutation({
+    mutationFn: async (item: LikedProduct) => addToFavorites(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+  const removeFromCartMutation = useMutation({
+    mutationFn: async (item: ProductData) => removeFromCart(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+
   if (isPending) return <div>testing</div>;
   if (error) return "An error has occurred: " + error.message;
   return (
     <section className="flex flex-col gap-2">
-      <Link
-        to={"/products"}
-        className={cn(
-          buttonVariants({
-            className: "max-w-min",
-            variant: "secondary",
-          })
-        )}
-      >
-        All products
-      </Link>
+      <div>
+        <InteractiveButton
+          title={"All products"}
+          buttonVariant="secondary"
+          buttonClass="w-min"
+          link
+          redirect="/products"
+          showInfo
+          hoverSide="right"
+          hoverContent="View all products in details"
+          showDialog={false}
+        />
+      </div>
       <div className="grid md:grid-cols-3 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-5  lg:gap-x-2 ">
         {data.products.map((item: ProductData) => (
-          <Link key={item.id} to={`/products/product/${item.title}`}>
-            <div className="bg-card flex flex-col gap-2 rounded-md items-center p-2">
+          <div
+            key={item.id}
+            className="bg-card flex flex-col gap-2 rounded-md items-center p-2"
+          >
+            <Link to={`/products/product/${item.title}`}>
               <img
-                className="w-62 h-44 md:size-36 rounded-sm object-cover object-center"
+                className="w-max h-44  rounded-sm object-cover object-center"
                 src={item.image}
                 alt={item.title}
               />
-              <span className="line-clamp-1 font-bold">{item.title}</span>
-              <div className="flex bg-background justify-between rounded-md w-full">
-                <Button
-                  variant={"ghost"}
-                  className="w-full border-r rounded-r-none lg:p-1"
-                >
-                  {item.price}$
-                </Button>
-                <div
-                  className={cn(
-                    buttonVariants({
-                      variant: "ghost",
-                      className: "w-full rounded-none lg:p-1",
-                    })
-                  )}
-                >
-                  <Star />
-                </div>
-                <div
-                  className={cn(
-                    buttonVariants({
-                      variant: "ghost",
-                      className: "w-full border-l rounded-l-none lg:p-1",
-                    })
-                  )}
-                >
-                  <ShoppingCart />
-                </div>
+            </Link>
+            <span className="line-clamp-1 font-bold">{item.title}</span>
+            <div className="flex justify-center items-center rounded-md w-full ">
+              <InteractiveButton
+                title={`${item.price}$`}
+                wrapperClass="rounded-none "
+                buttonVariant="outline"
+                buttonClass="w-full  rounded-r-none w-full hover:scale-95"
+                showInfo
+                hoverSide="bottom"
+                hoverContent="Buy now"
+                redirect="/shopping"
+              />
+              <InteractiveButton
+                wrapperClass={cn(
+                  buttonVariants({
+                    variant: "outline",
+                    className: "rounded-none w-full lg:p-2 grid group",
+                  })
+                )}
+                iconClass="group-hover:scale-125 cursor-pointer"
+                showInfo
+                icon
+                hoverSide="bottom"
+                hoverContent="Add to Favorites"
+                // @ts-ignore
+                onClick={() => handleAddToFavorites.mutate(item)}
+              >
+                <FolderHeart />
+              </InteractiveButton>
+              <InteractiveButton
+                wrapperClass={cn(
+                  buttonVariants({
+                    variant: "outline",
+                    className: "rounded-none w-full lg:p-2 rounded-r-md group",
+                  })
+                )}
+                iconClass="group-hover:scale-125  cursor-pointer"
+                showInfo
+                icon
+                hoverSide="bottom"
+                hoverContent="Add to Cart"
+                onClick={() => handleAddToCart.mutate(item)}
+              >
+                <ShoppingCart />
+              </InteractiveButton>
+              <div
+                onClick={() => {
+                  removeFromCartMutation.mutate(item);
+                }}
+              >
+                remove
               </div>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </section>

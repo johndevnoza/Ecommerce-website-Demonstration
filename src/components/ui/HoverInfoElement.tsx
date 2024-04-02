@@ -22,7 +22,7 @@ const HoverInfoElement = ({
   return (
     <>
       {shouldHover ? (
-        <HoverCard>
+        <HoverCard >
           <HoverCardTrigger>{children}</HoverCardTrigger>
           <HoverCardContent side={side} align="end">
             {hoverContent}

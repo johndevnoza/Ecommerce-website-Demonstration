@@ -1,9 +1,7 @@
-import React from 'react'
+import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 
 const Shopping = () => {
-  return (
-    <div>Shopping</div>
-  )
-}
+  return <MaxWidthWrapper className="mt-10 mb-44">Shopping</MaxWidthWrapper>;
+};
 
-export default Shopping
+export default Shopping;

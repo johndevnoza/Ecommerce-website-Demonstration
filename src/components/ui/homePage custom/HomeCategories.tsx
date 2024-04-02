@@ -27,7 +27,7 @@ function HomeCategories(): JSX.Element | string {
           delay: 2000,
         }),
       ]}
-      className="rounded-lg border bg-card text-card-foreground shadow-sm"
+      className="border bg-card text-card-foreground shadow-sm"
     >
       <CarouselContent className="">
         {categories.map((category: CategoriesProps) => (
@@ -36,7 +36,7 @@ function HomeCategories(): JSX.Element | string {
             className="md:basis-1/3 lg:basis-1/5 basis-1/3 "
           >
             <Link to={`/product-category/${category.name}`}>
-              <Button>{category.name}</Button>
+              <Button variant={"secondary"}>{category.name}</Button>
             </Link>
           </CarouselItem>
         ))}

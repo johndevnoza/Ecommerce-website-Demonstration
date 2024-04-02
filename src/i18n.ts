@@ -21,6 +21,7 @@ i18n
           // profile
           profile: "Profile",
           myAccount: "My Account",
+          favorites: "Favorites",
           inbox: "Inbox",
           subscription: "Subscription",
           logOut: "Log Out",
@@ -68,6 +69,7 @@ i18n
           // profile
           profile: "პროფილი",
           myAccount: "ჩემი პროფილი",
+          favorites: "ფავორიტები",
           inbox: "წერილები",
           subscription: "გამოწერა",
           logOut: "გამოსვლა",

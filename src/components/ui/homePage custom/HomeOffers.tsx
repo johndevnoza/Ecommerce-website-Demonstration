@@ -11,6 +11,8 @@ import { t } from "i18next";
 import { Link } from "react-router-dom";
 import { CardTitle } from "../card";
 import { useAllProductsQuery } from "@/services/productsQuery";
+import InteractiveButton from "../InteractiveButton";
+import HoverInfoElement from "../HoverInfoElement";
 
 const HomeOffers: React.FC = () => {
   const { data, isPending, error } = useAllProductsQuery();
@@ -20,15 +22,18 @@ const HomeOffers: React.FC = () => {
   return (
     <>
       <section className="flex flex-col gap-2">
-        <div
-          className={cn(
-            buttonVariants({
-              className: "max-w-min bg-yellow-500",
-              variant: "secondary",
-            })
-          )}
-        >
-          Best Offers
+        <div>
+          <InteractiveButton
+            title={"Best Offers"}
+            buttonVariant="default"
+            buttonClass="w-min"
+            link
+            redirect="/sales"
+            showInfo
+            hoverSide="right"
+            hoverContent="Click to see available offers"
+            showDialog={false}
+          />
         </div>
         <Carousel>
           <CarouselContent>
@@ -37,7 +42,7 @@ const HomeOffers: React.FC = () => {
                 key={item.id}
                 className="basis-1/2 md:basis-1/3 lg:basis-1/4 "
               >
-                <Link to={`/products/${item.id}`}>
+                <div>
                   <div className="bg-card rounded-md">
                     <div className="flex flex-col gap-4 p-2 lg:p-4">
                       <div className="flex flex-row items-center justify-between bg-background rounded-lg ">
@@ -45,26 +50,44 @@ const HomeOffers: React.FC = () => {
                           {t(item.title)}
                         </CardTitle>
                         <div className="flex">
-                          <Button className="rounded-e-none md:p-2">
-                            {item.price - 40}$
-                          </Button>
-                          <Button
-                            variant={"ghost"}
-                            className="rounded-s-none md:p-2"
-                            disabled
+                          <InteractiveButton
+                            title={`${item.price - 40}$`}
+                            wrapperClass="rounded-none "
+                            buttonVariant="default"
+                            buttonClass="w-full lg:p-2 rounded-r-none w-full"
+                            showInfo
+                            hoverSide="bottom"
+                            hoverContent="Buy now"
+                            redirect="/shopping"
+                          />
+                          <HoverInfoElement
+                            shouldHover
+                            hoverContent="Old price"
+                            side="bottom"
                           >
-                            {item.price - 1}$
-                          </Button>
+                            <Button
+                              variant={"ghost"}
+                              className="rounded-s-none md:p-2"
+                              disabled
+                            >
+                              {item.price - 1}$
+                            </Button>
+                          </HoverInfoElement>
                         </div>
                       </div>
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className=" h-[100px] object-cover rounded-sm"
-                      />
+                      <Link
+                        className="w-full"
+                        to={`/products/product/${item.title}`}
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className=" h-[100px] w-full object-cover rounded-sm"
+                        />
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                </div>
               </CarouselItem>
             ))}
           </CarouselContent>

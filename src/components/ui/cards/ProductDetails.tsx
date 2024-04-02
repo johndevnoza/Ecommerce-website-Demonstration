@@ -5,8 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
+import InteractiveButton from "../InteractiveButton";
+import MaxWidthWrapper from "../MaxWidthWrapper";
+import { addToCart } from "@/services/useCartsQuery";
 import {
   FolderHeart,
   MessageCircleMore,
@@ -14,26 +18,39 @@ import {
   ShoppingCart,
   Star,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import InteractiveButton from "../InteractiveButton";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function ProductDetails({
   image,
   title,
-  category,
   description,
   price,
   created_at,
   updated_at,
-}: CardProps) {
+  id,
+}: ProductData) {
+  const queryClient = useQueryClient();
+  const handleAddToCart = useMutation({
+    mutationFn: async (item: ProductData) => {
+      await addToCart(item);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+
+  const handleClickAddToCart = () => {
+    // @ts-ignore
+    handleAddToCart.mutate({ id });
+  };
   return (
-    <div className="flex  rounded-md justify-between mt-10 mb-44 border-none">
+    <MaxWidthWrapper className="flex  rounded-md justify-between mt-10 mb-44 border-none">
       <div className="md:w-[450px] w-[350px] flex-grow-1 md:hover:w-full group rounded-l-md bg-card hover:rounded-sm flex flex-col gap-1  p-4 hover:outline-border hover:outline hover:scale-110 hover:flex-grow-2 md:hover:translate-x-[-16px] transition-all duration-300">
         <img
           src={image}
           alt={title}
           className={twMerge(
-            " object-cover h-[350px] group-hover:w-[1300px] object-center rounded-md "
+            " object-cover h-[350px] group-hover:w-[600px] object-center rounded-md "
           )}
         />
         <div className="flex flex-col justify-between text-neutral-500">
@@ -50,7 +67,6 @@ export default function ProductDetails({
       <div className="bg-background min-w-1 lg:w-2"></div>
       <CardHeader className="gap-2 p-4 w-full hover:rounded-sm flex-grow-0  group bg-card hover:outline-border hover:outline hover:scale-110 transition-all duration-300">
         <CardTitle className="p-0 min-w-0 ">{title}</CardTitle>
-        <h3>{category}</h3>
         <CardDescription className="line-clamp-6 max-w-max group-hover:line-clamp-none group-hover:mt-2 transition-all">
           {description}
           sadasdasd asd adas dasd asd asd asdad asd asd asd asd asd asd as asd
@@ -86,6 +102,7 @@ export default function ProductDetails({
           </InteractiveButton>
           <div className=" border-b-4 border-card h-1 w-full"></div>
           <InteractiveButton
+            onClick={handleClickAddToCart}
             showInfo
             hoverContent="Add to Cart"
             icon
@@ -142,6 +159,7 @@ export default function ProductDetails({
           </InteractiveButton>
         </div>
       </CardFooter>
-    </div>
+      <div></div>
+    </MaxWidthWrapper>
   );
 }

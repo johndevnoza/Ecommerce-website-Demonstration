@@ -11,8 +11,7 @@ import Profile from "@/components/user/NavProfile";
 import SignIn from "@/components/user/SignIn";
 import Cart from "@/components/user/Cart";
 import Links from "./links";
-import { PropagationStopper } from "@/hooks/PropagationStopper";
-import { UnAuthedDialog } from "@/components/UnAuthedDialog";
+import HoverInfoElement from "@/components/ui/HoverInfoElement";
 export default function Header() {
   const user = useUserStore((state) => state.user);
   const authorized = useUserStore((state) => state.authorized);
@@ -39,9 +38,17 @@ export default function Header() {
             <ProductSearchBar />
             <div className="md:flex gap-1 hidden">
               {authorized ? <Profile /> : <SignIn />}
-              <Cart />
-              <ModeToggle />
-              <LanguageSwitch />
+              {authorized ? <Cart /> : null}
+              <HoverInfoElement hoverContent="Theme" shouldHover side="bottom">
+                <ModeToggle />
+              </HoverInfoElement>
+              <HoverInfoElement
+                hoverContent="Language"
+                shouldHover
+                side="bottom"
+              >
+                <LanguageSwitch />
+              </HoverInfoElement>
             </div>
             <BurgerMenuTest user={user} />
           </div>

@@ -8,10 +8,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
-import { Inbox, LogOut, SubscriptIcon, User } from "lucide-react";
+import {
+  FolderArchive,
+  FolderHeart,
+  Inbox,
+  LogOut,
+  SubscriptIcon,
+  User,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useUserStore } from "@/services/authContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Profile() {
   // const { data: userData } = useUsersQuery();
@@ -28,19 +35,19 @@ export default function Profile() {
           buttonVariants({
             variant: "outline",
             className:
-              "flex gap-2  data-[state=open]:border-primary  data-[state=open]:scale-110",
+              "flex gap-2  data-[state=open]:border-primary group data-[state=open]:scale-110",
           })
         )}
       >
-        <span className="hidden lg:block"> {t("profile")}</span>
-        <User />
+        <span className="hidden lg:block"> {user && user.first_name}</span>
+        <User className="group-hover:translate-x-1 " />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel> {t("myAccount")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex gap-1">
-          <User className="w-5" />
-          <span> {user ? user.first_name : t("profile")}</span>
+          <FolderHeart className="w-5" />
+          <Link to={"favorites"}> {t("favorites")}</Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex gap-1">
           <Inbox className="w-5" />

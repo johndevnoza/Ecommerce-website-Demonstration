@@ -20,7 +20,7 @@ const SearchResults = ({
               <Link
                 className="w-full bg-card hover:bg-background/60 last:rounded-b-sm first:rounded-t-sm"
                 key={product.id}
-                to={`/products/${product.title}`}
+                to={`/products/product/${product.title}`}
                 onClick={clearInput}
               >
                 <SearchCard className="p-2" key={product.id} {...product} />

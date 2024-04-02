@@ -14,12 +14,18 @@ import { Link } from "react-router-dom";
 
 // this component is responsible tell the user that they should be logged in in case they clicked on content wich requires ATUH
 
-export const UnAuthedDialog = ({ children }: { children: ReactNode }) => {
+export const UnAuthedDialog = ({
+  children,
+  noRestriction = false,
+}: {
+  children: ReactNode;
+  noRestriction?: boolean;
+}) => {
   const authorized = useUserStore((state) => state.authorized);
 
   return (
     <>
-      {authorized ? (
+      {authorized || noRestriction ? (
         children
       ) : (
         <AlertDialog>

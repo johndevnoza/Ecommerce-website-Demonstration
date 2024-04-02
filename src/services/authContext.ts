@@ -2,7 +2,6 @@ import axios from "./baseURLAxios";
 import { create } from "zustand";
 import { fetchCurrentUser } from "./usersQuery";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { useNavigate } from "react-router-dom";
 const REGISTER_URL = "auth/register";
 
 type User = {
@@ -11,6 +10,7 @@ type User = {
   email?: string;
   password?: string;
   phone_number?: number | string;
+  accessToken?: string;
 };
 
 type Store = {
@@ -19,6 +19,7 @@ type Store = {
   login: () => Promise<void>;
   logout: () => void;
   registerUser: (data: User) => Promise<void>;
+  refreshToken: () => Promise<void>;
 };
 
 export const useUserStore = create<Store>()(
@@ -26,6 +27,16 @@ export const useUserStore = create<Store>()(
     (set) => ({
       authorized: false,
       user: {},
+      refreshToken: async () => {
+        try {
+          const response = await axios.post("/auth/update-tokens");
+          const newToken = response.data.access_token;
+          localStorage.setItem("accessToken", newToken);
+          axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+        } catch (error) {
+          set({ user: null, authorized: false });
+        }
+      },
       login: async () => {
         const storedToken = localStorage.getItem("accessToken");
         if (storedToken) {
@@ -50,7 +61,7 @@ export const useUserStore = create<Store>()(
       },
       registerUser: async (data) => {
         try {
-          const response = await axios.post(REGISTER_URL, {
+          await axios.post(REGISTER_URL, {
             email: data.email,
             password: data.password,
             first_name: data.first_name,

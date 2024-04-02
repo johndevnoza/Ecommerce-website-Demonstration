@@ -2,6 +2,7 @@ import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductDetails from "@/components/ui/cards/ProductDetails";
 import { fetchProductSearch } from "@/services/productsApi";
 import { useQuery } from "@tanstack/react-query";
+import { ProductData } from "global";
 import { useParams } from "react-router-dom";
 
 export default function Product() {

@@ -19,12 +19,15 @@ type InteractButtonProps = {
   hoverContent?: string;
   hoverSide?: Side;
   redirect?: string;
+  link?: boolean;
   buttonVariant?: ButtonVariant;
   iconClass?: string;
   buttonClass?: string;
+  wrapperClass?: string;
   showInfo?: boolean;
+  showDialog?: boolean;
   icon?: boolean;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent) => void;
 };
 const InteractiveButton: React.FC<InteractButtonProps> = ({
   children,
@@ -38,36 +41,41 @@ const InteractiveButton: React.FC<InteractButtonProps> = ({
   showInfo = false,
   icon = false,
   onClick,
+  link = false,
+  showDialog = true,
+  wrapperClass,
 }) => {
   const navigate = useNavigate();
   const authorized = useUserStore((state) => state.authorized);
 
   return (
-    <HoverInfoElement
-      side={hoverSide}
-      shouldHover={showInfo}
-      hoverContent={hoverContent}
-    >
-      <UnAuthedDialog>
-        {!icon ? (
-          <Button
-            variant={buttonVariant}
-            className={buttonClass}
-            onClick={() => {
-              if (authorized) {
-                navigate(redirect);
-              }
-            }}
-          >
-            {title}
-          </Button>
-        ) : (
-          <div onClick={onClick} className={iconClass}>
-            {children}
-          </div>
-        )}
-      </UnAuthedDialog>
-    </HoverInfoElement>
+    <div className={wrapperClass}>
+      <HoverInfoElement
+        side={hoverSide}
+        shouldHover={showInfo}
+        hoverContent={hoverContent}
+      >
+        <UnAuthedDialog noRestriction={!showDialog}>
+          {!icon ? (
+            <Button
+              variant={buttonVariant}
+              className={buttonClass}
+              onClick={() => {
+                if (authorized || link) {
+                  navigate(redirect);
+                }
+              }}
+            >
+              {title}
+            </Button>
+          ) : (
+            <div onClick={onClick} className={iconClass}>
+              {children}
+            </div>
+          )}
+        </UnAuthedDialog>
+      </HoverInfoElement>
+    </div>
   );
 };
 

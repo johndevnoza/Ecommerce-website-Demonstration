@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 export function formatPrice(
   price: number | string,
   options: {
-    currency?: "USD" | "EUR" | "GBP" | "BDT";
+    currency?: "USD" | "EUR" | "GBP" | "BDT" | "LARI";
     notation?: Intl.NumberFormatOptions["notation"];
   } = {}
 ) {
