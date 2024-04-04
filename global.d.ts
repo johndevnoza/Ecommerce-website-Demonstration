@@ -1,31 +1,21 @@
 declare type ProductData = {
-  category?: {
-    created_at: string;
-    id: string;
-    name: string;
-    updated_at: string;
-  };
-  category_name?: string;
   created_at?: string;
+  id: string;
+  category_name?: string;
   description?: string;
-  id?: string;
   image?: string;
-  price: number | biginit;
+  price?: number | biginit;
   salePrice?: null;
-  title: string;
+  title?: string;
   updated_at?: string;
   onClick?: (event: React.MouseEvent) => void;
   imageStyle?: string;
-  link: string;
+  link?: string;
   likedProduct?: LikedProduct;
   cartProduct?: CartProduct;
 };
-
-declare type LikedProduct = {
-  created_at: string;
-  id: string;
-  updated_at: string;
-  likedProduct: {
+declare type CartProduct = {
+  cartProduct: {
     category_name: string;
     created_at: string;
     description: string;
@@ -36,22 +26,38 @@ declare type LikedProduct = {
     title: string;
     updated_at: string;
   };
-  onClick: (event: React.MouseEvent) => void;
-  imageStyle: string;
-  link: string;
+  created_at: string;
+  id: string;
+  product_id?: string;
+  updated_at?: string;
+  user_id?: string;
+  onClick?: (event: React.MouseEvent) => void;
+  imageStyle?: string;
+  link?: string;
 };
-declare type CartProduct = {
-  cartProduct?: {
+declare type LikedProduct = {
+  cartProduct: {
+    // category?: {
+    //   created_at: string;
+    //   id: string;
+    //   name: string;
+    //   updated_at: string;
+    // };
     category_name: string;
     created_at: string;
     description: string;
     id: string;
     image: string;
-    price?: number | biginit;
+    price: number | biginit;
     salePrice: null;
-    title?: string;
+    title: string;
     updated_at: string;
   };
+  created_at: string;
+  id: string;
+  product_id?: string;
+  updated_at?: string;
+  user_id?: string;
   onClick?: (event: React.MouseEvent) => void;
   imageStyle?: string;
   link?: string;
@@ -88,4 +94,7 @@ declare type UserProps = {
   email: string;
   password: string;
   phone_number: number;
+};
+declare type requestPost = {
+  product_id: string;
 };

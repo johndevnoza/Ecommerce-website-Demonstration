@@ -29,9 +29,7 @@ const BurgerMenuTest = ({ user }: any) => {
       <DropdownMenuContent align="end" sideOffset={1}>
         <div className="flex items-center ">
           {user === "signed" ? <SignIn /> : <Profile />}
-          <div className={cn(buttonVariants({ variant: "outline" }))}>
             <Cart />
-          </div>
           <ModeToggle />
           <LanguageSwitch />
         </div>

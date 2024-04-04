@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { addToCart } from "@/services/useCartsQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addToFavorites } from "@/services/FavoritesStorage";
 
 export default function ProductCard({
   image,
@@ -27,18 +28,18 @@ export default function ProductCard({
 }: ProductData) {
   const queryClient = useQueryClient();
   const handleAddToCart = useMutation({
-    mutationFn: async (item: ProductData) => {
-      await addToCart(item);
-    },
+    mutationFn: async (item: ProductData) => addToCart(item),
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
   });
 
-  const handleClickAddToCart = () => {
-    // @ts-ignore
-    handleAddToCart.mutate({ id });
-  };
+  const handleAddToFavorites = useMutation({
+    mutationFn: async (item: ProductData) => addToFavorites(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
   return (
     <Card
       onClick={onClick}
@@ -95,6 +96,7 @@ export default function ProductCard({
             icon
             hoverSide="bottom"
             hoverContent="Add to Favorites"
+            onClick={() => handleAddToFavorites.mutate({ id })}
           >
             <FolderHeart />
           </InteractiveButton>
@@ -110,7 +112,7 @@ export default function ProductCard({
             icon
             hoverSide="bottom"
             hoverContent="Add to Cart"
-            onClick={handleClickAddToCart}
+            onClick={() => handleAddToCart.mutate({ id })}
           >
             <ShoppingCart />
           </InteractiveButton>

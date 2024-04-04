@@ -21,8 +21,6 @@ import { useUserStore } from "@/services/authContext";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Profile() {
-  // const { data: userData } = useUsersQuery();
-
   const { t } = useTranslation();
   const { logout } = useUserStore();
   const user = useUserStore((state) => state.user);

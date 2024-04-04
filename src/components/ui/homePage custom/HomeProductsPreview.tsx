@@ -1,37 +1,33 @@
 import { buttonVariants } from "@/components/ui/button";
-import { useAllProductsQuery } from "@/services/productsQuery";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { FolderHeart, ShoppingCart } from "lucide-react";
 import InteractiveButton from "../InteractiveButton";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addToCart, removeFromCart } from "@/services/useCartsQuery.tsx";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { addToCart } from "@/services/useCartsQuery.tsx";
 import { addToFavorites } from "@/services/FavoritesStorage";
+import { fetchAllProducts } from "@/services/productsApi";
 
 const HomeProductsPreview: React.FC = () => {
-  const { data, isPending, error } = useAllProductsQuery();
-
   const queryClient = useQueryClient();
-  const handleAddToCart = useMutation({
-    mutationFn: async (item: ProductData) => addToCart(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-    },
+  const { data, isPending, error } = useQuery({
+    queryKey: ["allProducts"],
+    queryFn: fetchAllProducts,
   });
-  const handleAddToFavorites = useMutation({
-    mutationFn: async (item: LikedProduct) => addToFavorites(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-    },
-  });
-  // in process
-  // const removeFromCartMutation = useMutation({
-  //   mutationFn: async (item: ProductData) => removeFromCart(item),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries();
-  //   },
-  // });
 
+  const handleAddToCart = useMutation({
+    mutationFn: async (item: string) => addToCart(item),
+    onSuccess: () => {
+      queryClient.refetchQueries();
+    },
+  });
+
+  const handleAddToFavorites = useMutation({
+    mutationFn: async (item: ProductData) => addToFavorites(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["Favorites"] });
+    },
+  });
   if (isPending) return <div>testing</div>;
   if (error) return "An error has occurred: " + error.message;
   return (
@@ -74,6 +70,7 @@ const HomeProductsPreview: React.FC = () => {
                 hoverContent="Buy now"
                 redirect="/shopping"
               />
+
               <InteractiveButton
                 wrapperClass={cn(
                   buttonVariants({
@@ -87,6 +84,7 @@ const HomeProductsPreview: React.FC = () => {
                 hoverSide="bottom"
                 hoverContent="Add to Favorites"
                 // @ts-ignore
+
                 onClick={() => handleAddToFavorites.mutate(item)}
               >
                 <FolderHeart />
@@ -103,7 +101,7 @@ const HomeProductsPreview: React.FC = () => {
                 icon
                 hoverSide="bottom"
                 hoverContent="Add to Cart"
-                onClick={() => handleAddToCart.mutate(item)}
+                onClick={() => handleAddToCart.mutate(item.id)}
               >
                 <ShoppingCart />
               </InteractiveButton>

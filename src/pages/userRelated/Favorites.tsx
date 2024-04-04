@@ -1,17 +1,29 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductCard from "@/components/ui/cards/ProductCard";
-import { favoritesQuery } from "@/services/FavoritesStorage";
-import React from "react";
+import {
+  favoritesQuery,
+  removeFromFavorites,
+} from "@/services/FavoritesStorage";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const Favorites = () => {
+  const queryClient = useQueryClient();
+
   const { data, isLoading, isError, error, isPending } = favoritesQuery();
-  console.log(data);
+  console.log(data, "Favorites");
   if (isLoading || isPending) {
     return <div>Loading...</div>;
   }
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
+  const handleRemoveFavorites = useMutation({
+    mutationFn: async (item: ProductData) => removeFromFavorites(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      console.log("succes");
+    },
+  });
 
   return (
     <MaxWidthWrapper>
@@ -21,10 +33,10 @@ const Favorites = () => {
           PRODUCTION IN PROGRESS
         </span>
         <div className="grid md:grid-cols-3 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
-          {data?.map((f: LikedProduct) => (
-            <div key={f.likedProduct.id}>
+          {data?.map((f: ProductData) => (
+            <div key={f.id}>
               <ProductCard
-                link={`/products/${f.likedProduct.id}`}
+                link={`/products/${f.id}`}
                 {...f.likedProduct}
               />
             </div>

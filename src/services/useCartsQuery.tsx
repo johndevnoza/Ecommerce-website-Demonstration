@@ -1,5 +1,4 @@
 // cartStore.js
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "./baseURLAxios.ts";
 export const fetchCarts = async () => {
   try {
@@ -10,15 +9,15 @@ export const fetchCarts = async () => {
       },
     });
 
-    return response.data as ProductData[];
+    return response.data as CartProduct[];
   } catch (error) {
     throw error;
   }
 };
-export const addToCart = async (item: ProductData) => {
+export const addToCart = async (item: string) => {
   const ACCESS_TOKEN = localStorage.getItem("accessToken");
-  const requestBody = {
-    product_id: item.id,
+  const requestBody: requestPost = {
+    product_id: item,
   };
   console.log(requestBody);
 
@@ -28,26 +27,14 @@ export const addToCart = async (item: ProductData) => {
     },
   });
 };
-export const removeFromCart = async (item: ProductData) => {
+export const removeFromCart = async (item: string) => {
   const ACCESS_TOKEN = localStorage.getItem("accessToken");
-  const requestBody = {
-    product_id: item.id,
-  };
-  console.log(requestBody);
-
-  return await axios.delete(`cart/${requestBody}`, {
+  return await axios.delete(`cart/${item}`, {
     headers: {
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
   });
 };
-
-export function cartsQuery() {
-  return useQuery({
-    queryKey: ["carts"],
-    queryFn: () => fetchCarts(),
-  });
-}
 
 // export const cartMutationFn = useMutation({
 //   mutationFn: async (item: ProductData) => addToCart(item),

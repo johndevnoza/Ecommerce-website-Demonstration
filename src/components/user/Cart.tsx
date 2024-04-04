@@ -9,27 +9,44 @@ import {
 } from "../ui/sheet.tsx";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { buttonVariants } from "../ui/button.tsx";
+import { Button, buttonVariants } from "../ui/button.tsx";
 import { Separator } from "../ui/separator.tsx";
 import HoverInfoElement from "../ui/HoverInfoElement.tsx";
-import { cartsQuery } from "@/services/useCartsQuery.tsx";
+import { fetchCarts, removeFromCart } from "@/services/useCartsQuery.tsx";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const Cart: React.FC = () => {
-  const { data, isLoading, isError, error, isPending } = cartsQuery();
+  const queryClient = useQueryClient();
 
+  const { data, isLoading, isError, error, isPending, refetch } = useQuery({
+    queryKey: ["cart"],
+    queryFn: fetchCarts,
+  });
+
+  const itemCount = data ? data.length : 0;
+  const totalPrice = data
+    ? data.reduce((acc, item) => acc + item.cartProduct.price, 0)
+    : 0;
+  console.log(totalPrice);
+
+  const removeFromCartMutation = useMutation({
+    mutationFn: async (item: string) => removeFromCart(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      refetch();
+    },
+  });
+  console.log(data);
   if (isLoading || isPending) {
     return <div>Loading...</div>;
   }
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
-
-  const itemCount = data ? data.length : 0;
-
   return (
     <Sheet>
       <HoverInfoElement hoverContent="Cart" shouldHover side="bottom">
-        <SheetTrigger className="flex m-auto items-center ring-border ring-1 rounded-md p-2">
+        <SheetTrigger className="flex m-auto items-center ring-border ring-1 bg-background rounded-md p-2">
           <ShoppingCart
             aria-hidden="true"
             color={itemCount > 0 ? "hsl(var(--primary))" : "hsl(var(--muted))"}
@@ -57,21 +74,37 @@ const Cart: React.FC = () => {
         {data ? (
           <>
             <div> Cart items {itemCount}</div>
-            <div className="flex w-full flex-col pr-6 overflow-y-auto flex-grow">
+            <div className="flex w-full p-1 flex-col pr-6 overflow-y-auto flex-grow">
               <div className="flex flex-col gap-2 ">
-                <div className="flex flex-col">
-                  {data.map((item) => (
+                <div className="flex flex-col gap-2 ">
+                  {data.map((item: CartProduct) => (
                     <div
-                      className="flex justify-between"
+                      className=" flex justify-between gap-2 items-center rounded-md ring-secondary ring-1"
                       key={item.cartProduct.id}
                     >
-                      <div> {item.cartProduct.title}</div>
+                      <div className="w-[30%]"> {item.cartProduct.title}</div>
                       <div> {item.cartProduct.price}$</div>
-                      <img
-                        src={item.cartProduct.image}
-                        alt=""
-                        className="size-24"
-                      />
+                      <div className="flex h-full max-w-full">
+                        <img
+                          src={item.cartProduct.image}
+                          alt=""
+                          className="size-24 w- rounded-r-none   rounded-md"
+                        />
+                        {isLoading ? (
+                          <div>O</div>
+                        ) : (
+                          <Button
+                            variant={"secondary"}
+                            className="w-min h-full rounded-l-none "
+                            disabled={isPending}
+                            onClick={() =>
+                              removeFromCartMutation.mutate(item.id)
+                            }
+                          >
+                            X
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -82,7 +115,9 @@ const Cart: React.FC = () => {
               <div>qvevit</div>
               <div className="space-y-1.5 text-sm">
                 <div className="flex ">
-                  <span className="flex-1">Total</span>
+                  <span className="flex-1">
+                    Total Price: {totalPrice > 0 ? totalPrice : 0}
+                  </span>
                 </div>
               </div>
               <SheetFooter>
