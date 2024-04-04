@@ -14,6 +14,7 @@ import { Separator } from "../ui/separator.tsx";
 import HoverInfoElement from "../ui/HoverInfoElement.tsx";
 import { fetchCarts, removeFromCart } from "@/services/useCartsQuery.tsx";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useConditionalEffect } from "@/hooks/useConditionalEffect.tsx";
 
 const Cart: React.FC = () => {
   const queryClient = useQueryClient();
@@ -27,7 +28,6 @@ const Cart: React.FC = () => {
   const totalPrice = data
     ? data.reduce((acc, item) => acc + item.cartProduct.price, 0)
     : 0;
-  console.log(totalPrice);
 
   const removeFromCartMutation = useMutation({
     mutationFn: async (item: string) => removeFromCart(item),
@@ -36,7 +36,22 @@ const Cart: React.FC = () => {
       refetch();
     },
   });
-  console.log(data);
+  const defaultClass = "h-6 w-6 flex-shrink-0";
+  const animation = "h-6 w-6 flex-shrink-0 animate-jump";
+  const addToCartAnimation = useConditionalEffect(
+    data,
+    defaultClass,
+    animation
+  );
+  const removeCartDefault =
+    " flex justify-between gap-2 items-center rounded-md ring-secondary ring-1";
+  const removeCartAnim =
+    " flex justify-between gap-2 bg-secondary items-center rounded-md ring-secondary ring-1";
+  const removeCartAnimation = useConditionalEffect(
+    data,
+    removeCartDefault,
+    removeCartAnim
+  );
   if (isLoading || isPending) {
     return <div>Loading...</div>;
   }
@@ -46,11 +61,11 @@ const Cart: React.FC = () => {
   return (
     <Sheet>
       <HoverInfoElement hoverContent="Cart" shouldHover side="bottom">
-        <SheetTrigger className="flex m-auto items-center ring-border ring-1 bg-background rounded-md p-2">
+        <SheetTrigger className="flex m-auto  items-center ring-border ring-1 bg-background rounded-md p-2">
           <ShoppingCart
             aria-hidden="true"
             color={itemCount > 0 ? "hsl(var(--primary))" : "hsl(var(--muted))"}
-            className="h-6 w-6 flex-shrink-0"
+            className={addToCartAnimation}
           />
           {isPending ? (
             <div>Ts..</div>
@@ -58,7 +73,7 @@ const Cart: React.FC = () => {
             <span
               className={
                 itemCount > 0
-                  ? "text-primary ml-2 text-sm font-medium animate-bounce"
+                  ? "text-primary ml-2 text-sm font-medium animate-bounce "
                   : " ml-2 text-sm font-medium text-muted"
               }
             >
@@ -79,7 +94,7 @@ const Cart: React.FC = () => {
                 <div className="flex flex-col gap-2 ">
                   {data.map((item: CartProduct) => (
                     <div
-                      className=" flex justify-between gap-2 items-center rounded-md ring-secondary ring-1"
+                      className={removeCartAnimation}
                       key={item.cartProduct.id}
                     >
                       <div className="w-[30%]"> {item.cartProduct.title}</div>

@@ -1,5 +1,4 @@
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "../button";
+import { Button } from "../button";
 import {
   Carousel,
   CarouselContent,

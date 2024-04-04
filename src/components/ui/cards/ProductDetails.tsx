@@ -31,18 +31,12 @@ export default function ProductDetails({
 }: ProductData) {
   const queryClient = useQueryClient();
   const handleAddToCart = useMutation({
-    mutationFn: async (item: ProductData) => {
-      await addToCart(item);
-    },
+    mutationFn: async (item: string) => addToCart(item),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.refetchQueries();
     },
   });
 
-  const handleClickAddToCart = () => {
-    // @ts-ignore
-    handleAddToCart.mutate({ id });
-  };
   return (
     <MaxWidthWrapper className="flex  rounded-md justify-between mt-10 mb-44 border-none">
       <div className="md:w-[450px] w-[350px] flex-grow-1 md:hover:w-full group rounded-l-md bg-card hover:rounded-sm flex flex-col gap-1  p-4 hover:outline-border hover:outline hover:scale-110 hover:flex-grow-2 md:hover:translate-x-[-16px] transition-all duration-300">
@@ -102,7 +96,7 @@ export default function ProductDetails({
           </InteractiveButton>
           <div className=" border-b-4 border-card h-1 w-full"></div>
           <InteractiveButton
-            onClick={handleClickAddToCart}
+            onClick={() => handleAddToCart.mutate(id)}
             showInfo
             hoverContent="Add to Cart"
             icon
