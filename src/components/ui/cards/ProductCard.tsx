@@ -28,14 +28,14 @@ export default function ProductCard({
 }: ProductData) {
   const queryClient = useQueryClient();
   const handleAddToCart = useMutation({
-    mutationFn: async (item: ProductData) => addToCart(item),
+    mutationFn: async (item: string) => addToCart(item),
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
   });
 
   const handleAddToFavorites = useMutation({
-    mutationFn: async (item: ProductData) => addToFavorites(item),
+    mutationFn: async (item: string) => addToFavorites(item),
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
@@ -88,7 +88,8 @@ export default function ProductCard({
             wrapperClass={cn(
               buttonVariants({
                 variant: "outline",
-                className: "rounded-none w-full lg:p-2 grid group",
+                className:
+                  "rounded-none w-full lg:p-2 grid group cursor-pointer",
               })
             )}
             iconClass="group-hover:scale-125"
@@ -96,7 +97,7 @@ export default function ProductCard({
             icon
             hoverSide="bottom"
             hoverContent="Add to Favorites"
-            onClick={() => handleAddToFavorites.mutate({ id })}
+            onClick={() => handleAddToFavorites.mutate(id)}
           >
             <FolderHeart />
           </InteractiveButton>
@@ -104,7 +105,8 @@ export default function ProductCard({
             wrapperClass={cn(
               buttonVariants({
                 variant: "outline",
-                className: "rounded-none w-full lg:p-2 rounded-r-md group",
+                className:
+                  "rounded-none w-full lg:p-2 rounded-r-md group cursor-pointer",
               })
             )}
             iconClass="group-hover:scale-125"
@@ -112,7 +114,7 @@ export default function ProductCard({
             icon
             hoverSide="bottom"
             hoverContent="Add to Cart"
-            onClick={() => handleAddToCart.mutate({ id })}
+            onClick={() => handleAddToCart.mutate(id)}
           >
             <ShoppingCart />
           </InteractiveButton>

@@ -36,7 +36,8 @@ declare type CartProduct = {
   link?: string;
 };
 declare type LikedProduct = {
-  cartProduct: {
+  cartProduct: CartProduct;
+  likedProduct: {
     // category?: {
     //   created_at: string;
     //   id: string;

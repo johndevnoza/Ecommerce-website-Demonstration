@@ -1,6 +1,5 @@
 import axios from "./baseURLAxios.ts";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addToCart } from "./useCartsQuery.tsx";
+import { useQuery } from "@tanstack/react-query";
 
 export const fetchFav = async () => {
   try {
@@ -10,15 +9,15 @@ export const fetchFav = async () => {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
       },
     });
-    return response.data as ProductData[];
+    return response.data as LikedProduct[];
   } catch (error) {
     throw error;
   }
 };
-export const addToFavorites = async (item: ProductData) => {
+export const addToFavorites = async (item: string) => {
   const ACCESS_TOKEN = localStorage.getItem("accessToken");
-  const requestBody = {
-    product_id: item.id,
+  const requestBody: requestPost = {
+    product_id: item,
   };
   return axios.post("liked-products", requestBody, {
     headers: {

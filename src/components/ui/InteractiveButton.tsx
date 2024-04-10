@@ -49,7 +49,7 @@ const InteractiveButton: React.FC<InteractButtonProps> = ({
   const authorized = useUserStore((state) => state.authorized);
 
   return (
-    <div className={wrapperClass}>
+    <div onClick={onClick} className={wrapperClass}>
       <HoverInfoElement
         side={hoverSide}
         shouldHover={showInfo}
@@ -69,9 +69,7 @@ const InteractiveButton: React.FC<InteractButtonProps> = ({
               {title}
             </Button>
           ) : (
-            <div onClick={onClick} className={iconClass}>
-              {children}
-            </div>
+            <div className={iconClass}>{children}</div>
           )}
         </UnAuthedDialog>
       </HoverInfoElement>

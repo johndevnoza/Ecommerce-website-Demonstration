@@ -21,11 +21,7 @@ export const Products = () => {
         <div className="grid md:grid-cols-3 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
           {data.products.map((item: ProductData) => (
             <div key={item.id}>
-              <ProductCard
-                // @ts-ignore
-                link={`/products/${item.id}`}
-                {...item}
-              />
+              <ProductCard link={`/products/${item.id}`} {...item} />
             </div>
           ))}
         </div>

@@ -33,25 +33,11 @@ const Cart: React.FC = () => {
     mutationFn: async (item: string) => removeFromCart(item),
     onSuccess: () => {
       queryClient.invalidateQueries();
-      refetch();
     },
   });
-  const defaultClass = "h-6 w-6 flex-shrink-0";
-  const animation = "h-6 w-6 flex-shrink-0 animate-jump";
-  const addToCartAnimation = useConditionalEffect(
-    data,
-    defaultClass,
-    animation
-  );
-  const removeCartDefault =
-    " flex justify-between gap-2 items-center rounded-md ring-secondary ring-1";
-  const removeCartAnim =
-    " flex justify-between gap-2 bg-secondary items-center rounded-md ring-secondary ring-1";
-  const removeCartAnimation = useConditionalEffect(
-    data,
-    removeCartDefault,
-    removeCartAnim
-  );
+  const addToCartAnimation = useConditionalEffect(data, "cart");
+  const removeCartAnimation = useConditionalEffect(data, "removeFromCart");
+
   if (isLoading || isPending) {
     return <div>Loading...</div>;
   }
@@ -88,7 +74,17 @@ const Cart: React.FC = () => {
         </SheetHeader>
         {data ? (
           <>
-            <div> Cart items {itemCount}</div>
+            <div className="flex justify-between">
+              <div> Cart items {itemCount}</div>
+              <div
+                onClick={() =>
+                  queryClient.refetchQueries({ queryKey: ["cart"] })
+                }
+                className="mr-12 cursor-pointer "
+              >
+                Refresh
+              </div>
+            </div>
             <div className="flex w-full p-1 flex-col pr-6 overflow-y-auto flex-grow">
               <div className="flex flex-col gap-2 ">
                 <div className="flex flex-col gap-2 ">

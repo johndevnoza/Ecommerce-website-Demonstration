@@ -23,7 +23,7 @@ const HomeProductsPreview: React.FC = () => {
   });
 
   const handleAddToFavorites = useMutation({
-    mutationFn: async (item: ProductData) => addToFavorites(item),
+    mutationFn: async (item: string) => addToFavorites(item),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["Favorites"] });
     },
@@ -62,7 +62,7 @@ const HomeProductsPreview: React.FC = () => {
             <div className="flex justify-center items-center rounded-md w-full ">
               <InteractiveButton
                 title={`${item.price}$`}
-                wrapperClass="rounded-none "
+                wrapperClass="rounded-none cursor-pointer"
                 buttonVariant="outline"
                 buttonClass="w-full  rounded-r-none w-full hover:scale-95"
                 showInfo
@@ -75,7 +75,8 @@ const HomeProductsPreview: React.FC = () => {
                 wrapperClass={cn(
                   buttonVariants({
                     variant: "outline",
-                    className: "rounded-none w-full lg:p-2 grid group",
+                    className:
+                      "rounded-none w-full lg:p-2 grid group cursor-pointer",
                   })
                 )}
                 iconClass="group-hover:scale-125 cursor-pointer"
@@ -83,9 +84,7 @@ const HomeProductsPreview: React.FC = () => {
                 icon
                 hoverSide="bottom"
                 hoverContent="Add to Favorites"
-                // @ts-ignore
-
-                onClick={() => handleAddToFavorites.mutate(item)}
+                onClick={() => handleAddToFavorites.mutate(item.id)}
               >
                 <FolderHeart />
               </InteractiveButton>
@@ -93,7 +92,8 @@ const HomeProductsPreview: React.FC = () => {
                 wrapperClass={cn(
                   buttonVariants({
                     variant: "outline",
-                    className: "rounded-none w-full lg:p-2 rounded-r-md group",
+                    className:
+                      "rounded-none w-full lg:p-2 rounded-r-md group cursor-pointer",
                   })
                 )}
                 iconClass="group-hover:scale-125  cursor-pointer"
