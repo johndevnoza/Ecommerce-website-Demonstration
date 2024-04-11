@@ -19,6 +19,7 @@ import {
   Star,
 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addToFavorites } from "@/services/FavoritesStorage";
 
 export default function ProductDetails({
   image,
@@ -36,7 +37,12 @@ export default function ProductDetails({
       queryClient.refetchQueries();
     },
   });
-
+const handleAddToFavorites = useMutation({
+  mutationFn: async (item: string) => addToFavorites(item),
+  onSuccess: () => {
+    queryClient.invalidateQueries();
+  },
+});
   return (
     <MaxWidthWrapper className="flex  rounded-md justify-between mt-10 mb-44 border-none">
       <div className="md:w-[450px] w-[350px] flex-grow-1 md:hover:w-full group rounded-l-md bg-card hover:rounded-sm flex flex-col gap-1  p-4 hover:outline-border hover:outline hover:scale-110 hover:flex-grow-2 md:hover:translate-x-[-16px] transition-all duration-300">
@@ -82,6 +88,7 @@ export default function ProductDetails({
 
           <div className=" border-b-4 border-card h-1 w-full"></div>
           <InteractiveButton
+            onClick={() => handleAddToFavorites.mutate(id)}
             showInfo
             hoverContent="Add to Favorites"
             icon

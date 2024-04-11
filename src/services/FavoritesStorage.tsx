@@ -25,14 +25,14 @@ export const addToFavorites = async (item: string) => {
     },
   });
 };
-export const removeFromFavorites = async (item: ProductData) => {
+export const removeFromFavorites = async (item: string) => {
   const ACCESS_TOKEN = localStorage.getItem("accessToken");
-  const response = axios.delete(`liked-products/${item.id}`, {
+  
+  return await axios.delete(`liked-products/${item}`, {
     headers: {
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
   });
-  return (await response).data;
 };
 
 export function favoritesQuery() {

@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { twMerge } from "tailwind-merge";
 
-function SearchCard({ image, title, price, className }: CardProps) {
+function SearchCard({ image, title, price, className }: ProductData) {
   return (
     <>
       <div

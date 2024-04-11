@@ -6,14 +6,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import InteractiveButton from "../InteractiveButton";
-import { FolderHeart, ShoppingCart } from "lucide-react";
+import { Delete, DeleteIcon, FolderHeart, ShoppingCart, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { addToCart } from "@/services/useCartsQuery";
+import { addToCart, removeFromCart } from "@/services/useCartsQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addToFavorites } from "@/services/FavoritesStorage";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "@/services/FavoritesStorage";
 
 export default function ProductCard({
   image,
@@ -25,6 +28,9 @@ export default function ProductCard({
   onClick,
   link,
   id,
+  secondId,
+  isInFavorites = false,
+  isInCart = false,
 }: ProductData) {
   const queryClient = useQueryClient();
   const handleAddToCart = useMutation({
@@ -33,9 +39,20 @@ export default function ProductCard({
       queryClient.invalidateQueries();
     },
   });
-
+  const removeFromCartMutation = useMutation({
+    mutationFn: async (item: string) => removeFromCart(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
   const handleAddToFavorites = useMutation({
     mutationFn: async (item: string) => addToFavorites(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+  const HandleRemoveFavorites = useMutation({
+    mutationFn: async (item: string) => removeFromFavorites(item),
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
@@ -96,10 +113,16 @@ export default function ProductCard({
             showInfo
             icon
             hoverSide="bottom"
-            hoverContent="Add to Favorites"
-            onClick={() => handleAddToFavorites.mutate(id)}
+            hoverContent={
+              isInFavorites ? "Remove From Favorites" : "Add to Favorites"
+            }
+            onClick={
+              isInFavorites
+                ? () => HandleRemoveFavorites.mutate(id)
+                : () => handleAddToFavorites.mutate(id)
+            }
           >
-            <FolderHeart />
+            {isInFavorites ? <X /> : <FolderHeart />}
           </InteractiveButton>
           <InteractiveButton
             wrapperClass={cn(
@@ -113,10 +136,14 @@ export default function ProductCard({
             showInfo
             icon
             hoverSide="bottom"
-            hoverContent="Add to Cart"
-            onClick={() => handleAddToCart.mutate(id)}
+            hoverContent={isInCart ? "Remove From Cart" : "Add to Cart"}
+            onClick={
+              isInCart
+                ? () => removeFromCartMutation.mutate(id)
+                : () => handleAddToCart.mutate(secondId)
+            }
           >
-            <ShoppingCart />
+            {isInCart ? <X /> : <ShoppingCart />}
           </InteractiveButton>
         </div>
       </CardFooter>

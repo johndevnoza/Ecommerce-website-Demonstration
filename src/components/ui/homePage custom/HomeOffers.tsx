@@ -76,7 +76,7 @@ const HomeOffers: React.FC = () => {
                       </div>
                       <Link
                         className="w-full"
-                        to={`/products/product/${item.title}`}
+                        to={`/product/productName/${item.title}`}
                       >
                         <img
                           src={item.image}

@@ -51,7 +51,7 @@ const HomeProductsPreview: React.FC = () => {
             key={item.id}
             className="bg-card flex flex-col gap-2 rounded-md items-center p-2"
           >
-            <Link to={`/products/product/${item.title}`}>
+            <Link to={`/product/productName/${item.title}`}>
               <img
                 className="w-max h-44  rounded-sm object-cover object-center"
                 src={item.image}

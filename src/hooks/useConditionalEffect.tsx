@@ -15,11 +15,11 @@ export const useConditionalEffect = (
   const animations = {
     cart: {
       defaultClass: "h-6 w-6 flex-shrink-0",
-      animation: "h-6 w-6 flex-shrink-0 animate-jump",
+      animation: "h-6 w-6 flex-shrink-0 scale-150 animate-in",
     },
     removeFromCart: {
       defaultClass:
-        " flex justify-between gap-2 items-center rounded-md ring-secondary ring-1",
+        " flex justify-between gap-2 items-center rounded-md ring-secondary ring-1  hover:bg-secondary",
       animation:
         " flex justify-between gap-2 bg-secondary items-center rounded-md ring-secondary ring-1",
     },

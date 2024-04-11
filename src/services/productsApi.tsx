@@ -32,3 +32,8 @@ export async function fetchProductSearch(searchUrl: string) {
     .get(`product?productName=${searchUrl}`)
     .then((res) => res.data);
 }
+export async function fetchSingle(productId: string) {
+  return await axios
+    .get(`/product?productName=${productId}`)
+    .then((res) => res.data);
+}

@@ -40,9 +40,9 @@ const Category = () => {
     setMaxPrice("");
     setMinPrice("");
   };
+
   if (isPending) return <div>Loading category...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
-
   const foundItems = data?.products.length || 0;
 
   return (
@@ -93,8 +93,7 @@ const Category = () => {
           {data.products.map((item: ProductData) => (
             <div key={item.id}>
               <ProductCard
-                // @ts-ignore
-                link={`/products/product/${item.title}`}
+                link={`/product/productName/${item.title}`}
                 {...item}
               />
             </div>

@@ -72,14 +72,12 @@ const Cart: React.FC = () => {
         <SheetHeader className="space-y-2.5 pr-6 ">
           <SheetTitle>cart </SheetTitle>
         </SheetHeader>
-        {data ? (
+        {data.length ? (
           <>
             <div className="flex justify-between">
               <div> Cart items {itemCount}</div>
               <div
-                onClick={() =>
-                  queryClient.refetchQueries({ queryKey: ["cart"] })
-                }
+                onClick={() => queryClient.refetchQueries()}
                 className="mr-12 cursor-pointer "
               >
                 Refresh
@@ -87,9 +85,10 @@ const Cart: React.FC = () => {
             </div>
             <div className="flex w-full p-1 flex-col pr-6 overflow-y-auto flex-grow">
               <div className="flex flex-col gap-2 ">
-                <div className="flex flex-col gap-2 ">
+                <div className="flex flex-col gap-2">
                   {data.map((item: CartProduct) => (
-                    <div
+                    <Link
+                      to={`/product/productName/${item.cartProduct.title}`}
                       className={removeCartAnimation}
                       key={item.cartProduct.id}
                     >
@@ -106,35 +105,35 @@ const Cart: React.FC = () => {
                         ) : (
                           <Button
                             variant={"secondary"}
-                            className="w-min h-full rounded-l-none "
+                            className="w-min h-full rounded-l-none hover:bg-primary font-extrabold"
                             disabled={isPending}
-                            onClick={() =>
-                              removeFromCartMutation.mutate(item.id)
-                            }
+                            onClick={(event) => {
+                              event.preventDefault();
+                              removeFromCartMutation.mutate(item.id);
+                            }}
                           >
                             X
                           </Button>
                         )}
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
             </div>
             <div className="space-y-4 pr-6">
               <Separator />
-              <div>qvevit</div>
               <div className="space-y-1.5 text-sm">
                 <div className="flex ">
                   <span className="flex-1">
-                    Total Price: {totalPrice > 0 ? totalPrice : 0}
+                    Total Price: {totalPrice > 0 ? totalPrice : 0}$
                   </span>
                 </div>
               </div>
               <SheetFooter>
                 <SheetTrigger asChild>
                   <Link
-                    to="/cart"
+                    to="/shopping"
                     className={cn(
                       buttonVariants({
                         className: "w-full",

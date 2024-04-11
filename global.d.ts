@@ -9,10 +9,14 @@ declare type ProductData = {
   title?: string;
   updated_at?: string;
   onClick?: (event: React.MouseEvent) => void;
+  isInCart?: boolean;
+  isInFavorites?: boolean;
   imageStyle?: string;
   link?: string;
+  secondId: string;
   likedProduct?: LikedProduct;
   cartProduct?: CartProduct;
+  className?: string;
 };
 declare type CartProduct = {
   cartProduct: {
