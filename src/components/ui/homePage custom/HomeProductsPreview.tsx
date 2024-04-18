@@ -70,7 +70,7 @@ const HomeProductsPreview: React.FC = () => {
                 hoverContent="Buy now"
                 redirect="/shopping"
               />
-
+          <div>{item.count}</div>
               <InteractiveButton
                 wrapperClass={cn(
                   buttonVariants({

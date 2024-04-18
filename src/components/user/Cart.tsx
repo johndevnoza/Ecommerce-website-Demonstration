@@ -12,7 +12,11 @@ import { Link } from "react-router-dom";
 import { Button, buttonVariants } from "../ui/button.tsx";
 import { Separator } from "../ui/separator.tsx";
 import HoverInfoElement from "../ui/HoverInfoElement.tsx";
-import { fetchCarts, removeFromCart } from "@/services/useCartsQuery.tsx";
+import {
+  addToCart,
+  fetchCarts,
+  removeFromCart,
+} from "@/services/useCartsQuery.tsx";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useConditionalEffect } from "@/hooks/useConditionalEffect.tsx";
 
@@ -24,9 +28,9 @@ const Cart: React.FC = () => {
     queryFn: fetchCarts,
   });
 
-  const itemCount = data ? data.length : 0;
+  const numberOfItems = data ? data.length : 0;
   const totalPrice = data
-    ? data.reduce((acc, item) => acc + item.cartProduct.price, 0)
+    ? data.reduce((acc, item) => acc + item.count * item.cartProduct.price, 0)
     : 0;
 
   const removeFromCartMutation = useMutation({
@@ -35,8 +39,15 @@ const Cart: React.FC = () => {
       queryClient.invalidateQueries();
     },
   });
+  const addToCartMutation = useMutation({
+    mutationFn: async (item: string) => addToCart(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
   const addToCartAnimation = useConditionalEffect(data, "cart");
   const removeCartAnimation = useConditionalEffect(data, "removeFromCart");
+console.log(data,"carts");
 
   if (isLoading || isPending) {
     return <div>Loading...</div>;
@@ -50,7 +61,9 @@ const Cart: React.FC = () => {
         <SheetTrigger className="flex m-auto  items-center ring-border ring-1 bg-background rounded-md p-2">
           <ShoppingCart
             aria-hidden="true"
-            color={itemCount > 0 ? "hsl(var(--primary))" : "hsl(var(--muted))"}
+            color={
+              numberOfItems > 0 ? "hsl(var(--primary))" : "hsl(var(--muted))"
+            }
             className={addToCartAnimation}
           />
           {isPending ? (
@@ -58,12 +71,12 @@ const Cart: React.FC = () => {
           ) : (
             <span
               className={
-                itemCount > 0
+                numberOfItems > 0
                   ? "text-primary ml-2 text-sm font-medium animate-bounce "
                   : " ml-2 text-sm font-medium text-muted"
               }
             >
-              {itemCount}
+              {numberOfItems}
             </span>
           )}
         </SheetTrigger>
@@ -75,7 +88,7 @@ const Cart: React.FC = () => {
         {data.length ? (
           <>
             <div className="flex justify-between">
-              <div> Cart items {itemCount}</div>
+              <div> Cart items {numberOfItems}</div>
               <div
                 onClick={() => queryClient.refetchQueries()}
                 className="mr-12 cursor-pointer "
@@ -92,9 +105,23 @@ const Cart: React.FC = () => {
                       className={removeCartAnimation}
                       key={item.cartProduct.id}
                     >
-                      <div className="w-[30%]"> {item.cartProduct.title}</div>
-                      <div> {item.cartProduct.price}$</div>
+                      <div className="flex gap-1 ml-1 min-w-max  flex-grow">
+                        <div className="w-[30%]"> {item.cartProduct.title}</div>
+                        <div>{item.count}X</div>
+                      </div>
+                      <div> {item.count * item.cartProduct.price}$</div>
                       <div className="flex h-full max-w-full">
+                        <Button
+                          variant={"secondary"}
+                          className="w-min h-full rounded-r-none hover:bg-primary font-extrabold"
+                          disabled={isPending}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            addToCartMutation.mutate(item.cartProduct.id);
+                          }}
+                        >
+                          +
+                        </Button>
                         <img
                           src={item.cartProduct.image}
                           alt=""
@@ -112,7 +139,7 @@ const Cart: React.FC = () => {
                               removeFromCartMutation.mutate(item.id);
                             }}
                           >
-                            X
+                            -
                           </Button>
                         )}
                       </div>

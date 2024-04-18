@@ -7,11 +7,11 @@ import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductSearchBar from "@/components/ui/ProductSearchBar";
 import BurgerMenuTest from "@/components/ui/BurgerMenuTest";
 import LanguageSwitch from "@/components/LanguageSwitch";
-import Profile from "@/components/user/NavProfile";
 import SignIn from "@/components/user/SignIn";
 import Cart from "@/components/user/Cart";
 import Links from "./links";
 import HoverInfoElement from "@/components/ui/HoverInfoElement";
+import NavProfile from "@/components/user/NavProfile";
 export default function Header() {
   const user = useUserStore((state) => state.user);
   const authorized = useUserStore((state) => state.authorized);
@@ -37,7 +37,7 @@ export default function Header() {
             </div>
             <ProductSearchBar />
             <div className="md:flex gap-1 hidden">
-              {authorized ? <Profile /> : <SignIn />}
+              {authorized ? <NavProfile /> : <SignIn />}
               {authorized ? <Cart /> : null}
               <HoverInfoElement hoverContent="Theme" shouldHover side="bottom">
                 <ModeToggle />

@@ -10,16 +10,18 @@ import { twMerge } from "tailwind-merge";
 import { cn } from "@/lib/utils";
 import InteractiveButton from "../InteractiveButton";
 import MaxWidthWrapper from "../MaxWidthWrapper";
-import { addToCart } from "@/services/useCartsQuery";
+import { addToCart, removeFromCart } from "@/services/useCartsQuery";
 import {
   FolderHeart,
   MessageCircleMore,
   MessagesSquare,
   ShoppingCart,
   Star,
+  X,
 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addToFavorites } from "@/services/FavoritesStorage";
+import { addToFavorites, removeFromFavorites } from "@/services/FavoritesStorage";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductDetails({
   image,
@@ -29,6 +31,11 @@ export default function ProductDetails({
   created_at,
   updated_at,
   id,
+  isInCart,
+  isInFavorites,
+  isPageShopping,
+  isPageFavorites,
+  secondId,
 }: ProductData) {
   const queryClient = useQueryClient();
   const handleAddToCart = useMutation({
@@ -37,12 +44,26 @@ export default function ProductDetails({
       queryClient.refetchQueries();
     },
   });
-const handleAddToFavorites = useMutation({
-  mutationFn: async (item: string) => addToFavorites(item),
-  onSuccess: () => {
-    queryClient.invalidateQueries();
-  },
-});
+  const handleAddToFavorites = useMutation({
+    mutationFn: async (item: string) => addToFavorites(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+  const removeFromCartMutation = useMutation({
+    mutationFn: async (item: string) => removeFromCart(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+  const HandleRemoveFavorites = useMutation({
+    mutationFn: async (item: string) => removeFromFavorites(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+  const navigate = useNavigate();
+
   return (
     <MaxWidthWrapper className="flex  rounded-md justify-between mt-10 mb-44 border-none">
       <div className="md:w-[450px] w-[350px] flex-grow-1 md:hover:w-full group rounded-l-md bg-card hover:rounded-sm flex flex-col gap-1  p-4 hover:outline-border hover:outline hover:scale-110 hover:flex-grow-2 md:hover:translate-x-[-16px] transition-all duration-300">
@@ -88,33 +109,77 @@ const handleAddToFavorites = useMutation({
 
           <div className=" border-b-4 border-card h-1 w-full"></div>
           <InteractiveButton
-            onClick={() => handleAddToFavorites.mutate(id)}
-            showInfo
-            hoverContent="Add to Favorites"
-            icon
-            iconClass={cn(
+            wrapperClass={cn(
               buttonVariants({
                 variant: "outline",
-                className: "w-full rounded-none hover:scale-95",
+                className: isInFavorites
+                  ? "rounded-none  w-full lg:p-2 grid group cursor-pointer bg-primary"
+                  : "rounded-none w-full lg:p-2 grid group cursor-pointer ",
               })
             )}
+            iconClass="group-hover:scale-125"
+            showInfo
+            icon
+            hoverSide="bottom"
+            hoverContent={
+              isInFavorites
+                ? "Go to Favorites"
+                : isPageFavorites
+                ? "Remove favorited"
+                : "Add to Favorites"
+            }
+            onClick={
+              isPageFavorites
+                ? () => HandleRemoveFavorites.mutate(id)
+                : isInFavorites
+                ? () => navigate("/favorites")
+                : () => handleAddToFavorites.mutate(id)
+            }
           >
-            <FolderHeart />
+            {isInFavorites ? (
+              <FolderHeart className="animate-bounce" />
+            ) : isPageFavorites ? (
+              <X />
+            ) : (
+              <FolderHeart />
+            )}
           </InteractiveButton>
           <div className=" border-b-4 border-card h-1 w-full"></div>
           <InteractiveButton
-            onClick={() => handleAddToCart.mutate(id)}
-            showInfo
-            hoverContent="Add to Cart"
-            icon
-            iconClass={cn(
+            wrapperClass={cn(
               buttonVariants({
                 variant: "outline",
-                className: "w-full  rounded-none hover:scale-95",
+                className: isInCart
+                  ? "rounded-none w-full lg:p-2  group cursor-pointer bg-primary"
+                  : "rounded-none w-full lg:p-2  group cursor-pointer",
               })
             )}
+            iconClass="group-hover:scale-125"
+            showInfo
+            icon
+            hoverSide="bottom"
+            hoverContent={
+              isInCart
+                ? "Go to Shopping"
+                : isPageShopping
+                ? "Remove from Cart"
+                : "Add to Cart"
+            }
+            onClick={
+              isPageShopping
+                ? () => removeFromCartMutation.mutate(id)
+                : isInCart
+                ? () => navigate("/shopping")
+                : () => handleAddToCart.mutate(secondId)
+            }
           >
-            <ShoppingCart />
+            {isInCart ? (
+              <ShoppingCart className="animate-pulse " />
+            ) : isPageShopping ? (
+              <X />
+            ) : (
+              <ShoppingCart />
+            )}
           </InteractiveButton>
           <div className=" border-b-4 border-card h-1 w-full"></div>
           <InteractiveButton

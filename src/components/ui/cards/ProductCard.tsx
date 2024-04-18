@@ -6,11 +6,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import InteractiveButton from "../InteractiveButton";
-import { Delete, DeleteIcon, FolderHeart, ShoppingCart, X } from "lucide-react";
+import { FolderHeart, ShoppingCart, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addToCart, removeFromCart } from "@/services/useCartsQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -29,8 +29,11 @@ export default function ProductCard({
   link,
   id,
   secondId,
-  isInFavorites = false,
-  isInCart = false,
+  isInFavorites,
+  isInCart,
+  showElement = true,
+  isPageShopping = false,
+  isPageFavorites = false,
 }: ProductData) {
   const queryClient = useQueryClient();
   const handleAddToCart = useMutation({
@@ -57,13 +60,15 @@ export default function ProductCard({
       queryClient.invalidateQueries();
     },
   });
+  const navigate = useNavigate();
+
   return (
     <Card
       onClick={onClick}
       className="flex  flex-col rounded-md hover:bg-secondary/40 justify-between"
     >
-      <Link to={`${link}`}>
-        <CardHeader className="gap-1">
+      <Link to={`${link}`} className="">
+        <CardHeader className="gap-1 ">
           <img
             src={image}
             alt={title}
@@ -73,19 +78,22 @@ export default function ProductCard({
             )}
           />
           <CardTitle className="line-clamp-1 px-3 ">{title}</CardTitle>
-          <InteractiveButton
-            title={category_name}
-            buttonVariant="ghost"
-            buttonClass=" lg:p-2 hover:scale-95"
-            showInfo
-            hoverSide="bottom"
-            hoverContent={`Go to ${category_name}`}
-            redirect={`/product-category/${category_name}`}
-            showDialog={false}
-            link
-          />
-          <CardDescription className="line-clamp-2 px-3">
-            {description}asdasdasdasdasd asdasd as as d
+          {showElement ? (
+            <InteractiveButton
+              title={category_name}
+              buttonVariant="ghost"
+              buttonClass=" lg:p-2 hover:scale-95"
+              showInfo
+              hoverSide="bottom"
+              hoverContent={`Go to ${category_name}`}
+              redirect={`/product-category/${category_name}`}
+              showDialog={false}
+              link
+            />
+          ) : null}
+
+          <CardDescription className="line-clamp-1 px-3">
+            {description}
           </CardDescription>
         </CardHeader>
       </Link>
@@ -99,14 +107,15 @@ export default function ProductCard({
             showInfo
             hoverSide="bottom"
             hoverContent="Buy now"
-            redirect="/shopping"
+            redirect={"/shopping"}
           />
           <InteractiveButton
             wrapperClass={cn(
               buttonVariants({
                 variant: "outline",
-                className:
-                  "rounded-none w-full lg:p-2 grid group cursor-pointer",
+                className: isInFavorites
+                  ? "rounded-none w-full lg:p-2 grid group cursor-pointer bg-primary"
+                  : "rounded-none w-full lg:p-2 grid group cursor-pointer ",
               })
             )}
             iconClass="group-hover:scale-125"
@@ -114,36 +123,63 @@ export default function ProductCard({
             icon
             hoverSide="bottom"
             hoverContent={
-              isInFavorites ? "Remove From Favorites" : "Add to Favorites"
+              isInFavorites
+                ? "Go to Favorites"
+                : isPageFavorites
+                ? "Remove favorited"
+                : "Add to Favorites"
             }
             onClick={
-              isInFavorites
+              isPageFavorites
                 ? () => HandleRemoveFavorites.mutate(id)
+                : isInFavorites
+                ? () => navigate("/favorites")
                 : () => handleAddToFavorites.mutate(id)
             }
           >
-            {isInFavorites ? <X /> : <FolderHeart />}
+            {isInFavorites ? (
+              <FolderHeart className="animate-bounce" />
+            ) : isPageFavorites ? (
+              <X />
+            ) : (
+              <FolderHeart />
+            )}
           </InteractiveButton>
           <InteractiveButton
             wrapperClass={cn(
               buttonVariants({
                 variant: "outline",
-                className:
-                  "rounded-none w-full lg:p-2 rounded-r-md group cursor-pointer",
+                className: isInCart
+                  ? "rounded-none w-full lg:p-2 rounded-r-md group cursor-pointer bg-primary"
+                  : "rounded-none w-full lg:p-2 rounded-r-md group cursor-pointer",
               })
             )}
             iconClass="group-hover:scale-125"
             showInfo
             icon
             hoverSide="bottom"
-            hoverContent={isInCart ? "Remove From Cart" : "Add to Cart"}
-            onClick={
+            hoverContent={
               isInCart
+                ? "Go to Shopping"
+                : isPageShopping
+                ? "Remove from Cart"
+                : "Add to Cart"
+            }
+            onClick={
+              isPageShopping
                 ? () => removeFromCartMutation.mutate(id)
+                : isInCart
+                ? () => navigate("/shopping")
                 : () => handleAddToCart.mutate(secondId)
             }
           >
-            {isInCart ? <X /> : <ShoppingCart />}
+            {isInCart ? (
+              <ShoppingCart className="animate-pulse " />
+            ) : isPageShopping ? (
+              <X />
+            ) : (
+              <ShoppingCart />
+            )}
           </InteractiveButton>
         </div>
       </CardFooter>

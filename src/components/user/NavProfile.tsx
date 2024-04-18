@@ -15,7 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { favoritesQuery } from "@/services/FavoritesStorage";
 import { useConditionalEffect } from "@/hooks/useConditionalEffect";
 
-export default function Profile() {
+export default function NavProfile() {
   const { data } = favoritesQuery();
 
   const { t } = useTranslation();
@@ -23,7 +23,6 @@ export default function Profile() {
   const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
   const addFavoritesAnim = useConditionalEffect(data, "favorites");
-  console.log(data);
 
   return (
     <DropdownMenu>

@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { fetchFav } from "@/services/FavoritesStorage";
 import { useSingleCategoryQuery } from "@/services/productsQuery";
+import { fetchCarts } from "@/services/useCartsQuery";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
@@ -40,6 +43,19 @@ const Category = () => {
     setMaxPrice("");
     setMinPrice("");
   };
+  const { data: carts } = useQuery({
+    queryKey: ["cart"],
+    queryFn: fetchCarts,
+  });
+  const { data: favorites } = useQuery({
+    queryKey: ["favorites"],
+    queryFn: fetchFav,
+  });
+
+  const isAdded = carts ? carts.map((item) => item.product_id) : null;
+  const isFAvorited = favorites
+    ? favorites.map((item) => item.product_id)
+    : null;
 
   if (isPending) return <div>Loading category...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
@@ -95,6 +111,10 @@ const Category = () => {
               <ProductCard
                 link={`/product/productName/${item.title}`}
                 {...item}
+                id={item.id}
+                secondId={item.id}
+                isInCart={isAdded && isAdded.includes(item.id)}
+                isInFavorites={isFAvorited && isFAvorited.includes(item.id)}
               />
             </div>
           ))}

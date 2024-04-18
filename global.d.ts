@@ -9,14 +9,18 @@ declare type ProductData = {
   title?: string;
   updated_at?: string;
   onClick?: (event: React.MouseEvent) => void;
-  isInCart?: boolean;
-  isInFavorites?: boolean;
+  isInCart?: boolean | null;
+  isInFavorites?: boolean | null;
   imageStyle?: string;
   link?: string;
   secondId: string;
+  showElement?: boolean;
   likedProduct?: LikedProduct;
   cartProduct?: CartProduct;
   className?: string;
+  count?: number;
+  isPageShopping?: boolean;
+  isPageFavorites?: boolean;
 };
 declare type CartProduct = {
   cartProduct: {
@@ -30,6 +34,7 @@ declare type CartProduct = {
     title: string;
     updated_at: string;
   };
+  count: number ;
   created_at: string;
   id: string;
   product_id?: string;
@@ -58,6 +63,7 @@ declare type LikedProduct = {
     title: string;
     updated_at: string;
   };
+  count: number ;
   created_at: string;
   id: string;
   product_id?: string;

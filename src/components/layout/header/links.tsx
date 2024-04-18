@@ -1,26 +1,3 @@
-// import { buttonVariants } from "@/components/ui/button";
-// import { cn } from "@/lib/utils";
-// import { Link, useLocation } from "react-router-dom";
-
-// const links: linkProps[] = [
-//   {
-//     title: "Products",
-//     path: "/products",
-//   },
-//   {
-//     title: "About",
-//     path: "/about",
-//   },
-//   {
-//     title: "Contact",
-//     path: "/contact",
-//   },
-//   {
-//     title: "Blog",
-//     path: "/blog",
-//   },
-// ];
-
 import { buttonVariants } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -33,10 +10,8 @@ import {
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { MenuIcon, Navigation, Navigation2, NavigationIcon, NavigationOff } from "lucide-react";
 
 export default function Links() {
-  // const location = useLocation();
   const { t } = useTranslation();
   return (
     <NavigationMenu>

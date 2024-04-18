@@ -1,24 +1,26 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import { favoritesQuery } from "@/services/FavoritesStorage";
+import { fetchCarts } from "@/services/useCartsQuery";
+import { useQuery } from "@tanstack/react-query";
 
 const Favorites = () => {
   const { data, isLoading, isError, error, isPending } = favoritesQuery();
   console.log(data, "Favorites");
+  const { data: carts } = useQuery({
+    queryKey: ["cart"],
+    queryFn: fetchCarts,
+  });
+  const isAdded = carts ? carts.map((item) => item.product_id) : null;
 
-  // const handleRemoveFavorites = useMutation({
-  //   mutationFn: async (item: ProductData) => removeFromFavorites(item),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries();
-  //     console.log("succes");
-  //   },
-  // });
   if (isLoading || isPending) {
     return <div>Loading...</div>;
   }
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
+  console.log(data);
+
   return (
     <MaxWidthWrapper>
       <div className="flex w-full flex-col gap-6">
@@ -38,10 +40,11 @@ const Favorites = () => {
                 price={f.likedProduct.price}
                 description={f.likedProduct.description}
                 image={f.likedProduct.image}
-                id={f.id}
                 secondId={f.likedProduct.id}
+                id={f.id}
                 category_name={f.likedProduct.category_name}
-                isInFavorites
+                isPageFavorites
+                isInCart={isAdded && isAdded.includes(f.likedProduct.id)}
               />
             </div>
           ))}
