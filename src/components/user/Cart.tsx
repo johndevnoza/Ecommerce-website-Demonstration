@@ -1,4 +1,11 @@
-import { ShoppingBagIcon, ShoppingCart } from "lucide-react";
+import {
+  ArrowBigDownDash,
+  ArrowBigUpDash,
+  Loader,
+  ShoppingBagIcon,
+  ShoppingCart,
+  X,
+} from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -9,51 +16,55 @@ import {
 } from "../ui/sheet.tsx";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { Button, buttonVariants } from "../ui/button.tsx";
+import { buttonVariants } from "../ui/button.tsx";
 import { Separator } from "../ui/separator.tsx";
 import HoverInfoElement from "../ui/HoverInfoElement.tsx";
 import {
   addToCart,
+  decreaseFromCart,
   fetchCarts,
   removeFromCart,
 } from "@/services/useCartsQuery.tsx";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useConditionalEffect } from "@/hooks/useConditionalEffect.tsx";
+import { CARTS_QUERY } from "@/utils/constants.tsx";
 
 const Cart: React.FC = () => {
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError, error, isPending, refetch } = useQuery({
-    queryKey: ["cart"],
+  const { data, isLoading, isPending } = useQuery({
+    queryKey: [CARTS_QUERY],
     queryFn: fetchCarts,
   });
-
   const numberOfItems = data ? data.length : 0;
   const totalPrice = data
     ? data.reduce((acc, item) => acc + item.count * item.cartProduct.price, 0)
     : 0;
 
   const removeFromCartMutation = useMutation({
+    mutationFn: async (item: string) => decreaseFromCart(item),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
+    },
+  });
+  const removeItem = useMutation({
     mutationFn: async (item: string) => removeFromCart(item),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
   const addToCartMutation = useMutation({
     mutationFn: async (item: string) => addToCart(item),
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
-  const addToCartAnimation = useConditionalEffect(data, "cart");
-  const removeCartAnimation = useConditionalEffect(data, "removeFromCart");
-console.log(data,"carts");
 
   if (isLoading || isPending) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div className="border-border border-2 rounded-sm p-1 grid items-center">
+        <Loader className="animate-spin  " />
+      </div>
+    );
   }
   return (
     <Sheet>
@@ -64,7 +75,7 @@ console.log(data,"carts");
             color={
               numberOfItems > 0 ? "hsl(var(--primary))" : "hsl(var(--muted))"
             }
-            className={addToCartAnimation}
+            className=""
           />
           {isPending ? (
             <div>Ts..</div>
@@ -85,16 +96,10 @@ console.log(data,"carts");
         <SheetHeader className="space-y-2.5 pr-6 ">
           <SheetTitle>cart </SheetTitle>
         </SheetHeader>
-        {data.length ? (
+        {data?.length ? (
           <>
             <div className="flex justify-between">
               <div> Cart items {numberOfItems}</div>
-              <div
-                onClick={() => queryClient.refetchQueries()}
-                className="mr-12 cursor-pointer "
-              >
-                Refresh
-              </div>
             </div>
             <div className="flex w-full p-1 flex-col pr-6 overflow-y-auto flex-grow">
               <div className="flex flex-col gap-2 ">
@@ -102,46 +107,47 @@ console.log(data,"carts");
                   {data.map((item: CartProduct) => (
                     <Link
                       to={`/product/productName/${item.cartProduct.title}`}
-                      className={removeCartAnimation}
+                      className="flex justify-between gap-2 items-center rounded-md ring-secondary ring-1  hover:bg-secondary"
                       key={item.cartProduct.id}
                     >
-                      <div className="flex gap-1 ml-1 min-w-max  flex-grow">
+                      <div className="flex gap-1 ml-1  w-32 line-clamp-1">
                         <div className="w-[30%]"> {item.cartProduct.title}</div>
-                        <div>{item.count}X</div>
                       </div>
+                      <div>{item.count}X</div>
                       <div> {item.count * item.cartProduct.price}$</div>
-                      <div className="flex h-full max-w-full">
-                        <Button
-                          variant={"secondary"}
-                          className="w-min h-full rounded-r-none hover:bg-primary font-extrabold"
-                          disabled={isPending}
-                          onClick={(event) => {
-                            event.preventDefault();
-                            addToCartMutation.mutate(item.cartProduct.id);
-                          }}
-                        >
-                          +
-                        </Button>
+                      <div className="flex h-full max-w-full bg-secondary rounded-md ">
+                        <div className="flex flex-col">
+                          <ArrowBigUpDash
+                            className=" h-full rounded-r-none hover:bg-background hover:rounded-l-md"
+                            onClick={(event) => {
+                              event.preventDefault();
+                              addToCartMutation.mutate(item.cartProduct.id);
+                            }}
+                          />
+                          {isLoading ? (
+                            <div>O</div>
+                          ) : (
+                            <ArrowBigDownDash
+                              className=" h-full rounded-r-none hover:bg-background hover:rounded-l-md"
+                              onClick={(event) => {
+                                event.preventDefault();
+                                removeFromCartMutation.mutate(item.id);
+                              }}
+                            />
+                          )}
+                        </div>
                         <img
                           src={item.cartProduct.image}
                           alt=""
-                          className="size-24 w- rounded-r-none   rounded-md"
+                          className="size-24  rounded-none "
                         />
-                        {isLoading ? (
-                          <div>O</div>
-                        ) : (
-                          <Button
-                            variant={"secondary"}
-                            className="w-min h-full rounded-l-none hover:bg-primary font-extrabold"
-                            disabled={isPending}
-                            onClick={(event) => {
-                              event.preventDefault();
-                              removeFromCartMutation.mutate(item.id);
-                            }}
-                          >
-                            -
-                          </Button>
-                        )}
+                        <X
+                          onClick={(event) => {
+                            event.preventDefault();
+                            removeItem.mutate(item.id);
+                          }}
+                          className="transform-gpu hover:scale-110 h-full  rounded-md rounded-l-none py-1 transition-transform duration-100 "
+                        />
                       </div>
                     </Link>
                   ))}

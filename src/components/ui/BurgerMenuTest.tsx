@@ -28,8 +28,8 @@ const BurgerMenuTest = ({ user }: any) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={1}>
         <div className="flex items-center ">
-          {user === "signed" ? <SignIn /> : <Profile />}
-            <Cart />
+          {!user ? <SignIn /> : <Profile />}
+          <Cart />
           <ModeToggle />
           <LanguageSwitch />
         </div>

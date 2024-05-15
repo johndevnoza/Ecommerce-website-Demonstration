@@ -1,13 +1,8 @@
-// cartStore.js
-import axios from "./baseURLAxios.ts";
+// cartStore.tsx
+import { authAxios } from "./baseURLAxios.ts";
 export const fetchCarts = async () => {
   try {
-    const ACCESS_TOKEN = localStorage.getItem("accessToken");
-    const response = await axios.get("cart", {
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      },
-    });
+    const response = await authAxios.get("cart", {});
 
     return response.data as CartProduct[];
   } catch (error) {
@@ -15,31 +10,31 @@ export const fetchCarts = async () => {
   }
 };
 export const addToCart = async (item: string) => {
-  const ACCESS_TOKEN = localStorage.getItem("accessToken");
   const requestBody: requestPost = {
     product_id: item,
   };
-  console.log(requestBody);
-
-  return axios.post("cart", requestBody, {
-    headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-  });
+  return authAxios.post("cart", requestBody, {});
+};
+export const decreaseFromCart = async (item: string) => {
+  return await authAxios.delete(`cart/${item}`, {});
 };
 export const removeFromCart = async (item: string) => {
-  const ACCESS_TOKEN = localStorage.getItem("accessToken");
-  return await axios.delete(`cart/${item}`, {
-    headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-  });
+  return await authAxios.delete(`cart/${item}?removeAll=true`, {});
 };
+export const buyItems = async ({
+  product_id,
+  totalPrice,
+  totalItems,
+}: PaymentProps) => {
+  const requestBody: PaymentProps = {
+    product_id: product_id,
+    totalPrice: totalPrice,
+    totalItems: totalItems,
+  };
+  authAxios.post(
+    `purchases`,
+    requestBody,
 
-// export const cartMutationFn = useMutation({
-//   mutationFn: async (item: ProductData) => addToCart(item),
-//   onSuccess: async () => {
-//     const { refetch } = cartsQuery();
-//     await refetch();
-//   },
-// });
+    {}
+  );
+};

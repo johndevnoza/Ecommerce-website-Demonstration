@@ -66,7 +66,7 @@ export default function ProductDetails({
 
   return (
     <MaxWidthWrapper className="flex  rounded-md justify-between mt-10 mb-44 border-none">
-      <div className="md:w-[450px] w-[350px] flex-grow-1 md:hover:w-full group rounded-l-md bg-card hover:rounded-sm flex flex-col gap-1  p-4 hover:outline-border hover:outline hover:scale-110 hover:flex-grow-2 md:hover:translate-x-[-16px] transition-all duration-300">
+      <div className="md:w-[450px] border-border border-2  w-[350px] flex-grow-1 md:hover:w-full group rounded-l-md bg-card hover:rounded-sm flex flex-col gap-1  p-4 hover:outline-border hover:outline hover:scale-110 hover:flex-grow-2 md:hover:translate-x-[-16px] transition-all duration-300">
         <img
           src={image}
           alt={title}
@@ -86,7 +86,7 @@ export default function ProductDetails({
         </div>
       </div>
       <div className="bg-background min-w-1 lg:w-2"></div>
-      <CardHeader className="gap-2 p-4 w-full hover:rounded-sm flex-grow-0  group bg-card hover:outline-border hover:outline hover:scale-110 transition-all duration-300">
+      <CardHeader className="gap-2 p-4 w-full hover:rounded-sm flex-grow-0 border-border border-2  group bg-card hover:outline-border hover:outline hover:scale-110 transition-all duration-300">
         <CardTitle className="p-0 min-w-0 ">{title}</CardTitle>
         <CardDescription className="line-clamp-6 max-w-max group-hover:line-clamp-none group-hover:mt-2 transition-all">
           {description}
@@ -96,7 +96,7 @@ export default function ProductDetails({
         </CardDescription>
       </CardHeader>
       <div className="bg-background min-w-1 lg:w-2"></div>
-      <CardFooter className="p-4 rounded-r-md hover:rounded-sm flex flex-col justify-around bg-card hover:outline-border hover:outline hover:scale-110 transition-all duration-300">
+      <CardFooter className="p-4 rounded-r-md border-border border-2  hover:rounded-sm flex flex-col justify-around bg-card hover:outline-border hover:outline hover:scale-110 transition-all duration-300">
         <div className=" flex flex-col w-full  rounded-md items-center justify-between ">
           <InteractiveButton
             buttonVariant="default"

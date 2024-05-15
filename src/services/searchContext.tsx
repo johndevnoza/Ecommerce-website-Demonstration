@@ -1,5 +1,5 @@
 import { create } from "zustand";
-
+// this is state for blurring effect when input search
 type SearchState = {
   isSearchActive: boolean;
   activateSearch: () => void;
@@ -9,11 +9,9 @@ type SearchState = {
 const useSearchStore = create<SearchState>((set) => ({
   isSearchActive: false,
   activateSearch: () => {
-    console.log("Activating search...");
     set({ isSearchActive: true });
   },
   deactivateSearch: () => {
-    // console.log("Deactivating search...");
     set({ isSearchActive: false });
   },
 }));

@@ -3,6 +3,7 @@ import ProductDetails from "@/components/ui/cards/ProductDetails";
 import { fetchFav } from "@/services/FavoritesStorage";
 import { fetchProductSearch, fetchSingle } from "@/services/productsApi";
 import { fetchCarts } from "@/services/useCartsQuery";
+import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
@@ -12,13 +13,14 @@ export default function Product() {
   const { data, isPending, error } = useQuery({
     queryKey: ["single Product", id],
     queryFn: () => fetchSingle(id),
+    staleTime: Infinity,
   });
   const { data: carts } = useQuery({
-    queryKey: ["cart"],
+    queryKey: [CARTS_QUERY],
     queryFn: fetchCarts,
   });
   const { data: favorites } = useQuery({
-    queryKey: ["favorites"],
+    queryKey: [FAVORITES_QUERY],
     queryFn: fetchFav,
   });
 

@@ -1,7 +1,6 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import HomeCategories from "@/components/ui/homePage custom/HomeCategories";
 import HomeOffers from "@/components/ui/homePage custom/HomeOffers";
-import HomeProductsPreview from "@/components/ui/homePage custom/HomeProductsPreview";
 import { Products } from "./productRelated/products/Products";
 
 export default function Home() {

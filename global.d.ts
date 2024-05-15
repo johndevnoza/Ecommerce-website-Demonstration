@@ -5,8 +5,8 @@ declare type ProductData = {
   description?: string;
   image?: string;
   price?: number | biginit;
-  salePrice?: null;
-  title?: string;
+  salePrice?: null | number;
+  title: string;
   updated_at?: string;
   onClick?: (event: React.MouseEvent) => void;
   isInCart?: boolean | null;
@@ -21,6 +21,7 @@ declare type ProductData = {
   count?: number;
   isPageShopping?: boolean;
   isPageFavorites?: boolean;
+  removeCartItem?: boolean;
 };
 declare type CartProduct = {
   cartProduct: {
@@ -34,7 +35,7 @@ declare type CartProduct = {
     title: string;
     updated_at: string;
   };
-  count: number ;
+  count: number;
   created_at: string;
   id: string;
   product_id?: string;
@@ -63,7 +64,7 @@ declare type LikedProduct = {
     title: string;
     updated_at: string;
   };
-  count: number ;
+  count: number;
   created_at: string;
   id: string;
   product_id?: string;
@@ -89,7 +90,23 @@ declare type CardProps = {
   link?: string;
   product_id?: string;
 };
+declare type User = {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  password?: string;
+  phone_number?: number | string;
+  accessToken?: string;
+  refresh_token?: string;
+  id?: string;
+  authorized?: boolean;
+};
 
+declare type PaymentProps = {
+  product_id: string | undefined;
+  totalPrice: number;
+  totalItems: number;
+};
 declare interface linkProps {
   title: string;
   path: string;
@@ -109,3 +126,8 @@ declare type UserProps = {
 declare type requestPost = {
   product_id: string;
 };
+ declare type LoginProps = {
+   email?: string;
+   password?: string;
+   accessToken?: string;
+ };

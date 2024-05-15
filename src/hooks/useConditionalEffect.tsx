@@ -29,6 +29,7 @@ export const useConditionalEffect = (
       animation:
         "flex gap-2  data-[state=open]:border-primary group data-[state=open]:scale-110 bg-primary",
     },
+    
     default: {
       defaultClass: "h-6 w-6 flex-shrink-0",
       animation: "h-6 w-6 flex-shrink-0 animate-pulse",

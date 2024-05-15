@@ -6,9 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import MaxWidthWrapper from "../ui/MaxWidthWrapper";
-import axios from "../../services/baseURLAxios";
-import { useUserStore } from "@/services/authContext";
 import { Component, Mail, MailCheck } from "lucide-react";
+import { mutateLogin } from "@/services/apiCalls";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { USERS_QUERY } from "@/utils/constants";
 // validation
 const schema = z.object({
   email: z.string().email(),
@@ -16,13 +17,11 @@ const schema = z.object({
 });
 
 type FormFields = z.infer<typeof schema>;
-const LOGIN_URL = "auth/login";
 
 const Login = () => {
-  const { login } = useUserStore();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  // validation with zod and react useForm
   const {
     register,
     handleSubmit,
@@ -35,20 +34,16 @@ const Login = () => {
     resolver: zodResolver(schema),
   });
 
+  const handleLogin = useMutation({
+    mutationFn: async (data: LoginProps) => mutateLogin(data),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [USERS_QUERY] });
+    },
+  });
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
-      const response = await axios.post(LOGIN_URL, {
-        email: data.email,
-        password: data.password,
-      });
-
-      const token = response.data.access_token;
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      localStorage.setItem("accessToken", token);
-      if (token) {
-        login();
-        navigate("/");
-      }
+      handleLogin.mutate(data);
+      navigate("/");
     } catch (error) {
       setError("root", {
         message: "Something went wrong",
@@ -59,7 +54,7 @@ const Login = () => {
   return (
     <MaxWidthWrapper className="mt-10 mb-44">
       <form
-        className="flex flex-col w-80 rounded-lg bg-card m-auto p-4 gap-2"
+        className="flex flex-col w-80 rounded-lg bg-card border-border border-2 m-auto p-4 gap-2 "
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="m-auto font-bold">Sign in</h2>
@@ -90,7 +85,11 @@ const Login = () => {
               <div className="text-red-500">{errors.password.message}</div>
             )}
           </div>
-          <Button disabled={isSubmitting} type="submit">
+          <Button
+            variant={isSubmitting ? "secondary" : "default"}
+            disabled={isSubmitting}
+            type="submit"
+          >
             {isSubmitting ? "Loading..." : "Log in"}
           </Button>
           {errors.root && (

@@ -6,17 +6,29 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import InteractiveButton from "../InteractiveButton";
-import { FolderHeart, ShoppingCart, X } from "lucide-react";
+import {
+  ArrowBigDownDash,
+  ArrowBigUpDash,
+  FolderHeart,
+  Loader,
+  ShoppingCart,
+  X,
+} from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
 import { cn } from "@/lib/utils";
 import { Link, useNavigate } from "react-router-dom";
-import { addToCart, removeFromCart } from "@/services/useCartsQuery";
+import {
+  addToCart,
+  decreaseFromCart,
+  removeFromCart,
+} from "@/services/useCartsQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   addToFavorites,
   removeFromFavorites,
 } from "@/services/FavoritesStorage";
+import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 
 export default function ProductCard({
   image,
@@ -34,32 +46,45 @@ export default function ProductCard({
   showElement = true,
   isPageShopping = false,
   isPageFavorites = false,
+  removeCartItem = false,
 }: ProductData) {
   const queryClient = useQueryClient();
+
   const handleAddToCart = useMutation({
     mutationFn: async (item: string) => addToCart(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
   const removeFromCartMutation = useMutation({
+    mutationFn: async (item: string) => decreaseFromCart(item),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
+    },
+  });
+  const removeItem = useMutation({
     mutationFn: async (item: string) => removeFromCart(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
   const handleAddToFavorites = useMutation({
     mutationFn: async (item: string) => addToFavorites(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [FAVORITES_QUERY],
+      });
     },
   });
   const HandleRemoveFavorites = useMutation({
     mutationFn: async (item: string) => removeFromFavorites(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [FAVORITES_QUERY],
+      });
     },
   });
+  const buttonLoading = queryClient.isMutating();
   const navigate = useNavigate();
 
   return (
@@ -67,8 +92,8 @@ export default function ProductCard({
       onClick={onClick}
       className="flex  flex-col rounded-md hover:bg-secondary/40 justify-between"
     >
-      <Link to={`${link}`} className="">
-        <CardHeader className="gap-1 ">
+      <CardHeader className="gap-1 ">
+        <Link to={`${link}`}>
           <img
             src={image}
             alt={title}
@@ -77,26 +102,26 @@ export default function ProductCard({
               imageStyle
             )}
           />
-          <CardTitle className="line-clamp-1 px-3 ">{title}</CardTitle>
-          {showElement ? (
-            <InteractiveButton
-              title={category_name}
-              buttonVariant="ghost"
-              buttonClass=" lg:p-2 hover:scale-95"
-              showInfo
-              hoverSide="bottom"
-              hoverContent={`Go to ${category_name}`}
-              redirect={`/product-category/${category_name}`}
-              showDialog={false}
-              link
-            />
-          ) : null}
+        </Link>
+        <CardTitle className="line-clamp-1 px-3 ">{title}</CardTitle>
+        {showElement ? (
+          <InteractiveButton
+            title={category_name}
+            buttonVariant="ghost"
+            buttonClass=" lg:p-2 hover:scale-95"
+            showInfo
+            hoverSide="bottom"
+            hoverContent={`Go to ${category_name}`}
+            redirect={`/product-category/${category_name}`}
+            showDialog={false}
+            link
+          />
+        ) : null}
 
-          <CardDescription className="line-clamp-1 px-3">
-            {description}
-          </CardDescription>
-        </CardHeader>
-      </Link>
+        <CardDescription className="line-clamp-1 px-3">
+          {description}
+        </CardDescription>
+      </CardHeader>
       <CardFooter className="p-1 grid px-3">
         <div className="bg-background flex  rounded-md items-center justify-between ">
           <InteractiveButton
@@ -109,38 +134,50 @@ export default function ProductCard({
             hoverContent="Buy now"
             redirect={"/shopping"}
           />
+
           <InteractiveButton
             wrapperClass={cn(
               buttonVariants({
-                variant: "outline",
-                className: isInFavorites
-                  ? "rounded-none w-full lg:p-2 grid group cursor-pointer bg-primary"
+                variant: isInFavorites ? "default" : "outline",
+                className: isPageShopping
+                  ? "rounded-none w-full lg:p-2 grid group cursor-pointer grid items-center"
+                  : isInFavorites
+                  ? "rounded-none w-full mr-[2px] lg:p-2 grid group cursor-pointer bg-primary"
                   : "rounded-none w-full lg:p-2 grid group cursor-pointer ",
               })
             )}
             iconClass="group-hover:scale-125"
             showInfo
             icon
+            disabled={handleAddToCart.isPending}
             hoverSide="bottom"
             hoverContent={
-              isInFavorites
+              isPageShopping
+                ? "Add"
+                : isInFavorites
                 ? "Go to Favorites"
                 : isPageFavorites
                 ? "Remove favorited"
                 : "Add to Favorites"
             }
             onClick={
-              isPageFavorites
+              isPageShopping
+                ? () => handleAddToCart.mutate(secondId)
+                : isPageFavorites
                 ? () => HandleRemoveFavorites.mutate(id)
                 : isInFavorites
                 ? () => navigate("/favorites")
                 : () => handleAddToFavorites.mutate(id)
             }
           >
-            {isInFavorites ? (
+            {isPageShopping ? (
+              <ArrowBigUpDash />
+            ) : isInFavorites ? (
               <FolderHeart className="animate-bounce" />
             ) : isPageFavorites ? (
               <X />
+            ) : buttonLoading ? (
+              <Loader className="animate-spin" />
             ) : (
               <FolderHeart />
             )}
@@ -148,7 +185,7 @@ export default function ProductCard({
           <InteractiveButton
             wrapperClass={cn(
               buttonVariants({
-                variant: "outline",
+                variant: isInCart ? "default" : "outline",
                 className: isInCart
                   ? "rounded-none w-full lg:p-2 rounded-r-md group cursor-pointer bg-primary"
                   : "rounded-none w-full lg:p-2 rounded-r-md group cursor-pointer",
@@ -162,7 +199,7 @@ export default function ProductCard({
               isInCart
                 ? "Go to Shopping"
                 : isPageShopping
-                ? "Remove from Cart"
+                ? "Remove"
                 : "Add to Cart"
             }
             onClick={
@@ -176,11 +213,22 @@ export default function ProductCard({
             {isInCart ? (
               <ShoppingCart className="animate-pulse " />
             ) : isPageShopping ? (
-              <X />
+              <ArrowBigDownDash />
+            ) : buttonLoading ? (
+              <Loader className="animate-spin" />
             ) : (
               <ShoppingCart />
             )}
           </InteractiveButton>
+          {removeCartItem ? (
+            <X
+              display={buttonLoading}
+              className={twMerge(
+                "absolute top-2 left-2 bg-secondary rounded-md p-1 scale-125 hover:bg-primary cursor-pointer"
+              )}
+              onClick={() => removeItem.mutate(id)}
+            />
+          ) : null}
         </div>
       </CardFooter>
     </Card>

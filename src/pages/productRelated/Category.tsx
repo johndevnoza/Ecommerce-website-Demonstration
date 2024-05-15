@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { fetchFav } from "@/services/FavoritesStorage";
 import { useSingleCategoryQuery } from "@/services/productsQuery";
 import { fetchCarts } from "@/services/useCartsQuery";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
@@ -15,6 +15,7 @@ const Category = () => {
   const [minPrice, setMinPrice] = useState("");
   const [sales, setSales] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const queryClient = useQueryClient();
 
   const { data, isPending, error, refetch } = useSingleCategoryQuery(
     categoryName,

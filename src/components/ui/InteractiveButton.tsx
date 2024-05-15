@@ -4,6 +4,7 @@ import { Button } from "./button";
 import { useNavigate } from "react-router-dom";
 import { ReactNode } from "react";
 import useUserStore from "@/services/authContext";
+import { useUsersQuery } from "@/services/usersQuery";
 // this is a custom button component, which includes button variants and also redirections and hover infromations if required
 type Side = "top" | "bottom" | "left" | "right";
 type ButtonVariant =
@@ -28,6 +29,7 @@ type InteractButtonProps = {
   showDialog?: boolean;
   icon?: boolean;
   onClick?: (event: React.MouseEvent) => void;
+  disabled?: boolean;
 };
 const InteractiveButton: React.FC<InteractButtonProps> = ({
   children,
@@ -44,10 +46,10 @@ const InteractiveButton: React.FC<InteractButtonProps> = ({
   link = false,
   showDialog = true,
   wrapperClass,
+  disabled = false,
 }) => {
   const navigate = useNavigate();
-  const authorized = useUserStore((state) => state.authorized);
-
+  const { data: user } = useUsersQuery();
   return (
     <div onClick={onClick} className={wrapperClass}>
       <HoverInfoElement
@@ -58,10 +60,11 @@ const InteractiveButton: React.FC<InteractButtonProps> = ({
         <UnAuthedDialog noRestriction={!showDialog}>
           {!icon ? (
             <Button
+              disabled={disabled}
               variant={buttonVariant}
               className={buttonClass}
               onClick={() => {
-                if (authorized || link) {
+                if (user || link) {
                   navigate(redirect);
                 }
               }}

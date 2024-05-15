@@ -1,10 +1,15 @@
-import axios from "./baseURLAxios";
-export async function fetchAllProducts() {
-  return await axios.get(`product`).then((res) => res.data);
+import { axiosBase } from "./baseURLAxios";
+export async function fetchAllProducts(page: string) {
+  return await axiosBase
+    .get(`/product?page=${page}&pageSize=4`)
+    .then((res) => res.data);
+}
+export async function fetchSales() {
+  return await axiosBase.get(`/product?onlySales=true`).then((res) => res.data);
 }
 
 export async function fetchCategories() {
-  return await axios.get(`product-category`).then((res) => res.data);
+  return await axiosBase.get(`product-category`).then((res) => res.data);
 }
 
 export async function fetchSingleCategory(
@@ -24,16 +29,16 @@ export async function fetchSingleCategory(
     url += `&&onlySales=${salesFetch}`;
   }
 
-  return await axios.get(url).then((res) => res.data);
+  return await axiosBase.get(url).then((res) => res.data);
 }
 
 export async function fetchProductSearch(searchUrl: string) {
-  return await axios
-    .get(`product?productName=${searchUrl}`)
+  return await axiosBase
+    .get(`product?productName=${searchUrl.toLowerCase()}`)
     .then((res) => res.data);
 }
 export async function fetchSingle(productId: string) {
-  return await axios
+  return await axiosBase
     .get(`/product?productName=${productId}`)
     .then((res) => res.data);
 }

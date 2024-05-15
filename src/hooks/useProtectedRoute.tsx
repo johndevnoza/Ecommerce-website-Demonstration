@@ -1,4 +1,3 @@
-import useUserStore from "@/services/authContext";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import {
   AlertDialog,
@@ -10,19 +9,18 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useUsersQuery } from "@/services/usersQuery";
 // this hook is responsible to automaticly redirect users to the login page, if they dont have a permission
 const UseProtectedRoute = () => {
   const navigate = useNavigate();
-
-  const authorized = useUserStore((state) => state.authorized);
+  const { data: user } = useUsersQuery();
   return (
     <>
-      {authorized ? (
+      {user ? (
         <Outlet />
       ) : (
         <AlertDialog defaultOpen>
           <AlertDialogTrigger>asdasd</AlertDialogTrigger>
-          {/* <Navigate to={"/login"} state={{ from: location }} replace /> */}
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>

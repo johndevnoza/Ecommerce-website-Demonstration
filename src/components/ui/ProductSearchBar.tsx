@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { XCircle } from "lucide-react";
+import { Circle, LoaderIcon, XCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductSearch } from "@/services/productsApi";
 import { useState } from "react";
@@ -16,11 +16,11 @@ const ProductSearchBar = () => {
     []
   );
   const debauncedSearch = useDebounce(searchTerm);
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["productSearch", debauncedSearch],
     queryFn: () => fetchProductSearch(searchTerm),
   });
-  const products: ProductData[] = data?.products || [];
+  const products: ProductData[] = data?.products || null;
 
   const [isSearching, setIsSearching] = useState(false);
   const handleBlur = () => {
@@ -32,10 +32,10 @@ const ProductSearchBar = () => {
   const handleFocus = () => {
     setIsSearching(true);
   };
+  const tvinimometyna = products?.length === 0;
 
   return (
     <div className="w-full grid place-items-center relative">
-      {/* focusing search input */}
       {isSearching ? (
         <div className=" z-10 inset-0 bg-black/80 blur-lg fixed"></div>
       ) : null}
@@ -48,6 +48,9 @@ const ProductSearchBar = () => {
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
+        {isFetching && isSearching ? (
+          <LoaderIcon className="absolute right-[28%] top-2  z-40 animate-spin" />
+        ) : null}
       </div>
       {searchTerm && (
         <XCircle
@@ -57,6 +60,7 @@ const ProductSearchBar = () => {
       )}
       {searchTerm ? (
         <SearchResults
+          isResult={tvinimometyna}
           clearInput={() => setSearchTerm("")}
           searchingProducts={products}
           searchUrl={debauncedSearch}

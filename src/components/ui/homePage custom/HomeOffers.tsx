@@ -9,14 +9,23 @@ import {
 import { t } from "i18next";
 import { Link } from "react-router-dom";
 import { CardTitle } from "../card";
-import { useAllProductsQuery } from "@/services/productsQuery";
+import { useSalesQuery } from "@/services/productsQuery";
 import InteractiveButton from "../InteractiveButton";
 import HoverInfoElement from "../HoverInfoElement";
+import { ProductsLoading } from "../loadings/ProductListLoading";
 
 const HomeOffers: React.FC = () => {
-  const { data, isPending, error } = useAllProductsQuery();
-  if (isPending) return <div>testing</div>;
-  if (error) return "An error has occurred: " + error.message;
+  const {
+    data: salesData,
+    isLoading: salesPending,
+    error: salesError,
+  } = useSalesQuery();
+
+  if (salesPending) return <ProductsLoading homePageOffers numberOfCards={4} />;
+  if (salesError)
+    return (
+      <div>An error has occurred: {salesError ? salesError.message : null}</div>
+    );
 
   return (
     <>
@@ -36,21 +45,21 @@ const HomeOffers: React.FC = () => {
         </div>
         <Carousel>
           <CarouselContent>
-            {data.products.map((item: ProductData) => (
+            {salesData.products?.map((item: ProductData) => (
               <CarouselItem
                 key={item.id}
-                className="basis-1/2 md:basis-1/3 lg:basis-1/4 "
+                className=" min-[375px]:basis-1/2 md:basis-1/3 lg:basis-1/4 "
               >
                 <div>
-                  <div className="bg-card rounded-md">
-                    <div className="flex flex-col gap-4 p-2 lg:p-4">
+                  <div className="bg-card rounded-md ">
+                    <div className="flex flex-col gap-4 p-2 lg:p-4 border-2 rounded-md border-border">
                       <div className="flex flex-row items-center justify-between bg-background rounded-lg ">
                         <CardTitle className="line-clamp-1 text-center justify-center px-3">
                           {t(item.title)}
                         </CardTitle>
                         <div className="flex">
                           <InteractiveButton
-                            title={`${item.price - 40}$`}
+                            title={`${item.price}$`}
                             wrapperClass="rounded-none "
                             buttonVariant="default"
                             buttonClass="w-full lg:p-2 rounded-r-none w-full"
@@ -66,7 +75,7 @@ const HomeOffers: React.FC = () => {
                           >
                             <Button
                               variant={"ghost"}
-                              className="rounded-s-none md:p-2"
+                              className="rounded-s-none md:p-2 border-border border-2 line-through"
                               disabled
                             >
                               {item.price - 1}$

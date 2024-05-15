@@ -10,10 +10,12 @@ import UseProtectedRoute from "./hooks/useProtectedRoute";
 import Category from "@/pages/productRelated/Category";
 import Categories from "@/pages/productRelated/Categories";
 import Shopping from "./pages/userRelated/Shopping";
-import Profile from "./components/user/NavProfile";
 import Carts from "./pages/userRelated/Carts";
 import Favorites from "./pages/userRelated/Favorites";
 import Sales from "./pages/productRelated/Sales";
+import Profile from "./pages/userRelated/Profile";
+import Orders from "./pages/userRelated/Orders";
+import ProfileDetails from "./pages/userRelated/ProfileDetails";
 
 function App() {
   return (
@@ -21,7 +23,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
+        <Route
+          path="/products/page/:page"
+          element={<Products isHomePage={false} />}
+        />
         <Route path="/product/productName/:id" element={<Product />} />
         <Route path="/product-category" element={<Categories />}>
           <Route path=":categoryName" element={<Category />} />
@@ -30,8 +35,12 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route element={<UseProtectedRoute />}>
           <Route path="/shopping" element={<Shopping />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/cart" element={<Carts />} />
+          <Route path="/profile" element={<Profile />}>
+            <Route path="/profile/Details" element={<ProfileDetails />} />
+            <Route path="/profile/Orders" element={<Orders />} />
+            <Route path="/profile/Favorites" element={<Favorites />} />
+            <Route path="/profile/Cart" element={<Carts />} />
+          </Route>
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/sales" element={<Sales />} />
         </Route>

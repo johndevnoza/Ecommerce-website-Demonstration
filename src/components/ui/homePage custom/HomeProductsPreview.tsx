@@ -1,33 +1,40 @@
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { FolderHeart, ShoppingCart } from "lucide-react";
+import { FolderHeart, Loader, Loader2, ShoppingCart } from "lucide-react";
 import InteractiveButton from "../InteractiveButton";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "@/services/useCartsQuery.tsx";
 import { addToFavorites } from "@/services/FavoritesStorage";
 import { fetchAllProducts } from "@/services/productsApi";
+import {
+  CARTS_QUERY,
+  FAVORITES_QUERY,
+  PRODUCTS_QUERY,
+} from "@/utils/constants";
 
 const HomeProductsPreview: React.FC = () => {
   const queryClient = useQueryClient();
   const { data, isPending, error } = useQuery({
-    queryKey: ["allProducts"],
+    queryKey: [PRODUCTS_QUERY],
+    staleTime: Infinity,
     queryFn: fetchAllProducts,
   });
 
   const handleAddToCart = useMutation({
     mutationFn: async (item: string) => addToCart(item),
-    onSuccess: () => {
-      queryClient.refetchQueries();
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
 
   const handleAddToFavorites = useMutation({
     mutationFn: async (item: string) => addToFavorites(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["Favorites"] });
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [FAVORITES_QUERY] });
     },
   });
+
   if (isPending) return <div>testing</div>;
   if (error) return "An error has occurred: " + error.message;
   return (
@@ -45,7 +52,7 @@ const HomeProductsPreview: React.FC = () => {
           showDialog={false}
         />
       </div>
-      <div className="grid md:grid-cols-3 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-5  lg:gap-x-2 ">
+      <div className="grid min-[375px]:grid-cols-1 md:grid-cols-3 gap-y-6 grid-cols-2  gap-x-6 lg:grid-cols-5  lg:gap-x-2 ">
         {data.products.map((item: ProductData) => (
           <div
             key={item.id}
@@ -70,7 +77,7 @@ const HomeProductsPreview: React.FC = () => {
                 hoverContent="Buy now"
                 redirect="/shopping"
               />
-          <div>{item.count}</div>
+              <div>{item.count}</div>
               <InteractiveButton
                 wrapperClass={cn(
                   buttonVariants({
@@ -105,13 +112,6 @@ const HomeProductsPreview: React.FC = () => {
               >
                 <ShoppingCart />
               </InteractiveButton>
-              {/* <div
-                onClick={() => {
-                  removeFromCartMutation.mutate(item);
-                }}
-              >
-                remove
-              </div> */}
             </div>
           </div>
         ))}

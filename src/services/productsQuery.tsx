@@ -2,20 +2,36 @@ import { useQuery } from "@tanstack/react-query";
 import {
   fetchAllProducts,
   fetchCategories,
+  fetchProductSearch,
+  fetchSales,
   fetchSingleCategory,
 } from "./productsApi";
 import { useSearchParams } from "react-router-dom";
+import {
+  CATEGORIES_QUERY,
+  CATEGORY_QUERY,
+  PRODUCTS_QUERY,
+  SEARCH_QUERY,
+} from "@/utils/constants";
 
-export function useAllProductsQuery() {
+export function useAllProductsQuery(page: string) {
   return useQuery({
-    queryKey: ["allProducts"],
-    queryFn: fetchAllProducts,
+    queryKey: [PRODUCTS_QUERY, page],
+    queryFn: () => fetchAllProducts(page),
+    staleTime: Infinity,
+  });
+}
+export function useSalesQuery() {
+  return useQuery({
+    queryKey: ["sales", fetchSales],
+    queryFn: fetchSales,
+    staleTime: Infinity,
   });
 }
 
 export function useCategoriesQuery() {
   return useQuery({
-    queryKey: ["categories"],
+    queryKey: [CATEGORIES_QUERY, fetchCategories],
     queryFn: fetchCategories,
   });
 }
@@ -34,7 +50,7 @@ export function useSingleCategoryQuery(
   });
 
   return useQuery({
-    queryKey: ["singleCategory", queryParams.toString()],
+    queryKey: [CATEGORY_QUERY, queryParams.toString()],
     queryFn: () =>
       fetchSingleCategory(
         categoryName!,
@@ -43,6 +59,13 @@ export function useSingleCategoryQuery(
         salesFetch
       ),
     enabled: !!categoryName,
+  });
+}
+export function useSearchQuery() {
+  return useQuery({
+    queryKey: [SEARCH_QUERY],
+    queryFn: () => fetchProductSearch,
+    staleTime: Infinity,
   });
 }
 // export function useProductSearchQuery(searchTerm: string ) {

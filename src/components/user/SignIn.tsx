@@ -3,7 +3,7 @@ import { User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { buttonVariants } from "../ui/button";
 
-export default function SignIn() {
+export default function SignIn(): JSX.Element {
   return (
     <Link
       to={"/login"}

@@ -12,19 +12,25 @@ type HoverElementProps = {
   hoverContent?: string;
   side?: Side;
   shouldHover?: boolean;
+  hoverContentStyle?: string;
 };
 const HoverInfoElement = ({
   children,
   hoverContent,
   side = "left",
   shouldHover = false,
+  hoverContentStyle
 }: PropsWithChildren<HoverElementProps>) => {
   return (
     <>
       {shouldHover ? (
-        <HoverCard >
+        <HoverCard>
           <HoverCardTrigger>{children}</HoverCardTrigger>
-          <HoverCardContent side={side} align="end">
+          <HoverCardContent
+            className={hoverContentStyle}
+            side={side}
+            align="end"
+          >
             {hoverContent}
           </HoverCardContent>
         </HoverCard>
