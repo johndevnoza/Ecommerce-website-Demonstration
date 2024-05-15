@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
-const profileNav = ["Details", "Favorites", "Orders", "Cart"];
+const profileNav = ["Details", "Orders", "Statistics"];
+
 const Profile = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,7 +14,7 @@ const Profile = () => {
     mutationFn: async () => {
       localStorage.removeItem("accessToken"), navigate("/");
     },
-    onSuccess: () => {
+    onSettled: () => {
       queryClient.removeQueries();
       queryClient.refetchQueries();
     },

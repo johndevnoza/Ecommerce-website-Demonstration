@@ -11,10 +11,11 @@ import {
   CATEGORIES_QUERY,
   CATEGORY_QUERY,
   PRODUCTS_QUERY,
+  SALES_QUERY,
   SEARCH_QUERY,
 } from "@/utils/constants";
 
-export function useAllProductsQuery(page: string) {
+export function useAllProductsQuery(page: string | number) {
   return useQuery({
     queryKey: [PRODUCTS_QUERY, page],
     queryFn: () => fetchAllProducts(page),
@@ -23,7 +24,7 @@ export function useAllProductsQuery(page: string) {
 }
 export function useSalesQuery() {
   return useQuery({
-    queryKey: ["sales", fetchSales],
+    queryKey: [SALES_QUERY, fetchSales],
     queryFn: fetchSales,
     staleTime: Infinity,
   });
@@ -68,9 +69,3 @@ export function useSearchQuery() {
     staleTime: Infinity,
   });
 }
-// export function useProductSearchQuery(searchTerm: string ) {
-//   return useQuery({
-//     queryKey: ["productSearch", searchTerm],
-//     queryFn: () => fetchProductSearch(searchTerm),
-//   });
-// }

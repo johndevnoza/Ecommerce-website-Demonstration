@@ -60,7 +60,7 @@ const Favorites = () => {
           <Button className="" variant={"secondary"}>
             Favorited
           </Button>
-          <div className="flex gap-4 items-center  w-[50%]">
+          <div className="flex gap-4 items-center  w-[40%]">
             {favorites ? (
               <div className="relative min-w-full">
                 <Input
@@ -68,7 +68,7 @@ const Favorites = () => {
                   value={favoritesTerm}
                   onChange={handleSearchTermChange}
                   placeholder="Search favorited"
-                  className="min-w-[60%]"
+                  className="min-w-[30%]"
                 />
                 {debauncedSearch && (
                   <XCircle
@@ -81,10 +81,12 @@ const Favorites = () => {
                 ) : null}
               </div>
             ) : null}
-            <div className="min-w-[40%]">
+            <div className="min-w-24 line-clamp-1">
               {favoritesTerm !== "" ? (
                 filterFavorites ? (
-                  <div>Found {filterFavorites.length}</div>
+                  <div className="hidden md:block">
+                    Found {filterFavorites.length}
+                  </div>
                 ) : (
                   <div>Not Found</div>
                 )
@@ -94,20 +96,16 @@ const Favorites = () => {
           <div className=" place-self-end py-2 h-full">
             {favoritesTerm === "" ? (
               filterFavorites?.length ? (
-                <span className="font-bold ">
-                  Total favorited items {favoritesTotal}
+                <span className="font-bold p-4">
+                  Total items{favoritesTotal}
                 </span>
               ) : isFetching ? (
                 <Loader2 />
-              ) : (
-                <Button onClick={() => navigate(-1)} size={"sm"}>
-                  Back
-                </Button>
-              )
+              ) : null
             ) : (
-              <span className="font-bold ">
-                Total favorited items {favoritesTotal}
-              </span>
+              <div className="font-bold min-w-0">
+                Total items{favoritesTotal}
+              </div>
             )}
           </div>
         </header>

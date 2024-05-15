@@ -3,16 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-// import FooterList from "./FooterList";
 
-// const navigation: string[] = [
-//   "About us",
-//   "Terms and Conditions",
-//   "Corporate Sales",
-//   "Delivery Service",
-//   "Carrer",
-//   "Trade In",
-// ];
 export default function Footer() {
   const { t } = useTranslation();
 

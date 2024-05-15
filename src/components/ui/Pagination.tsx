@@ -1,58 +1,57 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./button";
-import { useQueryClient } from "@tanstack/react-query";
-import { PRODUCTS_QUERY } from "@/utils/constants";
 
 type PaginationProps = {
-  previous: bigint;
-  next: bigint;
+  previous: string | number | bigint;
+  next: string | number | bigint;
   totalPage: number[];
   currentPage: number | string;
+  isFetching: boolean;
 };
 
-const Pagination = ({
+const Pagination: React.FC<PaginationProps> = ({
   previous,
   next,
   totalPage,
   currentPage,
-}: PaginationProps) => {
-  const queryClient = useQueryClient();
+  isFetching,
+}) => {
 
+  const navigate = useNavigate();
   return (
-    <div className="flex gap-2 border-border border-2 p-2 rounded-sm items-center justify-around w-min">
-      <Link
-        onClick={() =>
-          queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY] })
-        }
-        to={`/products/page/${previous}`}
+    <div className="flex gap-2 border-border border-2 p-2 rounded-lg items-center justify-around w-min mb-10 mt-20">
+      <Button
+        variant={currentPage == 1 ? "secondary" : "default"}
+        disabled={currentPage == 1 || isFetching}
+        className="rounded-r-none"
+        onClick={() => {
+          navigate(`/products/page/${previous}`);
+        }}
       >
         Previous
-      </Link>
+      </Button>
       {totalPage?.map((pageNumber) => (
-        <Link key={pageNumber} to={`/products/page/${pageNumber}`}>
-          <Button
-            variant={
-              Number(currentPage) !== pageNumber ? "secondary" : "default"
-            }
-          >
-            {pageNumber}
-          </Button>
-        </Link>
-      ))}
-      <Link
-        onClick={(e) =>
-          queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY] })
-        }
-        to={`/products/page/${next}`}
-        className={currentPage == totalPage?.length ? "cursor-not-allowed" : ""}
-      >
         <Button
-          variant={currentPage == totalPage?.length ? "secondary" : "default"}
-          disabled={currentPage == totalPage?.length}
+          key={pageNumber}
+          onClick={() => navigate(`/products/page/${pageNumber}`)}
+          variant={Number(currentPage) !== pageNumber ? "secondary" : "default"}
+          className="rounded-none"
+          disabled={isFetching}
         >
-          asd
+          {pageNumber}
         </Button>
-      </Link>
+      ))}
+
+      <Button
+        variant={currentPage == totalPage?.length ? "secondary" : "default"}
+        disabled={currentPage == totalPage?.length || isFetching}
+        className="rounded-l-none"
+        onClick={() => {
+         navigate(`/products/page/${String(next)}`);
+        }}
+      >
+        Next
+      </Button>
     </div>
   );
 };

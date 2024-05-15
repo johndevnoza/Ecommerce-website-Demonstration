@@ -1,5 +1,5 @@
 import { axiosBase } from "./baseURLAxios";
-export async function fetchAllProducts(page: string) {
+export async function fetchAllProducts(page: string | number) {
   return await axiosBase
     .get(`/product?page=${page}&pageSize=4`)
     .then((res) => res.data);

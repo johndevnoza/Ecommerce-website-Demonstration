@@ -36,7 +36,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
-  const { data: user, isLoading, isPending } = useUsersQuery();
+  const { data: user } = useUsersQuery();
 
   const {
     register,
@@ -64,13 +64,7 @@ const Register = () => {
       console.log("try");
     }
   };
-  // if (!isPending) {
-  //   return (
-  //     <MaxWidthWrapper className="grid place-items-center">
-  //       <div className="bg-secondary h-[400px] w-[300px] border-border border-2 animate-pulse my-10 mb-10 rounded-lg"></div>
-  //     </MaxWidthWrapper>
-  //   );
-  // }
+
   return (
     <MaxWidthWrapper className="grid place-items-center">
       {user ? (

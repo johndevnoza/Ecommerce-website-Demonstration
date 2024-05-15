@@ -2,23 +2,16 @@ import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import useSearchStore from "@/services/searchContext";
 import { useAllProductsQuery } from "@/services/productsQuery";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { fetchFav } from "@/services/FavoritesStorage";
 import InteractiveButton from "@/components/ui/InteractiveButton";
-import {
-  CARTS_QUERY,
-  FAVORITES_QUERY,
-  PRODUCTS_QUERY,
-} from "@/utils/constants";
+import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 import { ProductsLoading } from "@/components/ui/loadings/ProductListLoading";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Pagination from "@/components/ui/Pagination";
 
 export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
-  const queryClient = useQueryClient();
-
   const { data: carts } = useQuery({
     queryKey: [CARTS_QUERY, fetchCarts],
     queryFn: fetchCarts,
@@ -35,9 +28,8 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
   const { isSearchActive } = useSearchStore();
   const goBlur: string = "blur mt-10 mb-44";
 
-  const { page = 1 } = useParams();
+  const page = Number(useParams().page);
   const { isPending, error, data, isLoading } = useAllProductsQuery(page);
-  console.log(page, "page");
 
   const itemsPerPage = 4;
   const totalPages = Math.ceil(data?.total / itemsPerPage);
@@ -45,7 +37,6 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
     { length: totalPages },
     (_, index) => index + 1
   );
-console.log(pageNumbers.length,"total");
 
   if (isPending || isLoading)
     return (
@@ -53,7 +44,16 @@ console.log(pageNumbers.length,"total");
         {isHomePage ? (
           <ProductsLoading homePageProducts={isHomePage} numberOfCards={4} />
         ) : (
-          <ProductsLoading products numberOfCards={4} />
+          <div className="flex flex-col items-center">
+            <ProductsLoading products numberOfCards={4} />
+            <Pagination
+              totalPage={pageNumbers}
+              currentPage={page}
+              previous={page - 1}
+              next={page + 1}
+              isFetching={isLoading}
+            />
+          </div>
         )}
       </>
     );
@@ -70,7 +70,7 @@ console.log(pageNumbers.length,"total");
             buttonVariant="secondary"
             buttonClass="w-min"
             link
-            redirect={`/products/page/${page}`}
+            redirect={`/products/page/${1}`}
             showInfo
             hoverSide="right"
             hoverContent="View all products in details"
@@ -100,7 +100,8 @@ console.log(pageNumbers.length,"total");
               totalPage={pageNumbers}
               currentPage={page}
               previous={page - 1}
-              next={parseInt(page) + 1}
+              next={page + 1}
+              isFetching={isLoading}
             />
           ) : null}
         </div>

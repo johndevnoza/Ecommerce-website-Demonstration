@@ -27,6 +27,8 @@ import {
 } from "@/services/useCartsQuery.tsx";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CARTS_QUERY } from "@/utils/constants.tsx";
+import CartList from "./CartList.tsx";
+import { useConditionalEffect } from "@/hooks/useConditionalEffect.tsx";
 
 const Cart: React.FC = () => {
   const queryClient = useQueryClient();
@@ -58,7 +60,7 @@ const Cart: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
-
+  const addToCartAnimation = useConditionalEffect(data, "cart");
   if (isLoading || isPending) {
     return (
       <div className="border-border border-2 rounded-sm p-1 grid items-center">
@@ -75,7 +77,7 @@ const Cart: React.FC = () => {
             color={
               numberOfItems > 0 ? "hsl(var(--primary))" : "hsl(var(--muted))"
             }
-            className=""
+            className={addToCartAnimation}
           />
           {isPending ? (
             <div>Ts..</div>
@@ -101,59 +103,13 @@ const Cart: React.FC = () => {
             <div className="flex justify-between">
               <div> Cart items {numberOfItems}</div>
             </div>
-            <div className="flex w-full p-1 flex-col pr-6 overflow-y-auto flex-grow">
-              <div className="flex flex-col gap-2 ">
-                <div className="flex flex-col gap-2">
-                  {data.map((item: CartProduct) => (
-                    <Link
-                      to={`/product/productName/${item.cartProduct.title}`}
-                      className="flex justify-between gap-2 items-center rounded-md ring-secondary ring-1  hover:bg-secondary"
-                      key={item.cartProduct.id}
-                    >
-                      <div className="flex gap-1 ml-1  w-32 line-clamp-1">
-                        <div className="w-[30%]"> {item.cartProduct.title}</div>
-                      </div>
-                      <div>{item.count}X</div>
-                      <div> {item.count * item.cartProduct.price}$</div>
-                      <div className="flex h-full max-w-full bg-secondary rounded-md ">
-                        <div className="flex flex-col">
-                          <ArrowBigUpDash
-                            className=" h-full rounded-r-none hover:bg-background hover:rounded-l-md"
-                            onClick={(event) => {
-                              event.preventDefault();
-                              addToCartMutation.mutate(item.cartProduct.id);
-                            }}
-                          />
-                          {isLoading ? (
-                            <div>O</div>
-                          ) : (
-                            <ArrowBigDownDash
-                              className=" h-full rounded-r-none hover:bg-background hover:rounded-l-md"
-                              onClick={(event) => {
-                                event.preventDefault();
-                                removeFromCartMutation.mutate(item.id);
-                              }}
-                            />
-                          )}
-                        </div>
-                        <img
-                          src={item.cartProduct.image}
-                          alt=""
-                          className="size-24  rounded-none "
-                        />
-                        <X
-                          onClick={(event) => {
-                            event.preventDefault();
-                            removeItem.mutate(item.id);
-                          }}
-                          className="transform-gpu hover:scale-110 h-full  rounded-md rounded-l-none py-1 transition-transform duration-100 "
-                        />
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <CartList
+              data={data}
+              isLoading={isLoading}
+              addToCartMutation={addToCartMutation.mutate}
+              removeFromCartMutation={removeFromCartMutation.mutate}
+              removeItem={removeItem.mutate}
+            />
             <div className="space-y-4 pr-6">
               <Separator />
               <div className="space-y-1.5 text-sm">

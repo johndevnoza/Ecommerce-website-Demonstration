@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
-import { Button, buttonVariants } from "../../ui/button";
+import { buttonVariants } from "../../ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductSearchBar from "@/components/ui/ProductSearchBar";
@@ -83,7 +83,6 @@ export default function Header() {
             </div>
             <BurgerMenuTest user={user} />
           </div>
-          {/* </div> */}
         </MaxWidthWrapper>
       </header>
     </div>
