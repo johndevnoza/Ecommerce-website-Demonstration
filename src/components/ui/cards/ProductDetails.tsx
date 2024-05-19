@@ -1,5 +1,4 @@
 import {
-  Card,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -20,8 +19,12 @@ import {
   X,
 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addToFavorites, removeFromFavorites } from "@/services/FavoritesStorage";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "@/services/FavoritesStorage";
 import { useNavigate } from "react-router-dom";
+import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 
 export default function ProductDetails({
   image,
@@ -40,26 +43,27 @@ export default function ProductDetails({
   const queryClient = useQueryClient();
   const handleAddToCart = useMutation({
     mutationFn: async (item: string) => addToCart(item),
-    onSuccess: () => {
-      queryClient.refetchQueries();
+    onSettled: () => {
+      queryClient.refetchQueries({ queryKey: [CARTS_QUERY] });
+    },
+  });
+
+  const removeFromCartMutation = useMutation({
+    mutationFn: async (item: string) => removeFromCart(item),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
   const handleAddToFavorites = useMutation({
     mutationFn: async (item: string) => addToFavorites(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-    },
-  });
-  const removeFromCartMutation = useMutation({
-    mutationFn: async (item: string) => removeFromCart(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [FAVORITES_QUERY] });
     },
   });
   const HandleRemoveFavorites = useMutation({
     mutationFn: async (item: string) => removeFromFavorites(item),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [FAVORITES_QUERY] });
     },
   });
   const navigate = useNavigate();
@@ -90,9 +94,11 @@ export default function ProductDetails({
         <CardTitle className="p-0 min-w-0 ">{title}</CardTitle>
         <CardDescription className="line-clamp-6 max-w-max group-hover:line-clamp-none group-hover:mt-2 transition-all">
           {description}
-          sadasdasd asd adas dasd asd asd asdad asd asd asd asd asd asd as asd
-          asdasd asd asd asd asdad asd asd asd asd asd asd as asd asdasd asd asd
-          asd asdad asd asd asd asd asd asd as asd asdasd asd
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga harum,
+          laborum neque deleniti placeat blanditiis, similique corporis fugit
+          dolores suscipit possimus distinctio? Fugit eaque at, neque culpa
+          possimus saepe dignissimos, voluptates consequatur, dolorem
+          consequuntur odit id doloremque perspiciatis nam sunt!
         </CardDescription>
       </CardHeader>
       <div className="bg-background min-w-1 lg:w-2"></div>
@@ -225,7 +231,6 @@ export default function ProductDetails({
           </InteractiveButton>
         </div>
       </CardFooter>
-      <div></div>
     </MaxWidthWrapper>
   );
 }

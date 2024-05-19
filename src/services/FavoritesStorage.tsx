@@ -24,5 +24,6 @@ export function favoritesQuery() {
   return useQuery({
     queryKey: [FAVORITES_QUERY],
     queryFn: () => fetchFav(),
+    refetchOnWindowFocus: true,
   });
 }

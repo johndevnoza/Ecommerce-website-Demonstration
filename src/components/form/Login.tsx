@@ -2,14 +2,13 @@
 import { z } from "zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import MaxWidthWrapper from "../ui/MaxWidthWrapper";
-import { Component, Mail, MailCheck } from "lucide-react";
-import { mutateLogin } from "@/services/apiCalls";
+import { Component, Loader2Icon, Mail, MailCheck } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { USERS_QUERY } from "@/utils/constants";
+import { mutateLogin } from "@/services/apiCalls";
+import MaxWidthWrapper from "../ui/MaxWidthWrapper";
 // validation
 const schema = z.object({
   email: z.string().email(),
@@ -35,20 +34,19 @@ const Login = () => {
   });
 
   const handleLogin = useMutation({
-    mutationFn: async (data: LoginProps) => mutateLogin(data),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [USERS_QUERY] });
+    mutationFn: async (data: LoginProps) => await mutateLogin(data, navigate),
+    onSettled: async () => {
+      await queryClient.invalidateQueries();
+    },
+    onError: (error: Error) => {
+      setError("root", {
+        message: error.message,
+      });
     },
   });
+
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    try {
-      handleLogin.mutate(data);
-      navigate("/");
-    } catch (error) {
-      setError("root", {
-        message: "Something went wrong",
-      });
-    }
+    handleLogin.mutate(data);
   };
 
   return (
@@ -85,13 +83,19 @@ const Login = () => {
               <div className="text-red-500">{errors.password.message}</div>
             )}
           </div>
-          <Button
-            variant={isSubmitting ? "secondary" : "default"}
-            disabled={isSubmitting}
-            type="submit"
-          >
-            {isSubmitting ? "Loading..." : "Log in"}
-          </Button>
+          <div className="w-full relative">
+            <Button
+              variant={isSubmitting ? "secondary" : "default"}
+              disabled={handleLogin.isPending}
+              className="w-full"
+              type="submit"
+            >
+              {isSubmitting ? "Loading..." : "Log in"}
+            </Button>
+            {handleLogin.isPending ? (
+              <Loader2Icon className="absolute top-2 right-24 animate-spin" />
+            ) : null}
+          </div>
           {errors.root && (
             <div className="text-red-500">{errors.root.message}</div>
           )}

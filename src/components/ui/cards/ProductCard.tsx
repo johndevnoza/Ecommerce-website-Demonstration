@@ -56,7 +56,7 @@ export default function ProductCard({
       queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
-  const removeFromCartMutation = useMutation({
+  const handleDecreaseCart = useMutation({
     mutationFn: async (item: string) => decreaseFromCart(item),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
@@ -84,13 +84,12 @@ export default function ProductCard({
       });
     },
   });
-  const buttonLoading = queryClient.isMutating();
   const navigate = useNavigate();
 
   return (
     <Card
       onClick={onClick}
-      className="flex  flex-col rounded-md hover:bg-secondary/40 justify-between"
+      className="flex  flex-col rounded-md hover:bg-secondary/40 justify-between "
     >
       <CardHeader className="gap-1 ">
         <Link to={`${link}`}>
@@ -140,7 +139,7 @@ export default function ProductCard({
               buttonVariants({
                 variant: isInFavorites ? "default" : "outline",
                 className: isPageShopping
-                  ? "rounded-none w-full lg:p-2 grid group cursor-pointer grid items-center"
+                  ? "rounded-none w-full lg:p-2 grid group cursor-pointer grid items-center bg-bg"
                   : isInFavorites
                   ? "rounded-none w-full mr-[2px] lg:p-2 grid group cursor-pointer bg-primary"
                   : "rounded-none w-full lg:p-2 grid group cursor-pointer ",
@@ -149,7 +148,6 @@ export default function ProductCard({
             iconClass="group-hover:scale-125"
             showInfo
             icon
-            disabled={handleAddToCart.isPending}
             hoverSide="bottom"
             hoverContent={
               isPageShopping
@@ -176,7 +174,7 @@ export default function ProductCard({
               <FolderHeart className="animate-bounce" />
             ) : isPageFavorites ? (
               <X />
-            ) : buttonLoading ? (
+            ) : handleAddToFavorites.isPending ? (
               <Loader className="animate-spin" />
             ) : (
               <FolderHeart />
@@ -204,7 +202,7 @@ export default function ProductCard({
             }
             onClick={
               isPageShopping
-                ? () => removeFromCartMutation.mutate(id)
+                ? () => handleDecreaseCart.mutate(id)
                 : isInCart
                 ? () => navigate("/shopping")
                 : () => handleAddToCart.mutate(secondId)
@@ -214,7 +212,7 @@ export default function ProductCard({
               <ShoppingCart className="animate-pulse " />
             ) : isPageShopping ? (
               <ArrowBigDownDash />
-            ) : buttonLoading ? (
+            ) : handleAddToCart.isPending ? (
               <Loader className="animate-spin" />
             ) : (
               <ShoppingCart />
@@ -222,7 +220,6 @@ export default function ProductCard({
           </InteractiveButton>
           {removeCartItem ? (
             <X
-              display={buttonLoading}
               className={twMerge(
                 "absolute top-2 left-2 bg-secondary rounded-md p-1 scale-125 hover:bg-primary cursor-pointer"
               )}

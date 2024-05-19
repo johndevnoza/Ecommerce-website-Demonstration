@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Circle, LoaderIcon, XCircle } from "lucide-react";
+import { LoaderIcon, XCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductSearch } from "@/services/productsApi";
 import { useState } from "react";
@@ -18,7 +18,7 @@ const ProductSearchBar = () => {
   const debauncedSearch = useDebounce(searchTerm);
   const { data, isFetching } = useQuery({
     queryKey: ["productSearch", debauncedSearch],
-    queryFn: () => fetchProductSearch(searchTerm),
+    queryFn: () => fetchProductSearch(debauncedSearch),
   });
   const products: ProductData[] = data?.products || null;
 
@@ -32,7 +32,7 @@ const ProductSearchBar = () => {
   const handleFocus = () => {
     setIsSearching(true);
   };
-  const tvinimometyna = products?.length === 0;
+  const isResult = products?.length === 0;
 
   return (
     <div className="w-full grid place-items-center relative">
@@ -60,7 +60,7 @@ const ProductSearchBar = () => {
       )}
       {searchTerm ? (
         <SearchResults
-          isResult={tvinimometyna}
+          isResult={isResult}
           clearInput={() => setSearchTerm("")}
           searchingProducts={products}
           searchUrl={debauncedSearch}

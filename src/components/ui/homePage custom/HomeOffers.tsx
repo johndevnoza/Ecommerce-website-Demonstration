@@ -9,17 +9,22 @@ import {
 import { t } from "i18next";
 import { Link } from "react-router-dom";
 import { CardTitle } from "../card";
-import { useSalesQuery } from "@/services/productsQuery";
 import InteractiveButton from "../InteractiveButton";
 import HoverInfoElement from "../HoverInfoElement";
 import { ProductsLoading } from "../loadings/ProductListLoading";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSales } from "@/services/productsApi";
+import { SALES_QUERY } from "@/utils/constants";
 
 const HomeOffers: React.FC = () => {
   const {
     data: salesData,
     isLoading: salesPending,
     error: salesError,
-  } = useSalesQuery();
+  } = useQuery({
+    queryKey: [SALES_QUERY, fetchSales],
+    queryFn: fetchSales,
+  });
 
   if (salesPending) return <ProductsLoading homePageOffers numberOfCards={4} />;
   if (salesError)

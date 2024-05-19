@@ -11,7 +11,6 @@ import { buttonVariants } from "../ui/button";
 import {
   FolderHeart,
   Inbox,
-  Loader,
   LogOut,
   SubscriptIcon,
   User,
@@ -26,7 +25,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { USERS_QUERY } from "@/utils/constants";
 
 export default function NavProfile() {
-  const { data, isLoading } = favoritesQuery();
+  const { data, isPending } = favoritesQuery();
   const { t } = useTranslation();
 
   const queryClient = useQueryClient();
@@ -46,7 +45,7 @@ export default function NavProfile() {
   const { data: user } = useUsersQuery();
   const navigate = useNavigate();
   const addFavoritesAnim = useConditionalEffect(data, "favorites");
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="border-border border-2 rounded-md p-1 grid items-center">
         <div className="min-w-14 bg-secondary animate-pulse h-full rounded-sm" />
@@ -82,11 +81,11 @@ export default function NavProfile() {
             {data?.length}
           </div>
         </DropdownMenuItem>
-        <DropdownMenuItem className="flex gap-1">
+        <DropdownMenuItem disabled className="flex gap-1">
           <Inbox className="w-5" />
           <span> {t("inbox")}</span>
         </DropdownMenuItem>
-        <DropdownMenuItem className="flex gap-1">
+        <DropdownMenuItem disabled className="flex gap-1">
           <SubscriptIcon className="w-5" />
           <span> {t("subscription")}</span>
         </DropdownMenuItem>

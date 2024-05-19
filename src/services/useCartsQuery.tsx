@@ -16,7 +16,9 @@ export const addToCart = async (item: string) => {
   return authAxios.post("cart", requestBody, {});
 };
 export const decreaseFromCart = async (item: string) => {
-  return await authAxios.delete(`cart/${item}`, {});
+  return await authAxios.delete(`cart/${item}`, {}).catch((error) => {
+    error.message;
+  });
 };
 export const removeFromCart = async (item: string) => {
   return await authAxios.delete(`cart/${item}?removeAll=true`, {});

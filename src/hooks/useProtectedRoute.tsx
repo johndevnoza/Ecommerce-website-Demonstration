@@ -13,7 +13,8 @@ import { useUsersQuery } from "@/services/usersQuery";
 // this hook is responsible to automaticly redirect users to the login page, if they dont have a permission
 const UseProtectedRoute = () => {
   const navigate = useNavigate();
-  const { data: user } = useUsersQuery();
+  const { data: user, isPending } = useUsersQuery();
+  
   return (
     <>
       {user ? (

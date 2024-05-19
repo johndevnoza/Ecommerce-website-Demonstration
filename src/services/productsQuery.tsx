@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   fetchAllProducts,
   fetchCategories,
@@ -20,13 +20,19 @@ export function useAllProductsQuery(page: string | number) {
     queryKey: [PRODUCTS_QUERY, page],
     queryFn: () => fetchAllProducts(page),
     staleTime: Infinity,
+    placeholderData: keepPreviousData
   });
 }
-export function useSalesQuery() {
+export function useSalesQuery(debauncedSearch: string) {
   return useQuery({
-    queryKey: [SALES_QUERY, fetchSales],
-    queryFn: fetchSales,
-    staleTime: Infinity,
+    queryKey: [SALES_QUERY],
+    queryFn: () => fetchSales(),
+    select: (sales) =>
+      sales
+        ? sales.products?.filter((item: ProductData) =>
+            item.title.toLowerCase().includes(debauncedSearch.toLowerCase())
+          )
+        : null,
   });
 }
 

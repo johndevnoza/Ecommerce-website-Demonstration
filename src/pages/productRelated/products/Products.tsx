@@ -2,43 +2,61 @@ import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import useSearchStore from "@/services/searchContext";
 import { useAllProductsQuery } from "@/services/productsQuery";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQueries, useQuery } from "@tanstack/react-query";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { fetchFav } from "@/services/FavoritesStorage";
 import InteractiveButton from "@/components/ui/InteractiveButton";
-import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
+import {
+  CARTS_QUERY,
+  FAVORITES_QUERY,
+  PRODUCTS_QUERY,
+} from "@/utils/constants";
 import { ProductsLoading } from "@/components/ui/loadings/ProductListLoading";
 import { useParams } from "react-router-dom";
 import Pagination from "@/components/ui/Pagination";
+import { fetchAllProducts } from "@/services/productsApi";
 
 export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
-  const { data: carts } = useQuery({
-    queryKey: [CARTS_QUERY, fetchCarts],
-    queryFn: fetchCarts,
-  });
-  const { data: favorites } = useQuery({
-    queryKey: [FAVORITES_QUERY, fetchFav],
-    queryFn: fetchFav,
-  });
-  const isAdded = carts ? carts.map((item) => item.product_id) : null;
-  const isFAvorited = favorites
-    ? favorites.map((item) => item.product_id)
-    : null;
-
   const { isSearchActive } = useSearchStore();
   const goBlur: string = "blur mt-10 mb-44";
 
   const page = Number(useParams().page);
-  const { isPending, error, data, isLoading } = useAllProductsQuery(page);
 
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: [PRODUCTS_QUERY, page],
+        queryFn: async () => await fetchAllProducts(page),
+        staleTime: Infinity,
+        placeholderData: keepPreviousData,
+      },
+      {
+        queryKey: [CARTS_QUERY],
+        queryFn: fetchCarts,
+      },
+      {
+        queryKey: [FAVORITES_QUERY],
+        queryFn: fetchFav,
+      },
+    ],
+  });
+
+  const products = results[0];
+  const carts = results[1];
+  const favorites = results[2];
+
+  const isAdded = carts ? carts.data?.map((item) => item.product_id) : null;
+  const isFAvorited = favorites
+    ? favorites.data?.map((item) => item.product_id)
+    : null;
   const itemsPerPage = 4;
-  const totalPages = Math.ceil(data?.total / itemsPerPage);
+  const totalPages = Math.ceil(products.data?.total / itemsPerPage);
   const pageNumbers = Array.from(
     { length: totalPages },
     (_, index) => index + 1
   );
 
-  if (isPending || isLoading)
+  if (products.isPending || products.isLoading)
     return (
       <>
         {isHomePage ? (
@@ -51,13 +69,13 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
               currentPage={page}
               previous={page - 1}
               next={page + 1}
-              isFetching={isLoading}
+              isFetching={results[0].isFetching}
             />
           </div>
         )}
       </>
     );
-  if (error) return "An error has occurred: " + error.message;
+  if (products.error) return "An error has occurred: " + products.error.message;
 
   return (
     <MaxWidthWrapper
@@ -81,7 +99,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
       ) : null}
       <div className="flex w-full flex-col gap-6">
         <div className="grid max-[440px]:grid-cols-1  grid-cols-2 md:grid-cols-3 gap-y-6  gap-x-6 lg:grid-cols-4  lg:gap-x-2">
-          {data.products.map((item: ProductData) => (
+          {products.data.products?.map((item: ProductData) => (
             <div key={item.id}>
               <ProductCard
                 link={`/product/productName/${item.title}`}
@@ -101,7 +119,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
               currentPage={page}
               previous={page - 1}
               next={page + 1}
-              isFetching={isLoading}
+              isFetching={products.isPlaceholderData}
             />
           ) : null}
         </div>

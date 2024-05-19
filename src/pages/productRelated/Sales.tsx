@@ -13,7 +13,15 @@ import { useCallback, useState } from "react";
 import { ProductsLoading } from "@/components/ui/loadings/ProductListLoading";
 
 const Sales = () => {
-  const { data: sales, error, isLoading } = useSalesQuery();
+  const [salesTerm, setSalesTerm] = useState("");
+  const debauncedSearch = useDebounce(salesTerm, 300);
+
+  const {
+    data: sales,
+    error,
+    isLoading,
+    isFetching,
+  } = useSalesQuery(debauncedSearch);
   const { data: carts } = useQuery({
     queryKey: [CARTS_QUERY, fetchCarts],
     queryFn: fetchCarts,
@@ -22,26 +30,17 @@ const Sales = () => {
     queryKey: [FAVORITES_QUERY, fetchFav],
     queryFn: fetchFav,
   });
-
-  const isAdded = carts ? carts.map((item) => item.product_id) : null;
-  const isFAvorited = favorites
-    ? favorites.map((item) => item.product_id)
-    : null;
-
-  const [salesTerm, setSalesTerm] = useState("");
-  const debauncedSearch = useDebounce(salesTerm, 300);
   const handleSearchTermChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSalesTerm(e.target.value);
     },
     []
   );
-  const filterSales = sales
-    ? sales.products?.filter((item: ProductData) =>
-        item.title.toLowerCase().includes(debauncedSearch.toLowerCase())
-      )
+
+  const isAdded = carts ? carts.map((item) => item.product_id) : null;
+  const isFAvorited = favorites
+    ? favorites.map((item) => item.product_id)
     : null;
-  console.log(sales, filterSales);
 
   if (isLoading) return <ProductsLoading products numberOfCards={8} />;
   if (error) return "An error has occurred: " + error.message;
@@ -58,56 +57,35 @@ const Sales = () => {
             placeholder="Search Sales"
             className="w-min"
           />
-          {debauncedSearch && (
+          {salesTerm && (
             <XCircle
               onClick={() => setSalesTerm("")}
               className="absolute top-2 z-40 right-1 hover:scale-110 animate-pulse"
             />
           )}
-          {isLoading ? (
+          {isFetching ? (
             <Loader2 className="absolute right-8 top-2 animate-spin" />
           ) : null}
         </div>
       </header>
       <div className="flex w-full flex-col gap-6">
         <div className="grid md:grid-cols-3 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
-          {debauncedSearch !== " "
-            ? filterSales
-              ? filterSales?.map((item: ProductData) => (
-                  <div key={item.id}>
-                    <ProductCard
-                      link={`/product/productName/${item.title}`}
-                      title={item.title}
-                      price={item.price}
-                      description={item.description}
-                      image={item.image}
-                      secondId={item.id}
-                      id={item.id}
-                      category_name={item.category_name}
-                      isInFavorites={
-                        isFAvorited && isFAvorited.includes(item.id)
-                      }
-                      isInCart={isAdded && isAdded.includes(item.id)}
-                    />
-                  </div>
-                ))
-              : null
-            : sales.products?.map((item: ProductData) => (
-                <div key={item.id}>
-                  <ProductCard
-                    link={`/product/productName/${item.title}`}
-                    title={item.title}
-                    price={item.price}
-                    description={item.description}
-                    image={item.image}
-                    secondId={item.id}
-                    id={item.id}
-                    category_name={item.category_name}
-                    isInFavorites={isFAvorited && isFAvorited.includes(item.id)}
-                    isInCart={isAdded && isAdded.includes(item.id)}
-                  />
-                </div>
-              ))}
+          {sales?.map((item: ProductData) => (
+            <div key={item.id}>
+              <ProductCard
+                link={`/product/productName/${item.title}`}
+                title={item.title}
+                price={item.price}
+                description={item.description}
+                image={item.image}
+                secondId={item.id}
+                id={item.id}
+                category_name={item.category_name}
+                isInFavorites={isFAvorited && isFAvorited.includes(item.id)}
+                isInCart={isAdded && isAdded.includes(item.id)}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </MaxWidthWrapper>
