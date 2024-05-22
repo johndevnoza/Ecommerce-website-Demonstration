@@ -20,13 +20,13 @@ export function useAllProductsQuery(page: string | number) {
     queryKey: [PRODUCTS_QUERY, page],
     queryFn: () => fetchAllProducts(page),
     staleTime: Infinity,
-    placeholderData: keepPreviousData
+    placeholderData: keepPreviousData,
   });
 }
 export function useSalesQuery(debauncedSearch: string) {
   return useQuery({
     queryKey: [SALES_QUERY],
-    queryFn: () => fetchSales(),
+    queryFn: async () => await fetchSales(),
     select: (sales) =>
       sales
         ? sales.products?.filter((item: ProductData) =>

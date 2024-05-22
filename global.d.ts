@@ -22,6 +22,8 @@ declare type ProductData = {
   isPageShopping?: boolean;
   isPageFavorites?: boolean;
   removeCartItem?: boolean;
+  isLoading?: boolean;
+  total: number;
 };
 declare type CartProduct = {
   cartProduct: {

@@ -59,15 +59,15 @@ const HomeOffers: React.FC = () => {
                   <div className="bg-card rounded-md ">
                     <div className="flex flex-col gap-4 p-2 lg:p-4 border-2 rounded-md border-border">
                       <div className="flex flex-row items-center justify-between bg-background rounded-lg ">
-                        <CardTitle className="line-clamp-1 text-center justify-center px-3">
+                        <CardTitle className="line-clamp-1 text-center justify-center px-3 max-[440px]:hidden">
                           {t(item.title)}
                         </CardTitle>
-                        <div className="flex">
+                        <div className="flex w-full">
                           <InteractiveButton
                             title={`${item.price}$`}
-                            wrapperClass="rounded-none "
+                            wrapperClass="rounded-none w-full"
                             buttonVariant="default"
-                            buttonClass="w-full lg:p-2 rounded-r-none w-full"
+                            buttonClass="w-full lg:p-2 rounded-r-none min-w-full"
                             showInfo
                             hoverSide="bottom"
                             hoverContent="Buy now"
@@ -80,7 +80,7 @@ const HomeOffers: React.FC = () => {
                           >
                             <Button
                               variant={"ghost"}
-                              className="rounded-s-none md:p-2 border-border border-2 line-through"
+                              className="rounded-s-none md:p-2 w-full border-border border-2 line-through"
                               disabled
                             >
                               {item.price - 1}$

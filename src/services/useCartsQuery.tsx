@@ -4,7 +4,7 @@ export const fetchCarts = async () => {
   try {
     const response = await authAxios.get("cart", {});
 
-    return response.data as CartProduct[];
+    return await response.data as CartProduct[];
   } catch (error) {
     throw error;
   }

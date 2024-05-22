@@ -2,7 +2,10 @@ import { axiosBase } from "./baseURLAxios";
 export async function fetchAllProducts(page: string | number) {
   return await axiosBase
     .get(`/product?page=${page}&pageSize=4`)
-    .then((res) => res.data);
+    .then((res) => res.data)
+    .catch((error) => {
+      throw new Error("Something went wrong");
+    });
 }
 export async function fetchSales() {
   return await axiosBase.get(`/product?onlySales=true`).then((res) => res.data);

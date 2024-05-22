@@ -23,7 +23,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <Button
         variant={currentPage == 1 ? "secondary" : "default"}
         disabled={currentPage == 1 || isFetching}
-        className="rounded-r-none"
+        className="rounded-sm rounded-r-none "
         onClick={() => {
           navigate(`/products/page/${previous}`);
         }}
@@ -45,9 +45,9 @@ const Pagination: React.FC<PaginationProps> = ({
       <Button
         variant={currentPage == totalPage?.length ? "secondary" : "default"}
         disabled={currentPage == totalPage?.length || isFetching}
-        className="rounded-l-none"
+        className="rounded-sm rounded-l-none"
         onClick={() => {
-         navigate(`/products/page/${String(next)}`);
+          navigate(`/products/page/${String(next)}`);
         }}
       >
         Next

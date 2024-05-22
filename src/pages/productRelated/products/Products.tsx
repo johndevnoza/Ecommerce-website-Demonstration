@@ -1,8 +1,7 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import useSearchStore from "@/services/searchContext";
-import { useAllProductsQuery } from "@/services/productsQuery";
-import { keepPreviousData, useQueries, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQueries } from "@tanstack/react-query";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { fetchFav } from "@/services/FavoritesStorage";
 import InteractiveButton from "@/components/ui/InteractiveButton";
@@ -15,21 +14,49 @@ import { ProductsLoading } from "@/components/ui/loadings/ProductListLoading";
 import { useParams } from "react-router-dom";
 import Pagination from "@/components/ui/Pagination";
 import { fetchAllProducts } from "@/services/productsApi";
+import { useCallback, useState } from "react";
+import useDebounce from "@/hooks/useDebounce";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { XCircle } from "lucide-react";
 
 export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
   const { isSearchActive } = useSearchStore();
   const goBlur: string = "blur mt-10 mb-44";
-
+  const [filterSelect, setFilterSelect] = useState({
+    alphabetical: false,
+    priceHigh: false,
+    priceLow: false,
+    newest: false,
+    oldest: false,
+  });
   const page = Number(useParams().page);
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearch = useDebounce(searchTerm, 300);
+  const handleSearchTermChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(e.target.value);
+    },
+    []
+  );
   const results = useQueries({
     queries: [
       {
         queryKey: [PRODUCTS_QUERY, page],
-        queryFn: async () => await fetchAllProducts(page),
-        staleTime: Infinity,
+        queryFn: () => fetchAllProducts(page),
         placeholderData: keepPreviousData,
+        select: (data) => {
+          if (!isHomePage && debouncedSearch) {
+            const filteredProducts = data.products?.filter(
+              (item: ProductData) =>
+                item.title.toLowerCase().includes(debouncedSearch.toLowerCase())
+            );
+            return { ...data, products: filteredProducts };
+          }
+          return data;
+        },
       },
+
       {
         queryKey: [CARTS_QUERY],
         queryFn: fetchCarts,
@@ -44,13 +71,13 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
   const products = results[0];
   const carts = results[1];
   const favorites = results[2];
-
   const isAdded = carts ? carts.data?.map((item) => item.product_id) : null;
-  const isFAvorited = favorites
+  const isFavorited = favorites
     ? favorites.data?.map((item) => item.product_id)
     : null;
+
   const itemsPerPage = 4;
-  const totalPages = Math.ceil(products.data?.total / itemsPerPage);
+  const totalPages = Math.ceil(products?.data?.total / itemsPerPage);
   const pageNumbers = Array.from(
     { length: totalPages },
     (_, index) => index + 1
@@ -76,6 +103,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
       </>
     );
   if (products.error) return "An error has occurred: " + products.error.message;
+  console.log(products.data);
 
   return (
     <MaxWidthWrapper
@@ -96,7 +124,28 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
             wrapperClass="mb-2"
           />
         </div>
-      ) : null}
+      ) : (
+        <header className="flex justify-between items-center gap-4  my-4 border-border border-2 p-2  rounded-md">
+          <Button className="" variant={"secondary"}>
+            All products
+          </Button>
+          <div className="relative">
+            <Input
+              type="text "
+              value={searchTerm}
+              onChange={handleSearchTermChange}
+              placeholder="Search products..."
+              className=""
+            />
+            {debouncedSearch && (
+              <XCircle
+                onClick={() => setSearchTerm("")}
+                className="absolute top-2 z-40 right-1 hover:scale-110 animate-pulse"
+              />
+            )}
+          </div>
+        </header>
+      )}
       <div className="flex w-full flex-col gap-6">
         <div className="grid max-[440px]:grid-cols-1  grid-cols-2 md:grid-cols-3 gap-y-6  gap-x-6 lg:grid-cols-4  lg:gap-x-2">
           {products.data.products?.map((item: ProductData) => (
@@ -107,7 +156,8 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
                 secondId={item.id}
                 id={item.id}
                 isInCart={isAdded && isAdded.includes(item.id)}
-                isInFavorites={isFAvorited && isFAvorited.includes(item.id)}
+                isInFavorites={isFavorited && isFavorited.includes(item.id)}
+                isLoading={products.isRefetching}
               />
             </div>
           ))}
@@ -119,7 +169,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
               currentPage={page}
               previous={page - 1}
               next={page + 1}
-              isFetching={products.isPlaceholderData}
+              isFetching={products.isRefetching}
             />
           ) : null}
         </div>

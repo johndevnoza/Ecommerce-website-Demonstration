@@ -47,6 +47,7 @@ export default function ProductCard({
   isPageShopping = false,
   isPageFavorites = false,
   removeCartItem = false,
+  isLoading = false,
 }: ProductData) {
   const queryClient = useQueryClient();
 
@@ -89,7 +90,11 @@ export default function ProductCard({
   return (
     <Card
       onClick={onClick}
-      className="flex  flex-col rounded-md hover:bg-secondary/40 justify-between "
+      className={
+        isLoading
+          ? "flex  flex-col rounded-md hover:bg-secondary/40 justify-between filter grayscale"
+          : "flex  flex-col rounded-md hover:bg-secondary/40 justify-between "
+      }
     >
       <CardHeader className="gap-1 ">
         <Link to={`${link}`}>
@@ -127,7 +132,7 @@ export default function ProductCard({
             title={`${price}$`}
             wrapperClass="rounded-none "
             buttonVariant="outline"
-            buttonClass="w-full lg:p-2 rounded-r-none w-full hover:scale-95"
+            buttonClass="  rounded-r-none w-full hover:scale-95  max-[840px]:p-3"
             showInfo
             hoverSide="bottom"
             hoverContent="Buy now"
@@ -139,10 +144,10 @@ export default function ProductCard({
               buttonVariants({
                 variant: isInFavorites ? "default" : "outline",
                 className: isPageShopping
-                  ? "rounded-none w-full lg:p-2 grid group cursor-pointer grid items-center bg-bg"
+                  ? "rounded-none w-full lg:p-2 max-[840px]:p-3 grid group cursor-pointer grid items-center bg-bg"
                   : isInFavorites
-                  ? "rounded-none w-full mr-[2px] lg:p-2 grid group cursor-pointer bg-primary"
-                  : "rounded-none w-full lg:p-2 grid group cursor-pointer ",
+                  ? "rounded-none w-full mr-[2px] lg:p-2 max-[840px]:p-3 grid group cursor-pointer bg-primary"
+                  : "rounded-none w-full lg:p-2 grid group max-[840px]:p-3 cursor-pointer ",
               })
             )}
             iconClass="group-hover:scale-125"
@@ -173,7 +178,7 @@ export default function ProductCard({
             ) : isInFavorites ? (
               <FolderHeart className="animate-bounce" />
             ) : isPageFavorites ? (
-              <X />
+              <X className="max-[840px]:text-" />
             ) : handleAddToFavorites.isPending ? (
               <Loader className="animate-spin" />
             ) : (
@@ -185,8 +190,8 @@ export default function ProductCard({
               buttonVariants({
                 variant: isInCart ? "default" : "outline",
                 className: isInCart
-                  ? "rounded-none w-full lg:p-2 rounded-r-md group cursor-pointer bg-primary"
-                  : "rounded-none w-full lg:p-2 rounded-r-md group cursor-pointer",
+                  ? "rounded-none w-full lg:p-2 rounded-r-md max-[840px]:p-3 group cursor-pointer bg-primary"
+                  : "rounded-none w-full lg:p-2 rounded-r-md max-[840px]:p-3 group cursor-pointer",
               })
             )}
             iconClass="group-hover:scale-125"

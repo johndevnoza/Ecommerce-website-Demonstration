@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 export const fetchFav = async () => {
   try {
     const response = await authAxios.get("liked-products", {});
-    return response.data as LikedProduct[];
+    return await response.data as LikedProduct[];
   } catch (error) {
     throw error;
   }

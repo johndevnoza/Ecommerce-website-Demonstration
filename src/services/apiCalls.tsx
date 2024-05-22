@@ -27,6 +27,7 @@ export const mutateLogin = async (
     })
     .then((response) => {
       localStorage.setItem("accessToken", response.data.access_token);
+      localStorage.setItem("refreshToken", response.data.refresh_token);
     })
     .catch((error) => {
       errorOccurred = true;
