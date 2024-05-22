@@ -33,8 +33,8 @@ async function refreshToken() {
     if (!refreshToken) {
       throw new Error("No refresh token aviable");
     }
-    const response = await authAxios.post("auth/login", {
-      token: refreshToken,
+    const response = await authAxios.post("auth/update-tokens", {
+      refresh_token: refreshToken,
     });
     const newAccesToken = response.data.accessToken;
     storeNewAccessToken(newAccesToken);
@@ -44,19 +44,25 @@ async function refreshToken() {
     throw error;
   }
 }
+
 authAxios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+      axios.interceptors.response.eject(originalRequest);
       try {
-        const newWtoken = await refreshToken();
-        if (newWtoken) {
-          originalRequest.headers.Authorization = `Bearer ${newWtoken}`;
+        const newToken = await refreshToken();
+        if (newToken) {
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
           return authAxios(originalRequest);
+        } else {
+          localStorage.removeItem("accessToken");
+          return Promise.reject(error);
         }
       } catch (refreshError) {
+        localStorage.removeItem("accessToken");
         return Promise.reject(refreshError);
       }
     }

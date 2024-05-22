@@ -19,8 +19,11 @@ import useDebounce from "@/hooks/useDebounce";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { XCircle } from "lucide-react";
+import { getAccesToken } from "@/services/authQuery";
 
 export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
+  const isLoggedIn = getAccesToken();
+
   const { isSearchActive } = useSearchStore();
   const goBlur: string = "blur mt-10 mb-44";
   const [filterSelect, setFilterSelect] = useState({

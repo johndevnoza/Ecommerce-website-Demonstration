@@ -10,7 +10,6 @@ import UseProtectedRoute from "./hooks/useProtectedRoute";
 import Category from "@/pages/productRelated/Category";
 import Categories from "@/pages/productRelated/Categories";
 import Shopping from "./pages/userRelated/Shopping";
-import Carts from "./pages/userRelated/Carts";
 import Favorites from "./pages/userRelated/Favorites";
 import Sales from "./pages/productRelated/Sales";
 import Profile from "./pages/userRelated/Profile";
@@ -38,8 +37,6 @@ function App() {
           <Route path="/profile" element={<Profile />}>
             <Route path="/profile/Details" element={<ProfileDetails />} />
             <Route path="/profile/Orders" element={<Orders />} />
-            <Route path="/profile/Favorites" element={<Favorites />} />
-            <Route path="/profile/Cart" element={<Carts />} />
           </Route>
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/sales" element={<Sales />} />

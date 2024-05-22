@@ -27,6 +27,7 @@ import { USERS_QUERY } from "@/utils/constants";
 export default function NavProfile() {
   const { data, isPending } = favoritesQuery();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const queryClient = useQueryClient();
   const logout = useMutation({
@@ -43,7 +44,6 @@ export default function NavProfile() {
     },
   });
   const { data: user } = useUsersQuery();
-  const navigate = useNavigate();
   const addFavoritesAnim = useConditionalEffect(data, "favorites");
   if (isPending) {
     return (

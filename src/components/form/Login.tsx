@@ -9,6 +9,7 @@ import { Component, Loader2Icon, Mail, MailCheck } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { mutateLogin } from "@/services/apiCalls";
 import MaxWidthWrapper from "../ui/MaxWidthWrapper";
+import { getAccesToken } from "@/services/authQuery";
 // validation
 const schema = z.object({
   email: z.string().email(),
@@ -18,6 +19,9 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>;
 
 const Login = () => {
+  const isLoggedIn = getAccesToken();
+  console.log(isLoggedIn);
+  
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 

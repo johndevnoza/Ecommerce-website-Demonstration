@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { authAxios } from "./baseURLAxios";
 import { USERS_QUERY } from "@/utils/constants";
+import { getAccesToken } from "./authQuery";
 type User = {
   password: string;
   email: string;
@@ -12,9 +13,14 @@ type User = {
   id: string;
 };
 export async function fetchCurrentUser() {
-  return await authAxios
-    .get(`user/current-user`)
-    .then((res) => res.data as User);
+  const isLoggedIn = await getAccesToken();
+  if (isLoggedIn) {
+    return await authAxios
+      .get(`user/current-user`)
+      .then((res) => res.data as User);
+  } else {
+    return []
+  }
 }
 export const updateUserTest = async (user: string) => {
   await authAxios

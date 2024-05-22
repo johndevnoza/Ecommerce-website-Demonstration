@@ -1,4 +1,3 @@
-import useUserStore from "@/services/authContext";
 import { ReactNode } from "react";
 import {
   AlertDialog,
@@ -11,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Link } from "react-router-dom";
-import { useUsersQuery } from "@/services/usersQuery";
+import { getAccesToken } from "@/services/authQuery";
 
 // this component is responsible tell the user that they should be logged in in case they clicked on content wich requires ATUH
 
@@ -22,15 +21,17 @@ export const UnAuthedDialog = ({
   children: ReactNode;
   noRestriction?: boolean;
 }) => {
-  const { data: user } = useUsersQuery();
+  const token = localStorage.getItem("accessToken");
 
   return (
     <>
-      {user || noRestriction ? (
+      {token !== null || noRestriction ? (
         children
       ) : (
         <AlertDialog>
-          <AlertDialogTrigger>{children}</AlertDialogTrigger>
+          <AlertDialogTrigger >
+            {children}
+          </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
