@@ -3,14 +3,17 @@ import { Button } from "@/components/ui/button";
 import { useCategoriesQuery } from "@/services/productsQuery";
 import { Link, Outlet, useParams } from "react-router-dom";
 
-// ... (import statements remain unchanged)
-
 export default function Categories() {
-  const { data: categories, isLoading } = useCategoriesQuery();
+  const { data: categories, isLoading, error } = useCategoriesQuery();
   const { categoryName } = useParams();
 
-  if (isLoading) return <MaxWidthWrapper>testing</MaxWidthWrapper>;
-
+  if (isLoading)
+    return (
+      <MaxWidthWrapper className="bg-secondary animate-pulse py-2 ">
+        Loading Categories
+      </MaxWidthWrapper>
+    );
+  if (error) return <div>Error Categories</div>;
   return (
     <MaxWidthWrapper className="mt-10 mb-44 ">
       <section className="w-full flex gap-4 p-2 flex-wrap border-border rounded-md border-2">

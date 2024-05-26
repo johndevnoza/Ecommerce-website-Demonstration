@@ -4,6 +4,7 @@ import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import { fetchCarts } from "@/services/useCartsQuery";
+import { CARTS_QUERY } from "@/utils/constants";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const Shopping = () => {
@@ -14,7 +15,7 @@ const Shopping = () => {
     error,
     isPending,
   } = useQuery({
-    queryKey: ["cart"],
+    queryKey: [CARTS_QUERY],
     queryFn: fetchCarts,
   });
   const isAdded = cartProduct

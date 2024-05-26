@@ -91,6 +91,7 @@ const Favorites = () => {
                 image={f.likedProduct.image}
                 secondId={f.likedProduct.id}
                 id={f.id}
+                total={f.count}
                 category_name={f.likedProduct.category_name}
                 isPageFavorites
                 isInCart={isAdded && isAdded.includes(f.likedProduct.id)}

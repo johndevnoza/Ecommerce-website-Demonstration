@@ -4,7 +4,7 @@ export async function fetchAllProducts(page: string | number) {
     .get(`/product?page=${page}&pageSize=4`)
     .then((res) => res.data)
     .catch((error) => {
-      throw new Error("Something went wrong");
+      error;
     });
 }
 export async function fetchSales() {
@@ -38,10 +38,12 @@ export async function fetchSingleCategory(
 export async function fetchProductSearch(searchUrl: string) {
   return await axiosBase
     .get(`product?productName=${searchUrl.toLowerCase()}`)
-    .then((res) => res.data);
+    .then((res) => res.data)
+    .catch((error) => error.message);
 }
 export async function fetchSingle(productId: string) {
   return await axiosBase
     .get(`/product?productName=${productId}`)
-    .then((res) => res.data);
+    .then((res) => res.data)
+    .catch((error) => error.message);
 }

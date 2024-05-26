@@ -1,10 +1,10 @@
-import { authAxios } from "./baseURLAxios";
+import { loginAxios } from "./baseURLAxios";
 import { NavigateFunction } from "react-router-dom";
 const LOGIN_URL = "auth/login";
 const REGISTER_URL = "auth/register";
 
 export const postRegister = async (data: User) => {
-  const response = await authAxios.post(REGISTER_URL, {
+  const response = await loginAxios.post(REGISTER_URL, {
     email: data.email,
     password: data.password,
     first_name: data.first_name,
@@ -20,17 +20,20 @@ export const mutateLogin = async (
 ) => {
   let errorOccurred = false;
 
-  return await authAxios
+  return await loginAxios
     .post(LOGIN_URL, {
       email: data.email,
       password: data.password,
     })
     .then((response) => {
-      localStorage.setItem("accessToken", response.data.access_token);
-      localStorage.setItem("refreshToken", response.data.refresh_token);
+      if (response.data) {
+        localStorage.setItem("accessToken", response.data.access_token);
+        localStorage.setItem("refreshToken", response.data.refresh_token);
+      }
     })
     .catch((error) => {
-      errorOccurred = true;
+      if (error) errorOccurred = true;
+      console.log(error.message);
       throw new Error("Invalid email or password");
     })
     .finally(() => {

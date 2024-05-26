@@ -14,7 +14,7 @@ export default function Product() {
     queries: [
       {
         queryKey: [PRODUCT_QUERY, id],
-        queryFn: () => fetchSingle(id),
+        queryFn: async () => await fetchSingle(id),
         staleTime: Infinity,
       },
       {
@@ -42,7 +42,7 @@ export default function Product() {
 
   return (
     <MaxWidthWrapper>
-      {data.map((product: ProductData) => (
+      {data?.map((product: ProductData) => (
         <ProductDetails
           {...product}
           key={product.id}

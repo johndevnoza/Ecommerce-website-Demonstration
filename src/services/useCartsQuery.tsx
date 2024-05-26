@@ -2,11 +2,10 @@
 import { getAccesToken } from "./authQuery.tsx";
 import { authAxios } from "./baseURLAxios.ts";
 export const fetchCarts = async () => {
-  const isLoggedIn = await getAccesToken();
+  const isLoggedIn = getAccesToken();
   if (isLoggedIn) {
     try {
-      const response = await authAxios.get("cart", {});
-
+      const response = await authAxios.get("cart");
       return (await response.data) as CartProduct[];
     } catch (error) {
       throw error;
@@ -19,7 +18,7 @@ export const addToCart = async (item: string) => {
   const requestBody: requestPost = {
     product_id: item,
   };
-  return authAxios.post("cart", requestBody, {});
+  return authAxios.post("cart", requestBody);
 };
 export const decreaseFromCart = async (item: string) => {
   return await authAxios.delete(`cart/${item}`, {}).catch((error) => {

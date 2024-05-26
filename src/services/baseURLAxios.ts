@@ -5,14 +5,15 @@ const apiUrl: string = import.meta.env.VITE_API_BASE_URL;
 export const axiosBase = axios.create({
   baseURL: apiUrl,
 });
-
 export const authAxios = axios.create({
   baseURL: apiUrl,
 });
-
-authAxios.interceptors.request.use(
+export const loginAxios = axios.create({
+  baseURL: apiUrl,
+});
+loginAxios.interceptors.request.use(
   async (config) => {
-    const token = await getAccesToken();
+    const token = getAccesToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -21,10 +22,22 @@ authAxios.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+authAxios.interceptors.request.use(
+  async (config) => {
+    const token = getAccesToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    } else {
+      return Promise.reject(new Error("No access token available"));
+    }
+  },
+  (error) => Promise.reject(error)
+);
 function getStoredRefreshToken() {
   return localStorage.getItem("refreshToken");
 }
-function storeNewAccessToken(token) {
+function storeNewAccessToken(token: string) {
   localStorage.setItem("accessToken", token);
 }
 async function refreshToken() {
@@ -49,7 +62,7 @@ authAxios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       axios.interceptors.response.eject(originalRequest);
       try {

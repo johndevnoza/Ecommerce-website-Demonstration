@@ -15,6 +15,7 @@ import { ProductsLoading } from "../loadings/ProductListLoading";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSales } from "@/services/productsApi";
 import { SALES_QUERY } from "@/utils/constants";
+import { ErrorFetchingOffers } from "../ComponentErrors/ErrorFetchingProducts";
 
 const HomeOffers: React.FC = () => {
   const {
@@ -27,10 +28,7 @@ const HomeOffers: React.FC = () => {
   });
 
   if (salesPending) return <ProductsLoading homePageOffers numberOfCards={4} />;
-  if (salesError)
-    return (
-      <div>An error has occurred: {salesError ? salesError.message : null}</div>
-    );
+  if (salesError) return <ErrorFetchingOffers />;
 
   return (
     <>
@@ -62,12 +60,12 @@ const HomeOffers: React.FC = () => {
                         <CardTitle className="line-clamp-1 text-center justify-center px-3 max-[440px]:hidden">
                           {t(item.title)}
                         </CardTitle>
-                        <div className="flex w-full">
+                        <div className="flex ">
                           <InteractiveButton
                             title={`${item.price}$`}
                             wrapperClass="rounded-none w-full"
                             buttonVariant="default"
-                            buttonClass="w-full lg:p-2 rounded-r-none min-w-full"
+                            buttonClass=" lg:p-2 rounded-r-none"
                             showInfo
                             hoverSide="bottom"
                             hoverContent="Buy now"

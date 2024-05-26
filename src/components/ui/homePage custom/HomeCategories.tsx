@@ -9,12 +9,19 @@ import { useCategoriesQuery } from "@/services/productsQuery";
 import { Link } from "react-router-dom";
 import { Button } from "../button";
 import Autoplay from "embla-carousel-autoplay";
+import MaxWidthWrapper from "../MaxWidthWrapper";
+import { ErrorFetchingCategories } from "../ComponentErrors/ErrorFetchingProducts";
 
 function HomeCategories(): JSX.Element | string {
   const { data: categories, isPending, error } = useCategoriesQuery();
 
-  if (isPending) return <div>testing</div>;
-  if (error) return "An error has occurred: " + error.message;
+  if (isPending)
+    return (
+      <MaxWidthWrapper className="bg-secondary animate-pulse py-2 ">
+        Loading Categories
+      </MaxWidthWrapper>
+    );
+  if (error) return <ErrorFetchingCategories/>;
 
   return (
     <Carousel

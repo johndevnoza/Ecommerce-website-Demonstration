@@ -52,25 +52,25 @@ export default function ProductCard({
   const queryClient = useQueryClient();
 
   const handleAddToCart = useMutation({
-    mutationFn: async (item: string) => addToCart(item),
+    mutationFn: async (item: string) => await addToCart(item),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
   const handleDecreaseCart = useMutation({
-    mutationFn: async (item: string) => decreaseFromCart(item),
+    mutationFn: async (item: string) => await decreaseFromCart(item),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
   const removeItem = useMutation({
-    mutationFn: async (item: string) => removeFromCart(item),
+    mutationFn: async (item: string) => await removeFromCart(item),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
   const handleAddToFavorites = useMutation({
-    mutationFn: async (item: string) => addToFavorites(item),
+    mutationFn: async (item: string) => await addToFavorites(item),
     onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [FAVORITES_QUERY],
@@ -78,7 +78,7 @@ export default function ProductCard({
     },
   });
   const HandleRemoveFavorites = useMutation({
-    mutationFn: async (item: string) => removeFromFavorites(item),
+    mutationFn: async (item: string) => await removeFromFavorites(item),
     onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [FAVORITES_QUERY],

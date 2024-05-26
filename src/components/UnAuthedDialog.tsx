@@ -21,17 +21,14 @@ export const UnAuthedDialog = ({
   children: ReactNode;
   noRestriction?: boolean;
 }) => {
-  const token = localStorage.getItem("accessToken");
-
+  const isLoggedIn = getAccesToken();
   return (
     <>
-      {token !== null || noRestriction ? (
+      {isLoggedIn || noRestriction ? (
         children
       ) : (
         <AlertDialog>
-          <AlertDialogTrigger >
-            {children}
-          </AlertDialogTrigger>
+          <AlertDialogTrigger>{children}</AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>

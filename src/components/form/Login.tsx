@@ -10,19 +10,22 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { mutateLogin } from "@/services/apiCalls";
 import MaxWidthWrapper from "../ui/MaxWidthWrapper";
 import { getAccesToken } from "@/services/authQuery";
+import { useEffect } from "react";
+
 // validation
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 });
-
 type FormFields = z.infer<typeof schema>;
 
 const Login = () => {
-  const isLoggedIn = getAccesToken();
-  console.log(isLoggedIn);
-  
   const navigate = useNavigate();
+  const isLoggedIn = getAccesToken();
+
+  useEffect(() => {
+    if (isLoggedIn) return navigate("/");
+  }, []);
   const queryClient = useQueryClient();
 
   const {

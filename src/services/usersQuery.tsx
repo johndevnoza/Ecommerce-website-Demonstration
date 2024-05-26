@@ -1,4 +1,3 @@
-// import { useQuery } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { authAxios } from "./baseURLAxios";
 import { USERS_QUERY } from "@/utils/constants";
@@ -13,25 +12,28 @@ type User = {
   id: string;
 };
 export async function fetchCurrentUser() {
-  const isLoggedIn = await getAccesToken();
+  const isLoggedIn = getAccesToken();
   if (isLoggedIn) {
-    return await authAxios
-      .get(`user/current-user`)
-      .then((res) => res.data as User);
-  } else {
-    return []
-  }
+    try {
+      const response = await authAxios.get(`user/current-user`);
+      return (await response.data) as User;
+    } catch (error) {
+      console.error("Failed to fetch current user", error);
+      return null;
+    }
+  } else return [];
 }
+
 export const updateUserTest = async (user: string) => {
-  await authAxios
+  return await authAxios
     .put(`user`, user, {})
-    .then((res) => console.log(res.data, " from fetch"));
+    .then((res) => res.data)
+    .catch(Error);
 };
 
 export function useUsersQuery() {
   return useQuery({
     queryKey: [USERS_QUERY],
-    queryFn: async () => fetchCurrentUser(),
-    staleTime: 0,
+    queryFn: async () => await fetchCurrentUser(),
   });
 }

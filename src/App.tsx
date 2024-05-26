@@ -15,6 +15,7 @@ import Sales from "./pages/productRelated/Sales";
 import Profile from "./pages/userRelated/Profile";
 import Orders from "./pages/userRelated/Orders";
 import ProfileDetails from "./pages/userRelated/ProfileDetails";
+import ErrorUrlPath from "./components/ui/ComponentErrors/ErrorUrlPath";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/sales" element={<Sales />} />
         </Route>
+        <Route path="*" element={<ErrorUrlPath />} />
       </Routes>
       <Footer />
     </>

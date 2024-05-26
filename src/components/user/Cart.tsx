@@ -60,6 +60,7 @@ const Cart: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: [CARTS_QUERY] });
     },
   });
+
   const addToCartAnimation = useConditionalEffect(data, "cart");
   if (isLoading || isPending) {
     return (
@@ -79,19 +80,15 @@ const Cart: React.FC = () => {
             }
             className={addToCartAnimation}
           />
-          {isPending ? (
-            <div>Ts..</div>
-          ) : (
-            <span
-              className={
-                numberOfItems > 0
-                  ? "text-primary ml-2 text-sm font-medium animate-bounce "
-                  : " ml-2 text-sm font-medium text-muted"
-              }
-            >
-              {numberOfItems}
-            </span>
-          )}
+          <span
+            className={
+              numberOfItems > 0
+                ? "text-primary ml-2 text-sm font-medium animate-bounce "
+                : " ml-2 text-sm font-medium text-muted"
+            }
+          >
+            {numberOfItems}
+          </span>
         </SheetTrigger>
       </HoverInfoElement>
       <SheetContent className=" flex w-full flex-col pr-0  sm:max-w-lg ">

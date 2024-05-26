@@ -1,13 +1,12 @@
-import { FAVORITES_QUERY } from "@/utils/constants.tsx";
+import { AUTH_QUERY, FAVORITES_QUERY } from "@/utils/constants.tsx";
 import { authAxios } from "./baseURLAxios.ts";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAccesToken } from "./authQuery.tsx";
-
 export const fetchFav = async () => {
-  const isLoggedIn = await getAccesToken();
-  if (isLoggedIn) {
+  const isLoggedIn = getAccesToken();
+  if (isLoggedIn?.length && isLoggedIn?.length > 0) {
     try {
-      const response = await authAxios.get("liked-products", {});
+      const response = await authAxios.get("liked-products");
       return (await response.data) as LikedProduct[];
     } catch (error) {
       throw error;
@@ -20,16 +19,15 @@ export const addToFavorites = async (item: string) => {
   const requestBody: requestPost = {
     product_id: item,
   };
-  return authAxios.post("liked-products", requestBody, {});
+  return authAxios.post("liked-products", requestBody);
 };
 export const removeFromFavorites = async (item: string) => {
-  return await authAxios.delete(`liked-products/${item}`, {});
+  return await authAxios.delete(`liked-products/${item}`);
 };
 
 export function favoritesQuery() {
   return useQuery({
     queryKey: [FAVORITES_QUERY],
-    queryFn: () => fetchFav(),
-    refetchOnWindowFocus: true,
+    queryFn: fetchFav,
   });
 }

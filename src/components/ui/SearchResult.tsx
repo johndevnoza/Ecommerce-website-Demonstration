@@ -7,29 +7,41 @@ type SearchResultsProps = {
   searchingProducts: ProductData[];
   clearInput?: MouseEventHandler;
   isResult?: boolean;
+  isLoading?: boolean;
 };
+
 const SearchResults = ({
   searchUrl,
   searchingProducts,
   clearInput,
   isResult,
+  isLoading,
 }: SearchResultsProps) => {
   return (
-    <section className="z-20 absolute top-[108%] md:w-[500px]  w-[380px]">
-      <div className="flex flex-col bg-secondary rounded-md gap-1 p-1">
-        {searchUrl && !isResult ? (
-          searchingProducts?.map((product: ProductData) => (
+    <section className="z-20 absolute top-[108%] md:w-[70%] w-[280px]">
+      {searchUrl && !isLoading && searchingProducts?.length > 0 ? (
+        <div className="flex flex-col bg-secondary rounded-md gap-1 p-1">
+          {searchingProducts.map((product: ProductData) => (
             <Link
               className="w-full bg-card hover:bg-background/60 last:rounded-b-sm first:rounded-t-sm"
               key={product.id}
               to={`/product/productName/${product.title}`}
               onClick={clearInput}
             >
-              <SearchCard className="p-2" key={product.id} {...product} />
+              <SearchCard className="p-2" {...product} />
             </Link>
-          ))
-        ) : searchUrl && isResult ? (
-          <div className="animate-pulse text-center">No results</div>
+          ))}
+        </div>
+      ) : searchUrl && isResult ? (
+        <div className=" text-center bg-secondary  p-2 rounded-md">
+          No results
+        </div>
+      ) : null}
+      <div>
+        {searchUrl && isLoading ? (
+          <div className="animate-pulse text-center  bg-secondary p-2 rounded-md">
+            Loading...
+          </div>
         ) : null}
       </div>
     </section>

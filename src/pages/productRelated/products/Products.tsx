@@ -19,20 +19,18 @@ import useDebounce from "@/hooks/useDebounce";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { XCircle } from "lucide-react";
-import { getAccesToken } from "@/services/authQuery";
+import { ErrorFetchingProducts } from "@/components/ui/ComponentErrors/ErrorFetchingProducts";
 
 export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
-  const isLoggedIn = getAccesToken();
-
   const { isSearchActive } = useSearchStore();
   const goBlur: string = "blur mt-10 mb-44";
-  const [filterSelect, setFilterSelect] = useState({
-    alphabetical: false,
-    priceHigh: false,
-    priceLow: false,
-    newest: false,
-    oldest: false,
-  });
+  // const [filterSelect, setFilterSelect] = useState({
+  //   alphabetical: false,
+  //   priceHigh: false,
+  //   priceLow: false,
+  //   newest: false,
+  //   oldest: false,
+  // });
   const page = Number(useParams().page);
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearch = useDebounce(searchTerm, 300);
@@ -55,8 +53,9 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
                 item.title.toLowerCase().includes(debouncedSearch.toLowerCase())
             );
             return { ...data, products: filteredProducts };
+          } else {
+            return data;
           }
-          return data;
         },
       },
 
@@ -86,6 +85,9 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
     (_, index) => index + 1
   );
 
+  // const TestSort = products?.data?.products?.sort((a, b) => a.price - b.price);
+  // console.log(products.data?.products);
+  // console.log(TestSort, "sort");
   if (products.isPending || products.isLoading)
     return (
       <>
@@ -105,8 +107,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
         )}
       </>
     );
-  if (products.error) return "An error has occurred: " + products.error.message;
-  console.log(products.data);
+  if (products?.error) return <ErrorFetchingProducts />;
 
   return (
     <MaxWidthWrapper
@@ -160,7 +161,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
                 id={item.id}
                 isInCart={isAdded && isAdded.includes(item.id)}
                 isInFavorites={isFavorited && isFavorited.includes(item.id)}
-                isLoading={products.isRefetching}
+                isLoading={products.isPlaceholderData}
               />
             </div>
           ))}
@@ -172,7 +173,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
               currentPage={page}
               previous={page - 1}
               next={page + 1}
-              isFetching={products.isRefetching}
+              isFetching={products.isPlaceholderData}
             />
           ) : null}
         </div>

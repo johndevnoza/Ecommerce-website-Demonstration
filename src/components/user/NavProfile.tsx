@@ -22,7 +22,6 @@ import { favoritesQuery } from "@/services/FavoritesStorage";
 import { useConditionalEffect } from "@/hooks/useConditionalEffect";
 import { useUsersQuery } from "@/services/usersQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { USERS_QUERY } from "@/utils/constants";
 
 export default function NavProfile() {
   const { data, isPending } = favoritesQuery();
@@ -33,13 +32,12 @@ export default function NavProfile() {
   const logout = useMutation({
     mutationFn: async () => {
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     },
     onSettled: async () => {
       queryClient.clear();
       await queryClient.invalidateQueries();
       await queryClient.refetchQueries();
-      await queryClient.invalidateQueries({ queryKey: [USERS_QUERY] });
-      await queryClient.refetchQueries({ queryKey: [USERS_QUERY] });
       navigate("/login");
     },
   });
@@ -62,7 +60,9 @@ export default function NavProfile() {
           })
         )}
       >
-        <span className="hidden lg:block"> {user && user.first_name}</span>
+        <span className="hidden lg:block">
+          {user && user.first_name && user.first_name}
+        </span>
         <User className="group-hover:translate-x-1 " />
       </DropdownMenuTrigger>
       <DropdownMenuContent>

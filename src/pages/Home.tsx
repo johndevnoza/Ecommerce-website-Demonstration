@@ -13,7 +13,7 @@ export default function Home() {
           {/* home fancy categories carousel */}
           <HomeCategories />
           {/* Homepage All products */}
-          <Products isHomePage={true}/>
+          <Products isHomePage={true} />
         </div>
       </div>
     </MaxWidthWrapper>
