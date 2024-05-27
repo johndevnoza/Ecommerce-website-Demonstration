@@ -72,7 +72,7 @@ const Cart: React.FC = () => {
   return (
     <Sheet>
       <HoverInfoElement hoverContent="Cart" shouldHover side="bottom">
-        <SheetTrigger className="flex m-auto  items-center ring-border ring-1 bg-background rounded-md p-2">
+        <SheetTrigger className="flex m-auto   items-center ring-border ring-1 bg-background rounded-md p-2">
           <ShoppingCart
             aria-hidden="true"
             color={

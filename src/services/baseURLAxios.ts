@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getAccesToken } from "./authQuery";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const apiUrl: string = import.meta.env.VITE_API_BASE_URL;
 export const axiosBase = axios.create({
@@ -11,6 +12,12 @@ export const authAxios = axios.create({
 export const loginAxios = axios.create({
   baseURL: apiUrl,
 });
+function getStoredRefreshToken() {
+  return localStorage.getItem("refreshToken");
+}
+function storeNewAccessToken(token: string) {
+  localStorage.setItem("accessToken", token);
+}
 loginAxios.interceptors.request.use(
   async (config) => {
     const token = getAccesToken();
@@ -34,12 +41,7 @@ authAxios.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-function getStoredRefreshToken() {
-  return localStorage.getItem("refreshToken");
-}
-function storeNewAccessToken(token: string) {
-  localStorage.setItem("accessToken", token);
-}
+
 async function refreshToken() {
   try {
     const refreshToken = getStoredRefreshToken();

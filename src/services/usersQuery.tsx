@@ -10,16 +10,16 @@ type User = {
   accessToken?: string;
   refresh_token: string;
   id: string;
+  role: string;
 };
 export async function fetchCurrentUser() {
   const isLoggedIn = getAccesToken();
   if (isLoggedIn) {
     try {
       const response = await authAxios.get(`user/current-user`);
-      return (await response.data) as User;
+      return await response.data;
     } catch (error) {
-      console.error("Failed to fetch current user", error);
-      return null;
+      throw error;
     }
   } else return [];
 }
@@ -34,6 +34,6 @@ export const updateUserTest = async (user: string) => {
 export function useUsersQuery() {
   return useQuery({
     queryKey: [USERS_QUERY],
-    queryFn: async () => await fetchCurrentUser(),
+    queryFn: fetchCurrentUser,
   });
 }

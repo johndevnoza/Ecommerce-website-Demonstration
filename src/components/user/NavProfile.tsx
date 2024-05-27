@@ -8,22 +8,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
-import {
-  FolderHeart,
-  Inbox,
-  LogOut,
-  SubscriptIcon,
-  User,
-  User2,
-} from "lucide-react";
+import { FolderHeart, Inbox, LogOut, SubscriptIcon, User2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { favoritesQuery } from "@/services/FavoritesStorage";
 import { useConditionalEffect } from "@/hooks/useConditionalEffect";
 import { useUsersQuery } from "@/services/usersQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getAccesToken } from "@/services/authQuery";
+import SignIn from "./SignIn";
 
 export default function NavProfile() {
+  const token = getAccesToken();
+  const { data: user } = useUsersQuery();
+
   const { data, isPending } = favoritesQuery();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -41,7 +39,8 @@ export default function NavProfile() {
       navigate("/login");
     },
   });
-  const { data: user } = useUsersQuery();
+  console.log(user);
+
   const addFavoritesAnim = useConditionalEffect(data, "favorites");
   if (isPending) {
     return (
@@ -52,19 +51,20 @@ export default function NavProfile() {
   }
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        className={cn(
-          buttonVariants({
-            variant: "outline",
-            className: addFavoritesAnim,
-          })
-        )}
-      >
-        <span className="hidden lg:block">
-          {user && user.first_name && user.first_name}
-        </span>
-        <User className="group-hover:translate-x-1 " />
-      </DropdownMenuTrigger>
+      {token && (
+        <DropdownMenuTrigger
+          className={cn(
+            buttonVariants({
+              variant: "outline",
+              className: addFavoritesAnim,
+            })
+          )}
+        >
+          <span className=" md:block w-full line-clamp-1">
+            {token && user?.first_name ? user?.first_name : <SignIn />}
+          </span>
+        </DropdownMenuTrigger>
+      )}
       <DropdownMenuContent>
         <DropdownMenuLabel
           onClick={() => navigate("profile/Details")}

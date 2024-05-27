@@ -101,7 +101,8 @@ declare type User = {
   accessToken?: string;
   refresh_token?: string;
   id?: string;
-  authorized?: boolean;
+  verified?: boolean;
+  role: string;
 };
 
 declare type PaymentProps = {
@@ -128,8 +129,8 @@ declare type UserProps = {
 declare type requestPost = {
   product_id: string;
 };
- declare type LoginProps = {
-   email?: string;
-   password?: string;
-   accessToken?: string;
- };
+declare type LoginProps = {
+  email?: string;
+  password?: string;
+  accessToken?: string;
+};

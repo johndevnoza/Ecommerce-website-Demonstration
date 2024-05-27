@@ -12,7 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import { getAccesToken } from "@/services/authQuery";
 
-// this component is responsible tell the user that they should be logged in in case they clicked on content wich requires ATUH
+// this component is responsible tell the user that they should be logged in in case they clicked on content wich requires AUTHENTICATION
 
 export const UnAuthedDialog = ({
   children,
@@ -22,6 +22,7 @@ export const UnAuthedDialog = ({
   noRestriction?: boolean;
 }) => {
   const isLoggedIn = getAccesToken();
+  
   return (
     <>
       {isLoggedIn || noRestriction ? (

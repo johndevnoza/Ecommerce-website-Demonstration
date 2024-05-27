@@ -1,5 +1,4 @@
 import { Menu } from "lucide-react";
-import { useState } from "react";
 import Cart from "../user/Cart";
 import SignIn from "../user/SignIn";
 import Profile from "../user/NavProfile";
@@ -10,36 +9,31 @@ import { buttonVariants } from "./button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 const BurgerMenu = ({ user }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="md:hidden relative">
-      <button
-        disabled
-        onMouseDownCapture={() => {
-          setIsOpen(!isOpen);
-        }}
-        className={cn(buttonVariants({ variant: "outline" }))}
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        className={cn(
+          buttonVariants({
+            variant: "outline",
+            className: "md:hidden block data-[state=open]:bg-primary ",
+          })
+        )}
       >
         <Menu />
-      </button>
-      {isOpen ? (
-        <div className="absolute right-0 bg-background flex ">
-          {user === "signed" ? <SignIn /> : <Profile />}
-          <div className={cn(buttonVariants({ variant: "outline" }))}>
-            <Cart />
-          </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-full" sideOffset={1}>
+        <div className="flex items-center w-full gap-1">
+          {!user ? <SignIn /> : <Profile />}
+          {!user ? null : <Cart />}
           <ModeToggle />
           <LanguageSwitch />
         </div>
-      ) : null}
-    </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

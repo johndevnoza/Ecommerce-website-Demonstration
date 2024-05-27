@@ -25,7 +25,7 @@ export const useConditionalEffect = (
     },
     favorites: {
       defaultClass:
-        "flex gap-2  data-[state=open]:border-primary group data-[state=open]:scale-110",
+        "flex gap-2 w-full line-clamp-1  data-[state=open]:border-primary group data-[state=open]:scale-110",
       animation:
         "flex gap-2  data-[state=open]:border-primary group data-[state=open]:scale-110 bg-primary",
     },

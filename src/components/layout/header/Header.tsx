@@ -4,18 +4,19 @@ import { buttonVariants } from "../../ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductSearchBar from "@/components/ui/ProductSearchBar";
-import BurgerMenuTest from "@/components/ui/BurgerMenuTest";
 import LanguageSwitch from "@/components/LanguageSwitch";
 import SignIn from "@/components/user/SignIn";
 import Cart from "@/components/user/Cart";
 import Links from "./links";
 import HoverInfoElement from "@/components/ui/HoverInfoElement";
 import NavProfile from "@/components/user/NavProfile";
-import { useUsersQuery } from "@/services/usersQuery";
-import { LoaderIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { getAccesToken } from "@/services/authQuery";
+import InactivityAlert from "@/components/ui/InactivityAlert";
+import BurgerMenu from "@/components/ui/BurgerMenu";
+
 export default function Header() {
-  const { data: user, isFetching } = useUsersQuery();
+  const token = getAccesToken();
   const [refresh, setRefresh] = useState(false);
   const location = useLocation();
 
@@ -30,6 +31,7 @@ export default function Header() {
 
   return (
     <div className="sticky z-50 top-0 bg-background border-b-2 border-border inset-x-0 h-16">
+      <InactivityAlert />
       <header className="relative w-full">
         <MaxWidthWrapper>
           <div className="flex h-16 items-center justify-between">
@@ -48,28 +50,8 @@ export default function Header() {
             </div>
             <ProductSearchBar />
             <div className="md:flex gap-1 hidden">
-              {!refresh ? (
-                <div className="md:flex gap-1">
-                  {user?.first_name !== undefined ? (
-                    <NavProfile />
-                  ) : user && isFetching ? (
-                    <div
-                      className={cn(
-                        buttonVariants({
-                          variant: "secondary",
-                          className: "flex gap-2",
-                        })
-                      )}
-                    >
-                      <span>Loading</span>
-                      <LoaderIcon className="animate-spin" />
-                    </div>
-                  ) : (
-                    <SignIn />
-                  )}
-                  {user ? <Cart /> : null}
-                </div>
-              ) : null}
+              {token ? <NavProfile /> : <SignIn />}
+              {token ? <Cart /> : null}
               <HoverInfoElement hoverContent="Theme" shouldHover side="bottom">
                 <ModeToggle />
               </HoverInfoElement>
@@ -81,7 +63,7 @@ export default function Header() {
                 <LanguageSwitch />
               </HoverInfoElement>
             </div>
-            <BurgerMenuTest user={user} />
+            <BurgerMenu user={token} />
           </div>
         </MaxWidthWrapper>
       </header>
