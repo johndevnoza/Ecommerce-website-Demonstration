@@ -1,5 +1,8 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
+import { Input } from "../input";
+import { Button } from "../button";
+import { Edit, X } from "lucide-react";
 
 export const ProductsSkeleton: React.FC = () => {
   return (
@@ -27,6 +30,51 @@ export const SmallProductsSkeleton = ({
         <div className="size-[100%] h-48 rounded-md bg-secondary animate-pulse" />
         <div className="w-full h-10 mt-2 rounded-md bg-secondary animate-pulse"></div>
       </div>
+    </div>
+  );
+};
+export const ProfileDetailsSkeleton = () => {
+  return (
+    <div className="flex flex-col md:gap-1  gap-4 md:flex-row w-full h-full  items-center justify-center  min-h-full md:px-0 px-4">
+      <form className="flex w-full items-center md:flex-row flex-col justify-center">
+        <div className="flex items-center gap-1 w-max md:order-1   self-start">
+          <Edit className="ml-1 cursor-pointer " />
+          <Button className="invisible">Update</Button>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center w-max justify-between">
+            <label htmlFor="firstName" className="w-24">
+              First name
+            </label>
+
+            <Input disabled type="text" className="min-w-0 w-min" />
+          </div>
+          <div className="flex items-center w-max justify-between">
+            <label htmlFor="lastName" className="w-24">
+              Last name
+            </label>
+            <Input disabled type="text" className="w-min  min-w-0" />
+          </div>
+          <div className="flex items-center w-max justify-between">
+            <label htmlFor="password" className="w-24">
+              Password
+            </label>
+            <Input disabled type="text" className="w-min min-w-0" />
+          </div>
+          <div className="flex items-center w-max justify-between">
+            <label htmlFor="phoneNumber" className="w-24">
+              Phone number
+            </label>
+            <Input disabled type="text" className="w-min min-w-0" />
+          </div>
+          <div className="flex items-center w-max justify-between">
+            <label htmlFor="email" className="w-24">
+              Email
+            </label>
+            <Input disabled type="text" className="w-min min-w-0" />
+          </div>
+        </div>
+      </form>
     </div>
   );
 };

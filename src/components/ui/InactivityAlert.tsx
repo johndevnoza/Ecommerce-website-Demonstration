@@ -10,12 +10,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const InactivityAlert = () => {
   const [showAlert, setShowAlert] = useState(false);
   const queryClient = useQueryClient();
   const token = getAccesToken();
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (token) {
       let inactivityTimeout: NodeJS.Timeout;
@@ -30,9 +30,7 @@ const InactivityAlert = () => {
       resetInactivityTimeout();
       window.addEventListener("mousemove", resetInactivityTimeout);
       window.addEventListener("keydown", resetInactivityTimeout);
-      queryClient.removeQueries();
-      queryClient.invalidateQueries();
-      queryClient.refetchQueries();
+
       return () => {
         clearTimeout(inactivityTimeout);
         window.removeEventListener("mousemove", resetInactivityTimeout);
@@ -40,7 +38,12 @@ const InactivityAlert = () => {
       };
     }
   }, [token]);
-
+  const handleCancel = () => {
+    navigate("/");
+    queryClient.invalidateQueries();
+    queryClient.refetchQueries();
+    setShowAlert(false);
+  };
   if (showAlert && !token) {
     return (
       <>
@@ -50,7 +53,7 @@ const InactivityAlert = () => {
               <AlertDialogTitle>Session expired</AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => setShowAlert(false)}>
+              <AlertDialogCancel onClick={handleCancel}>
                 Cancel
               </AlertDialogCancel>
               <Link to={"/login"}>

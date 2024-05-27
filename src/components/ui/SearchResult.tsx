@@ -32,18 +32,15 @@ const SearchResults = ({
             </Link>
           ))}
         </div>
-      ) : searchUrl && isResult ? (
-        <div className=" text-center bg-secondary  p-2 rounded-md">
+      ) : searchUrl && !isResult && !isLoading ? (
+        <div className=" text-center bg-destructive  p-2 rounded-md">
           No results
         </div>
+      ) : searchUrl && isLoading ? (
+        <div className="animate-pulse text-center  bg-secondary p-2 rounded-md">
+          Loading...
+        </div>
       ) : null}
-      <div>
-        {searchUrl && isLoading ? (
-          <div className="animate-pulse text-center  bg-secondary p-2 rounded-md">
-            Loading...
-          </div>
-        ) : null}
-      </div>
     </section>
   );
 };

@@ -51,20 +51,18 @@ export default function NavProfile() {
   }
   return (
     <DropdownMenu>
-      {token && (
-        <DropdownMenuTrigger
-          className={cn(
-            buttonVariants({
-              variant: "outline",
-              className: addFavoritesAnim,
-            })
-          )}
-        >
-          <span className=" md:block w-full line-clamp-1">
-            {token && user?.first_name ? user?.first_name : <SignIn />}
-          </span>
-        </DropdownMenuTrigger>
-      )}
+      <DropdownMenuTrigger
+        className={cn(
+          buttonVariants({
+            variant: "outline",
+            className: addFavoritesAnim,
+          })
+        )}
+      >
+        <span className=" md:block w-full line-clamp-1">
+          {token && user?.first_name ? user?.first_name : <SignIn />}
+        </span>
+      </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel
           onClick={() => navigate("profile/Details")}

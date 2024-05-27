@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Edit, X } from "lucide-react";
-import { updateUserTest, useUsersQuery } from "@/services/usersQuery.tsx";
+import { updateUser, useUsersQuery } from "@/services/usersQuery.tsx";
 import { useQueryClient } from "@tanstack/react-query";
+import { USERS_QUERY } from "@/utils/constants";
+import { ProfileDetailsSkeleton } from "@/components/ui/loadings/CustomSkeletonLoadings";
 
 const ProfileDetails = () => {
   const queryClient = useQueryClient();
@@ -28,14 +30,16 @@ const ProfileDetails = () => {
   };
   const onSubmit = async (event) => {
     event.preventDefault();
-    await updateUserTest(user);
+    await updateUser(user);
     setEditIcon(true);
     setUser(data);
-    await queryClient.invalidateQueries({ queryKey: ["UsersQuery"] });
+    await queryClient.invalidateQueries({ queryKey: [USERS_QUERY] });
   };
   if (isFetching) {
-    <div>Loading</div>;
+    return <ProfileDetailsSkeleton />;
   }
+  console.log(isFetching);
+
   if (data)
     return (
       <div className="flex flex-col md:gap-1  gap-4 md:flex-row w-full h-full  items-center justify-center  min-h-full md:px-0 px-4">
