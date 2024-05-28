@@ -32,7 +32,7 @@ const ProductSearchBar = () => {
   const handleFocus = () => {
     setIsSearching(true);
   };
-  const isResult = !isFetching && products.length < 0;
+  const isResult = !isFetching && products?.length < 0;
 
   return (
     <div className="w-full grid place-items-center relative">

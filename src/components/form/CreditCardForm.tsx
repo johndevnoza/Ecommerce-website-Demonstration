@@ -6,15 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import HoverInfoElement from "../ui/HoverInfoElement.tsx";
 import { authAxios } from "../../services/baseURLAxios.ts";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchCarts, removeFromCart } from "@/services/useCartsQuery.tsx";
-// const creditCardSchema = z.object({
-//   cardNumber: z.string().regex(/^\d{16}$/, "Card number must be 16 digits"),
-//   cvv: z.string().regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits"),
-//   holderName: z.string().min(2, "Holder name is required"),
-//   expiryDate: z.string(),
-//   // .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Expiry date must be in MM/YY format"),
-// });
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchCarts } from "@/services/useCartsQuery.tsx";
+import Cards from "react-credit-cards-2";
+import { CARTS_QUERY } from "@/utils/constants.tsx";
 const creditCardSchema = z.object({
   cardNumber: z.string(),
   cvv: z.string().regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits"),
@@ -42,13 +37,13 @@ const CreditCardForm = ({
     resolver: zodResolver(creditCardSchema),
   });
   const queryClient = useQueryClient();
-  const { data: cartProduct } = useQuery({
-    queryKey: ["cart"],
-    queryFn: fetchCarts,
-  });
-  const isAdded = cartProduct
-    ? cartProduct.find((item) => item.product_id)
-    : null;
+  // const { data: cartProduct } = useQuery({
+  //   queryKey: ["cart"],
+  //   queryFn: fetchCarts,
+  // });
+  // const isAdded = cartProduct
+  //   ? cartProduct.find((item) => item.product_id)
+  //   : null;
   const watchFields = watch(["cardNumber", "cvv", "holderName", "expiryDate"]);
   const onSubmit: SubmitHandler<FormFields> = () => {
     const ACCESS_TOKEN = localStorage.getItem("accessToken");
@@ -65,11 +60,10 @@ const CreditCardForm = ({
       })
       .then((response) => {
         if (response) {
-          queryClient.refetchQueries({ queryKey: ["cart"], exact: true });
+          queryClient.refetchQueries({ queryKey: [CARTS_QUERY] });
         }
       });
   };
-  console.log(isAdded);
 
   return (
     <>
@@ -80,6 +74,15 @@ const CreditCardForm = ({
           <p>Expiry Date: {watchFields[3]}</p>
           <p>CVV: {watchFields[1]}</p>
         </div>
+
+        {/* <div>
+          <Cards
+            number={watchFields[0]}
+            expiry={watchFields[3]}
+            cvc={watchFields[1]}
+            name={watchFields[2]}
+          />
+        </div> */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex gap-2 flex-col w-max min-h-full"

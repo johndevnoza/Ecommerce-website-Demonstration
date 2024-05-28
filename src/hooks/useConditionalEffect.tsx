@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+//  EXPERIMENTAL COMPONENT
 type AnimationType = "cart" | "favorites" | "default" | "removeFromCart";
 
 export const useConditionalEffect = (

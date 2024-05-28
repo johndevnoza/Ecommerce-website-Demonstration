@@ -38,7 +38,6 @@ const ProfileDetails = () => {
   if (isFetching) {
     return <ProfileDetailsSkeleton />;
   }
-  console.log(isFetching);
 
   if (data)
     return (

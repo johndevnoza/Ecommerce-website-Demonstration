@@ -1,11 +1,10 @@
-import PaymentForm from "@/components/form/CreditCardForm";
 import CreditCardForm from "@/components/form/CreditCardForm";
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { CARTS_QUERY } from "@/utils/constants";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const Shopping = () => {
   const {
@@ -28,14 +27,14 @@ const Shopping = () => {
         0
       )
     : 0;
+  console.log(cartProduct);
 
   if (isLoading || isPending) {
-    return <div>Loading...</div>;
+    return <MaxWidthWrapper>Loading...</MaxWidthWrapper>;
   }
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
-
   return (
     <MaxWidthWrapper className="mt-10 mb-44 ">
       <div className=" flex flex-col gap-1">
@@ -97,13 +96,11 @@ const Shopping = () => {
                   secondId={f.cartProduct.id}
                   id={f.id}
                   isPageShopping
+                  total={f.count}
                   showElement={false}
                   isInFavorites={isAdded && isAdded.includes(f.cartProduct.id)}
                   removeCartItem
                 />
-                <div className="absolute right-2 top-2 rounded-md bg-primary px-2 font-bold">
-                  {f.count}
-                </div>
               </div>
             ))}
           </div>

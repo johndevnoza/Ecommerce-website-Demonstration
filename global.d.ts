@@ -102,7 +102,7 @@ declare type User = {
   refresh_token?: string;
   id?: string;
   verified?: boolean;
-  role: string;
+  role?: string;
 };
 
 declare type PaymentProps = {

@@ -1,5 +1,5 @@
 import { MouseEvent } from 'react';
-
+//  EXPERIMENTAL COMPONENT
 const useClickAnimation = () => {
   const handleMouseDown = (
     event: React.MouseEvent<SVGSVGElement, MouseEvent>

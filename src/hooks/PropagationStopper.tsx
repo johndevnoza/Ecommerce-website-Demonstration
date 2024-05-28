@@ -1,3 +1,4 @@
+//  EXPERIMENTAL COMPONENT
 const preventDefaultPropagtion = (
   e: React.MouseEvent<HTMLElement, MouseEvent>
 ) => {

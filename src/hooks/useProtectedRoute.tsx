@@ -9,15 +9,15 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useUsersQuery } from "@/services/usersQuery";
+import { getAccesToken } from "@/services/authQuery";
 // this hook is responsible to automaticly redirect users to the login page, if they dont have a permission
 const UseProtectedRoute = () => {
   const navigate = useNavigate();
-  const { data: user, isPending } = useUsersQuery();
-  
+  const token = getAccesToken();
+
   return (
     <>
-      {user ? (
+      {token ? (
         <Outlet />
       ) : (
         <AlertDialog defaultOpen>

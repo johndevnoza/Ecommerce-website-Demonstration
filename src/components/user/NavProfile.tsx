@@ -39,7 +39,6 @@ export default function NavProfile() {
       navigate("/login");
     },
   });
-  console.log(user);
 
   const addFavoritesAnim = useConditionalEffect(data, "favorites");
   if (isPending) {

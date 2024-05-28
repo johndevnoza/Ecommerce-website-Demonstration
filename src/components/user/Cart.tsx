@@ -1,11 +1,4 @@
-import {
-  ArrowBigDownDash,
-  ArrowBigUpDash,
-  Loader,
-  ShoppingBagIcon,
-  ShoppingCart,
-  X,
-} from "lucide-react";
+import { Loader, ShoppingBagIcon, ShoppingCart } from "lucide-react";
 import {
   Sheet,
   SheetContent,

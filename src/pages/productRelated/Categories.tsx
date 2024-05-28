@@ -4,10 +4,10 @@ import { useCategoriesQuery } from "@/services/productsQuery";
 import { Link, Outlet, useParams } from "react-router-dom";
 
 export default function Categories() {
-  const { data: categories, isLoading, error } = useCategoriesQuery();
+  const { data: categories, isPending, error } = useCategoriesQuery();
   const { categoryName } = useParams();
 
-  if (isLoading)
+  if (isPending)
     return (
       <MaxWidthWrapper className="bg-secondary animate-pulse py-2 ">
         Loading Categories

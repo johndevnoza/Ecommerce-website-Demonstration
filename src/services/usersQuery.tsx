@@ -8,14 +8,14 @@ export async function fetchCurrentUser() {
   if (isLoggedIn) {
     try {
       const response = await authAxios.get(`user/current-user`);
-      return (await response.data) as User;
+      return await response.data;
     } catch (error) {
       throw error;
     }
   } else return [];
 }
 
-export const updateUser = async (user: string) => {
+export const updateUser = async (user: User) => {
   return await authAxios
     .put(`user`, user, {})
     .then((res) => res.data)

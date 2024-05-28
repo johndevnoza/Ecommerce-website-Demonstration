@@ -1,5 +1,4 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
-import { Skeleton } from "../skeleton";
 import {
   ProductsSkeleton,
   SmallProductsSkeleton,
@@ -19,10 +18,7 @@ type SkeletonLoadingProps = {
 export const ProductsLoading = ({
   numberOfCards,
   products,
-  cart,
-  shopping,
   homePageOffers,
-  homePageCategories,
   homePageProducts,
 }: SkeletonLoadingProps) => {
   const cards = [];

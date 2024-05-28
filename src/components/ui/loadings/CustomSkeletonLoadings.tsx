@@ -2,7 +2,7 @@ import React from "react";
 import { twMerge } from "tailwind-merge";
 import { Input } from "../input";
 import { Button } from "../button";
-import { Edit, X } from "lucide-react";
+import { Edit } from "lucide-react";
 
 export const ProductsSkeleton: React.FC = () => {
   return (

@@ -1,15 +1,15 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
-import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ui/cards/ProductCard";
-import { Input } from "@/components/ui/input";
-import { ProductsLoading } from "@/components/ui/loadings/ProductListLoading";
 import useDebounce from "@/hooks/useDebounce";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { fetchFav } from "@/services/FavoritesStorage";
-import { fetchCarts } from "@/services/useCartsQuery";
-import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 import { useQuery } from "@tanstack/react-query";
+import { fetchCarts } from "@/services/useCartsQuery";
+import { ProductsLoading } from "@/components/ui/loadings/ProductListLoading";
 import { Loader2, XCircle } from "lucide-react";
 import { useCallback, useState } from "react";
+import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 
 const Favorites = () => {
   const [favoritesTerm, setFavoritesTerm] = useState("");
@@ -46,6 +46,13 @@ const Favorites = () => {
   });
 
   const isAdded = carts ? carts.map((item) => item.product_id) : null;
+
+  const productCountMap = new Map();
+  if (carts) {
+    carts?.forEach((item) => {
+      productCountMap.set(item.product_id, item.count);
+    });
+  }
 
   if (status === "pending") {
     return <ProductsLoading products numberOfCards={8} />;
@@ -91,7 +98,7 @@ const Favorites = () => {
                 image={f.likedProduct.image}
                 secondId={f.likedProduct.id}
                 id={f.id}
-                total={f.count}
+                total={productCountMap.get(f.likedProduct.id) || 0}
                 category_name={f.likedProduct.category_name}
                 isPageFavorites
                 isInCart={isAdded && isAdded.includes(f.likedProduct.id)}

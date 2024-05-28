@@ -33,21 +33,22 @@ import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 export default function ProductCard({
   image,
   title,
+  price,
   category_name,
   description,
-  price,
   imageStyle,
   onClick,
   link,
   id,
   secondId,
-  isInFavorites,
   isInCart,
+  isInFavorites,
   showElement = true,
   isPageShopping = false,
   isPageFavorites = false,
   removeCartItem = false,
   isLoading = false,
+  total,
 }: ProductData) {
   const queryClient = useQueryClient();
 
@@ -190,11 +191,10 @@ export default function ProductCard({
               buttonVariants({
                 variant: isInCart ? "default" : "outline",
                 className: isInCart
-                  ? "rounded-none w-full lg:p-2 rounded-r-md max-[840px]:p-3 group cursor-pointer bg-primary"
-                  : "rounded-none w-full lg:p-2 rounded-r-md max-[840px]:p-3 group cursor-pointer",
+                  ? "rounded-none w-full lg:p-2 relative rounded-r-md max-[840px]:p-3 group cursor-pointer bg-secondary"
+                  : "rounded-none w-full lg:p-2 relative rounded-r-md max-[840px]:p-3 group cursor-pointer",
               })
             )}
-            iconClass="group-hover:scale-125"
             showInfo
             icon
             hoverSide="bottom"
@@ -222,6 +222,11 @@ export default function ProductCard({
             ) : (
               <ShoppingCart />
             )}
+            {total && !isPageShopping ? (
+              <div className="absolute -right-2 -top-2 rounded-md bg-primary font-mono tabular-nums px-2 font-bold outline outline-background">
+                {total}
+              </div>
+            ) : null}
           </InteractiveButton>
           {removeCartItem ? (
             <X
@@ -233,6 +238,9 @@ export default function ProductCard({
           ) : null}
         </div>
       </CardFooter>
+      <div className="absolute right-2 top-2 rounded-md bg-primary px-2 font-bold">
+        {total}
+      </div>
     </Card>
   );
 }

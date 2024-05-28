@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getAccesToken } from "./authQuery";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const apiUrl: string = import.meta.env.VITE_API_BASE_URL;
 export const axiosBase = axios.create({

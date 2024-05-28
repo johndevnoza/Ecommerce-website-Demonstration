@@ -1,10 +1,10 @@
-import { AUTH_QUERY, FAVORITES_QUERY } from "@/utils/constants.tsx";
+import { FAVORITES_QUERY } from "@/utils/constants.tsx";
 import { authAxios } from "./baseURLAxios.ts";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getAccesToken } from "./authQuery.tsx";
 export const fetchFav = async () => {
   const isLoggedIn = getAccesToken();
-  if (isLoggedIn?.length && isLoggedIn?.length > 0) {
+  if (isLoggedIn) {
     try {
       const response = await authAxios.get("liked-products");
       return (await response.data) as LikedProduct[];

@@ -84,6 +84,12 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
     { length: totalPages },
     (_, index) => index + 1
   );
+  const productCountMap = new Map();
+  if (carts?.data) {
+    carts.data.forEach((item) => {
+      productCountMap.set(item.product_id, item.count);
+    });
+  }
 
   // const TestSort = products?.data?.products?.sort((a, b) => a.price - b.price);
   // console.log(products.data?.products);
@@ -162,6 +168,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
                 isInCart={isAdded && isAdded.includes(item.id)}
                 isInFavorites={isFavorited && isFavorited.includes(item.id)}
                 isLoading={products.isPlaceholderData}
+                total={productCountMap.get(item.id) || null}
               />
             </div>
           ))}

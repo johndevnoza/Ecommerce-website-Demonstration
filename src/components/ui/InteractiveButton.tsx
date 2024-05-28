@@ -3,7 +3,6 @@ import { UnAuthedDialog } from "../UnAuthedDialog";
 import { Button } from "./button";
 import { useNavigate } from "react-router-dom";
 import { ReactNode } from "react";
-import useUserStore from "@/services/authContext";
 import { useUsersQuery } from "@/services/usersQuery";
 // this is a custom button component, which includes button variants and also redirections and hover infromations if required
 type Side = "top" | "bottom" | "left" | "right";

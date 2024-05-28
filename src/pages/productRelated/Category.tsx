@@ -9,7 +9,7 @@ import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-
+// EXPERIMENTAL COMPONENT, PROJECT's DESIGN/FLOW MUST BE REWORKED
 const Category = () => {
   const { categoryName } = useParams();
   const [maxPrice, setMaxPrice] = useState("");

@@ -1,18 +1,18 @@
 import { cn } from "@/lib/utils";
-import { Link, useLocation } from "react-router-dom";
-import { buttonVariants } from "../../ui/button";
+import { authQuery, getAccesToken } from "@/services/authQuery";
 import { ModeToggle } from "@/components/mode-toggle";
+import { buttonVariants } from "../../ui/button";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Links from "./links";
+import Cart from "@/components/user/Cart";
+import SignIn from "@/components/user/SignIn";
+import LanguageSwitch from "@/components/LanguageSwitch";
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductSearchBar from "@/components/ui/ProductSearchBar";
-import LanguageSwitch from "@/components/LanguageSwitch";
-import SignIn from "@/components/user/SignIn";
-import Cart from "@/components/user/Cart";
-import Links from "./links";
 import HoverInfoElement from "@/components/ui/HoverInfoElement";
-import NavProfile from "@/components/user/NavProfile";
-import { useEffect, useState } from "react";
-import { getAccesToken } from "@/services/authQuery";
 import InactivityAlert from "@/components/ui/InactivityAlert";
+import NavProfile from "@/components/user/NavProfile";
 import BurgerMenu from "@/components/ui/BurgerMenu";
 
 export default function Header() {
@@ -25,7 +25,7 @@ export default function Header() {
       setRefresh(true);
       setTimeout(() => {
         setRefresh(false);
-      }, 100);
+      }, 10);
     }
   }, []);
 
