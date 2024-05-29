@@ -24,10 +24,7 @@ import {
   removeFromCart,
 } from "@/services/useCartsQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  addToFavorites,
-  removeFromFavorites,
-} from "@/services/FavoritesStorage";
+import { addToFavorites, removeFromFavorites } from "@/services/FavoritesQuery";
 import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 
 export default function ProductCard({

@@ -35,14 +35,12 @@ export function useSalesQuery(debauncedSearch: string) {
         : null,
   });
 }
-
 export function useCategoriesQuery() {
   return useQuery({
     queryKey: [CATEGORIES_QUERY, fetchCategories],
     queryFn: fetchCategories,
   });
 }
-
 export function useSingleCategoryQuery(
   categoryName: string | undefined,
   maxPriceFetch?: string,

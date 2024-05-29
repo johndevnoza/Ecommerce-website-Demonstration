@@ -11,15 +11,13 @@ import { buttonVariants } from "../ui/button";
 import { FolderHeart, Inbox, LogOut, SubscriptIcon, User2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
-import { favoritesQuery } from "@/services/FavoritesStorage";
+import { favoritesQuery } from "@/services/FavoritesQuery";
 import { useConditionalEffect } from "@/hooks/useConditionalEffect";
 import { useUsersQuery } from "@/services/usersQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { getAccesToken } from "@/services/authQuery";
 import SignIn from "./SignIn";
 
 export default function NavProfile() {
-  const token = getAccesToken();
   const { data: user } = useUsersQuery();
 
   const { data, isPending } = favoritesQuery();
@@ -31,11 +29,11 @@ export default function NavProfile() {
     mutationFn: async () => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-    },
-    onSettled: async () => {
       queryClient.clear();
       await queryClient.invalidateQueries();
       await queryClient.refetchQueries();
+    },
+    onSettled: async () => {
       navigate("/login");
     },
   });
@@ -50,18 +48,20 @@ export default function NavProfile() {
   }
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        className={cn(
-          buttonVariants({
-            variant: "outline",
-            className: addFavoritesAnim,
-          })
-        )}
-      >
-        <span className=" md:block w-full line-clamp-1">
-          {token && user?.first_name ? user?.first_name : <SignIn />}
-        </span>
-      </DropdownMenuTrigger>
+      {user?.first_name ? (
+        <DropdownMenuTrigger
+          className={cn(
+            buttonVariants({
+              variant: "outline",
+              className: addFavoritesAnim,
+            })
+          )}
+        >
+          {user?.first_name}
+        </DropdownMenuTrigger>
+      ) : (
+        <SignIn />
+      )}
       <DropdownMenuContent>
         <DropdownMenuLabel
           onClick={() => navigate("profile/Details")}

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { fetchFav } from "@/services/FavoritesStorage";
+import { fetchFav } from "@/services/FavoritesQuery";
 import { useSingleCategoryQuery } from "@/services/productsQuery";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";

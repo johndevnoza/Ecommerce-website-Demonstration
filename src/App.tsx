@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import { Products } from "@/pages/productRelated/products/Products";
 import Home from "@/pages/Home";
 import Header from "@/components/layout/header/Header";
-import Footer from "@/components/layout/footer/Footer";
 import Product from "@/pages/productRelated/products/Product";
 import Login from "@/components/form/Login";
 import Register from "./components/form/Register";
@@ -44,7 +43,6 @@ function App() {
         </Route>
         <Route path="*" element={<ErrorUrlPath />} />
       </Routes>
-      <Footer />
     </>
   );
 }

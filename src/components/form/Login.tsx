@@ -6,11 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Component, Loader2Icon, Mail, MailCheck } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { mutateLogin } from "@/services/apiCalls";
 import MaxWidthWrapper from "../ui/MaxWidthWrapper";
-import { getAccesToken } from "@/services/authQuery";
 import { useEffect } from "react";
+import { useUsersQuery } from "@/services/usersQuery";
 
 // validation
 const schema = z.object({
@@ -21,10 +21,10 @@ type FormFields = z.infer<typeof schema>;
 
 const Login = () => {
   const navigate = useNavigate();
-  const isLoggedIn = getAccesToken();
+  const { data: user } = useUsersQuery();
 
   useEffect(() => {
-    if (isLoggedIn) return navigate("/");
+    if (user?.first_name) return navigate("/");
   }, []);
   const queryClient = useQueryClient();
 

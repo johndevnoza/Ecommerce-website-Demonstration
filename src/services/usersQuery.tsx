@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { authAxios } from "./baseURLAxios";
+import { authAxios, getAccesToken } from "./baseURLAxios";
 import { USERS_QUERY } from "@/utils/constants";
-import { getAccesToken } from "./authQuery";
 
 export async function fetchCurrentUser() {
   const isLoggedIn = getAccesToken();
   if (isLoggedIn) {
     try {
       const response = await authAxios.get(`user/current-user`);
+      console.log(response.data);
       return await response.data;
     } catch (error) {
       throw error;

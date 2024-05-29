@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Link } from "react-router-dom";
-import { getAccesToken } from "@/services/authQuery";
+import { useUsersQuery } from "@/services/usersQuery";
 
 // this component is responsible tell the user that they should be logged in in case they clicked on content wich requires AUTHENTICATION
 
@@ -21,11 +21,10 @@ export const UnAuthedDialog = ({
   children: ReactNode;
   noRestriction?: boolean;
 }) => {
-  const isLoggedIn = getAccesToken();
-  
+  const { data: user } = useUsersQuery();
   return (
     <>
-      {isLoggedIn || noRestriction ? (
+      {user?.first_name || noRestriction ? (
         children
       ) : (
         <AlertDialog>

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
-import { fetchFav } from "@/services/FavoritesStorage";
+import { fetchFav } from "@/services/FavoritesQuery";
 import { useSalesQuery } from "@/services/productsQuery";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";

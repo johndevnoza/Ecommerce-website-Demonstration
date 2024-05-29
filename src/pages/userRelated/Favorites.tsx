@@ -3,17 +3,19 @@ import ProductCard from "@/components/ui/cards/ProductCard";
 import useDebounce from "@/hooks/useDebounce";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { fetchFav } from "@/services/FavoritesStorage";
+import { fetchFav } from "@/services/FavoritesQuery";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { ProductsLoading } from "@/components/ui/loadings/ProductListLoading";
 import { Loader2, XCircle } from "lucide-react";
 import { useCallback, useState } from "react";
 import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
+import SearchInComponent from "../productRelated/SearchInComponent";
 
 const Favorites = () => {
   const [favoritesTerm, setFavoritesTerm] = useState("");
   const debauncedSearch = useDebounce(favoritesTerm, 300);
+
   const handleSearchTermChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setFavoritesTerm(e.target.value);
@@ -24,8 +26,8 @@ const Favorites = () => {
   const {
     data: favorites,
     error,
-    status,
     isPending,
+    isLoading,
   } = useQuery({
     queryKey: [FAVORITES_QUERY],
     queryFn: async () => await fetchFav(),
@@ -54,7 +56,7 @@ const Favorites = () => {
     });
   }
 
-  if (status === "pending") {
+  if (isPending) {
     return <ProductsLoading products numberOfCards={8} />;
   }
   if (error) {
@@ -64,29 +66,12 @@ const Favorites = () => {
   return (
     <MaxWidthWrapper>
       <div className="flex w-full flex-col gap-6 my-8">
-        <header className="flex justify-between items-center gap-4  border-border border-2 p-2  rounded-md">
-          <Button className="" variant={"secondary"}>
-            Favorited
-          </Button>
-          <div className="relative">
-            <Input
-              type="text "
-              value={favoritesTerm}
-              onChange={handleSearchTermChange}
-              placeholder="Search favorited"
-              className=""
-            />
-            {favoritesTerm && (
-              <XCircle
-                onClick={() => setFavoritesTerm("")}
-                className="absolute top-2 z-40 right-1 hover:scale-110 animate-pulse"
-              />
-            )}
-            {isPending ? (
-              <Loader2 className="absolute right-8 top-2 animate-spin" />
-            ) : null}
-          </div>
-        </header>
+        <SearchInComponent
+          handleSearchTermChange={handleSearchTermChange}
+          setFavoritesTerm={setFavoritesTerm}
+          favoritesTerm={favoritesTerm}
+          isPending={isLoading}
+        />
         <div className="grid max-[440px]:grid-cols-1 md:grid-cols-3 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
           {favorites?.map((f: LikedProduct) => (
             <div key={f.id}>
@@ -102,6 +87,7 @@ const Favorites = () => {
                 category_name={f.likedProduct.category_name}
                 isPageFavorites
                 isInCart={isAdded && isAdded.includes(f.likedProduct.id)}
+                isLoading={isLoading}
               />
             </div>
           ))}

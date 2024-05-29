@@ -9,7 +9,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { getAccesToken } from "@/services/authQuery";
+import { getAccesToken } from "@/services/baseURLAxios";
 // this hook is responsible to automaticly redirect users to the login page, if they dont have a permission
 const UseProtectedRoute = () => {
   const navigate = useNavigate();

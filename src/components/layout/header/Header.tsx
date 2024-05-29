@@ -1,9 +1,7 @@
 import { cn } from "@/lib/utils";
-import { authQuery, getAccesToken } from "@/services/authQuery";
 import { ModeToggle } from "@/components/mode-toggle";
 import { buttonVariants } from "../../ui/button";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
 import Links from "./links";
 import Cart from "@/components/user/Cart";
 import SignIn from "@/components/user/SignIn";
@@ -14,19 +12,14 @@ import HoverInfoElement from "@/components/ui/HoverInfoElement";
 import InactivityAlert from "@/components/ui/InactivityAlert";
 import NavProfile from "@/components/user/NavProfile";
 import BurgerMenu from "@/components/ui/BurgerMenu";
+import { useUsersQuery } from "@/services/usersQuery";
+import { useEffect } from "react";
 
 export default function Header() {
-  const token = getAccesToken();
-  const [refresh, setRefresh] = useState(false);
+  const { data, refetch } = useUsersQuery();
   const location = useLocation();
-
   useEffect(() => {
-    if (location.pathname.includes("/login")) {
-      setRefresh(true);
-      setTimeout(() => {
-        setRefresh(false);
-      }, 10);
-    }
+    if (location.pathname === "/login") refetch();
   }, []);
 
   return (
@@ -50,8 +43,8 @@ export default function Header() {
             </div>
             <ProductSearchBar />
             <div className="md:flex gap-1 hidden">
-              {token ? <NavProfile /> : <SignIn />}
-              {token ? <Cart /> : null}
+              {data?.first_name ? <NavProfile /> : <SignIn />}
+              {data?.first_name ? <Cart /> : null}
               <HoverInfoElement hoverContent="Theme" shouldHover side="bottom">
                 <ModeToggle />
               </HoverInfoElement>
@@ -63,7 +56,7 @@ export default function Header() {
                 <LanguageSwitch />
               </HoverInfoElement>
             </div>
-            <BurgerMenu user={token} />
+            <BurgerMenu user={data?.first_name} />
           </div>
         </MaxWidthWrapper>
       </header>

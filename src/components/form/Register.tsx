@@ -18,8 +18,8 @@ import {
 import { cn } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postRegister } from "@/services/apiCalls";
-import { getAccesToken } from "@/services/authQuery";
 import { useEffect } from "react";
+import { getAccesToken } from "@/services/baseURLAxios";
 export const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8),

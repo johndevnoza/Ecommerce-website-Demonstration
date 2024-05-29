@@ -3,7 +3,7 @@ import ProductCard from "@/components/ui/cards/ProductCard";
 import useSearchStore from "@/services/searchContext";
 import { keepPreviousData, useQueries } from "@tanstack/react-query";
 import { fetchCarts } from "@/services/useCartsQuery";
-import { fetchFav } from "@/services/FavoritesStorage";
+import { fetchFav } from "@/services/FavoritesQuery";
 import InteractiveButton from "@/components/ui/InteractiveButton";
 import {
   CARTS_QUERY,
@@ -16,10 +16,8 @@ import Pagination from "@/components/ui/Pagination";
 import { fetchAllProducts } from "@/services/productsApi";
 import { useCallback, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { XCircle } from "lucide-react";
 import { ErrorFetchingProducts } from "@/components/ui/ComponentErrors/ErrorFetchingProducts";
+import SearchInComponent from "../SearchInComponent";
 
 export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
   const { isSearchActive } = useSearchStore();
@@ -135,28 +133,16 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
           />
         </div>
       ) : (
-        <header className="flex justify-between items-center gap-4  my-4 border-border border-2 p-2  rounded-md">
-          <Button className="" variant={"secondary"}>
-            All products
-          </Button>
-          <div className="relative">
-            <Input
-              type="text "
-              value={searchTerm}
-              onChange={handleSearchTermChange}
-              placeholder="Search products..."
-              className=""
-            />
-            {debouncedSearch && (
-              <XCircle
-                onClick={() => setSearchTerm("")}
-                className="absolute top-2 z-40 right-1 hover:scale-110 animate-pulse"
-              />
-            )}
-          </div>
-        </header>
+        <>
+          <SearchInComponent
+            setFavoritesTerm={setSearchTerm}
+            favoritesTerm={searchTerm}
+            isPending={false}
+            handleSearchTermChange={handleSearchTermChange}
+          />
+        </>
       )}
-      <div className="flex w-full flex-col gap-6">
+      <div className="flex w-full flex-col gap-6 mt-2">
         <div className="grid max-[440px]:grid-cols-1  grid-cols-2 md:grid-cols-3 gap-y-6  gap-x-6 lg:grid-cols-4  lg:gap-x-2">
           {products.data.products?.map((item: ProductData) => (
             <div key={item.id}>
@@ -167,7 +153,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
                 id={item.id}
                 isInCart={isAdded && isAdded.includes(item.id)}
                 isInFavorites={isFavorited && isFavorited.includes(item.id)}
-                isLoading={products.isPlaceholderData}
+                isLoading={products.isRefetching}
                 total={productCountMap.get(item.id) || null}
               />
             </div>

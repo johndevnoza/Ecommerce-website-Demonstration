@@ -1,7 +1,6 @@
 import { FAVORITES_QUERY } from "@/utils/constants.tsx";
-import { authAxios } from "./baseURLAxios.ts";
+import { authAxios, getAccesToken } from "./baseURLAxios.ts";
 import { useQuery } from "@tanstack/react-query";
-import { getAccesToken } from "./authQuery.tsx";
 export const fetchFav = async () => {
   const isLoggedIn = getAccesToken();
   if (isLoggedIn) {

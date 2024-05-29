@@ -22,15 +22,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CARTS_QUERY } from "@/utils/constants.tsx";
 import CartList from "./CartList.tsx";
 import { useConditionalEffect } from "@/hooks/useConditionalEffect.tsx";
+import { useUsersQuery } from "@/services/usersQuery.tsx";
 
 const Cart: React.FC = () => {
   const queryClient = useQueryClient();
+  const { data: user } = useUsersQuery();
 
   const { data, isLoading, isPending } = useQuery({
     queryKey: [CARTS_QUERY],
     queryFn: fetchCarts,
   });
-  const numberOfItems = data ? data.length : 0;
+  const numberOfItems = data ? data?.length : 0;
   const totalPrice = data
     ? data.reduce((acc, item) => acc + item.count * item.cartProduct.price, 0)
     : 0;
@@ -65,24 +67,31 @@ const Cart: React.FC = () => {
   return (
     <Sheet>
       <HoverInfoElement hoverContent="Cart" shouldHover side="bottom">
-        <SheetTrigger className="flex m-auto   items-center ring-border ring-1 bg-background rounded-md p-2">
-          <ShoppingCart
-            aria-hidden="true"
-            color={
-              numberOfItems > 0 ? "hsl(var(--primary))" : "hsl(var(--muted))"
-            }
-            className={addToCartAnimation}
-          />
-          <span
-            className={
-              numberOfItems > 0
-                ? "text-primary ml-2 text-sm font-medium animate-bounce "
-                : " ml-2 text-sm font-medium text-muted"
-            }
-          >
-            {numberOfItems}
-          </span>
-        </SheetTrigger>
+        {user?.first_name ? (
+          <SheetTrigger className="flex m-auto   items-center ring-border ring-1 bg-background rounded-md p-2">
+            <>
+              <ShoppingCart
+                aria-hidden="true"
+                color={
+                  numberOfItems > 0
+                    ? "hsl(var(--primary))"
+                    : "hsl(var(--muted))"
+                }
+                className={addToCartAnimation}
+              />
+
+              <span
+                className={
+                  numberOfItems > 0
+                    ? "text-primary ml-2 text-sm font-medium animate-bounce "
+                    : " ml-2 text-sm font-medium text-muted"
+                }
+              >
+                {numberOfItems}
+              </span>
+            </>
+          </SheetTrigger>
+        ) : null}
       </HoverInfoElement>
       <SheetContent className=" flex w-full flex-col pr-0  sm:max-w-lg ">
         <SheetHeader className="space-y-2.5 pr-6 ">

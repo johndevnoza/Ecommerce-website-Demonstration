@@ -1,17 +1,11 @@
 // cartStore.tsx
-import { getAccesToken } from "./authQuery.tsx";
 import { authAxios } from "./baseURLAxios.ts";
 export const fetchCarts = async () => {
-  const isLoggedIn = getAccesToken();
-  if (isLoggedIn) {
-    try {
-      const response = await authAxios.get("cart");
-      return (await response.data) as CartProduct[];
-    } catch (error) {
-      throw error;
-    }
-  } else {
-    return [];
+  try {
+    const response = await authAxios.get("cart");
+    return (await response.data) as CartProduct[];
+  } catch (error) {
+    throw error;
   }
 };
 export const addToCart = async (item: string) => {

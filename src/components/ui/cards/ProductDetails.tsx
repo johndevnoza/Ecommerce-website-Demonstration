@@ -19,10 +19,7 @@ import {
   X,
 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  addToFavorites,
-  removeFromFavorites,
-} from "@/services/FavoritesStorage";
+import { addToFavorites, removeFromFavorites } from "@/services/FavoritesQuery";
 import { useNavigate } from "react-router-dom";
 import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 

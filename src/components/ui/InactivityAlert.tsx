@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getAccesToken } from "@/services/authQuery";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   AlertDialog,
@@ -11,6 +10,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Link, useNavigate } from "react-router-dom";
+import { getAccesToken } from "@/services/baseURLAxios";
 const InactivityAlert = () => {
   const [showAlert, setShowAlert] = useState(false);
   const queryClient = useQueryClient();

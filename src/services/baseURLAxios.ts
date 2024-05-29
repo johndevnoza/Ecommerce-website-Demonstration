@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getAccesToken } from "./authQuery";
 
 const apiUrl: string = import.meta.env.VITE_API_BASE_URL;
 export const axiosBase = axios.create({
@@ -11,11 +10,24 @@ export const authAxios = axios.create({
 export const loginAxios = axios.create({
   baseURL: apiUrl,
 });
+export function getAccesToken() {
+  const token = localStorage.getItem("accessToken");
+  if (token?.length && token?.length > 0) return token;
+  else return false;
+}
+
 function getStoredRefreshToken() {
   return localStorage.getItem("refreshToken");
 }
-function storeNewAccessToken(token: string) {
-  localStorage.setItem("accessToken", token);
+function storeNewTokens({
+  accessToken,
+  refreshToken,
+}: {
+  accessToken: string;
+  refreshToken: string;
+}) {
+  localStorage.setItem("accessToken", accessToken);
+  localStorage.setItem("refreshToken", refreshToken);
 }
 loginAxios.interceptors.request.use(
   async (config) => {
@@ -50,9 +62,13 @@ async function refreshToken() {
     const response = await authAxios.post("auth/update-tokens", {
       refresh_token: refreshToken,
     });
-    const newAccesToken = response.data.accessToken;
-    storeNewAccessToken(newAccesToken);
-    return newAccesToken;
+    const newAccessToken = response.data.access_token;
+    const newRefreshToken = response.data.refresh_token;
+    storeNewTokens({
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    });
+    return newAccessToken;
   } catch (error) {
     console.error("Failed to refresh token", error);
     throw error;
@@ -63,9 +79,8 @@ authAxios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response === 401 && !originalRequest._retry) {
+    if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      axios.interceptors.response.eject(originalRequest);
       try {
         const newToken = await refreshToken();
         if (newToken) {
