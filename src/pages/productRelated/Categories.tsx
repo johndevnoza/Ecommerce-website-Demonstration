@@ -9,14 +9,14 @@ export default function Categories() {
 
   if (isPending)
     return (
-      <MaxWidthWrapper className="bg-secondary animate-pulse py-2 ">
+      <MaxWidthWrapper className="animate-pulse bg-secondary py-2">
         Loading Categories
       </MaxWidthWrapper>
     );
   if (error) return <div>Error Categories</div>;
   return (
-    <MaxWidthWrapper className="mt-10 mb-44 ">
-      <section className="w-full flex gap-4 p-2 flex-wrap border-border rounded-md border-2">
+    <MaxWidthWrapper className="mb-44 mt-10">
+      <section className="flex w-full flex-wrap gap-4 rounded-md border-2 border-border p-2">
         {categories.map((category: CategoriesProps) => (
           <Link to={`/product-category/${category.name}`} key={category.id}>
             <Button

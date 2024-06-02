@@ -13,7 +13,7 @@ const ProductSearchBar = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(e.target.value);
     },
-    []
+    [],
   );
   const debauncedSearch = useDebounce(searchTerm);
   const { data, isFetching } = useQuery({
@@ -35,14 +35,14 @@ const ProductSearchBar = () => {
   const isResult = !isFetching && products?.length < 0;
 
   return (
-    <div className="w-full grid place-items-center relative">
+    <div className="relative grid w-full place-items-center">
       {isSearching ? (
-        <div className=" z-10 inset-0 bg-black/80 blur-lg fixed"></div>
+        <div className="fixed inset-0 z-10 bg-black/80 blur-lg"></div>
       ) : null}
       <div className="flex w-full justify-center">
         <input
           type="text"
-          className="w-[70%] z-40 flex h-10  rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          className="z-40 flex h-10 w-[70%] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           value={searchTerm}
           onChange={handleSearchTermChange}
           onFocus={handleFocus}
@@ -53,7 +53,7 @@ const ProductSearchBar = () => {
       {searchTerm && (
         <XCircle
           onClick={() => setSearchTerm("")}
-          className="absolute right-[18%] z-40 hover:scale-110 animate-pulse"
+          className="absolute right-[18%] z-40 animate-pulse hover:scale-110"
         />
       )}
       {searchTerm ? (

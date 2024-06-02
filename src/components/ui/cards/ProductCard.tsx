@@ -90,22 +90,22 @@ export default function ProductCard({
       onClick={onClick}
       className={
         isLoading
-          ? "flex  flex-col rounded-md hover:bg-secondary/40 justify-between filter grayscale"
-          : "flex  flex-col rounded-md hover:bg-secondary/40 justify-between "
+          ? "flex flex-col justify-between rounded-md grayscale filter hover:bg-secondary/40"
+          : "flex flex-col justify-between rounded-md hover:bg-secondary/40"
       }
     >
-      <CardHeader className="gap-1 ">
+      <CardHeader className="gap-1">
         <Link to={`${link}`}>
           <img
             src={image}
             alt={title}
             className={twMerge(
-              " w-full object-cover h-[200px] object-center rounded-md self-center",
-              imageStyle
+              "h-[200px] w-full self-center rounded-md object-cover object-center",
+              imageStyle,
             )}
           />
         </Link>
-        <CardTitle className="line-clamp-1 px-3 ">{title}</CardTitle>
+        <CardTitle className="line-clamp-1 px-3">{title}</CardTitle>
         {showElement ? (
           <InteractiveButton
             title={category_name}
@@ -124,8 +124,8 @@ export default function ProductCard({
           {description}
         </CardDescription>
       </CardHeader>
-      <CardFooter className="p-1 grid px-3">
-        <div className="bg-background flex  rounded-md items-center justify-between ">
+      <CardFooter className="grid p-1 px-3">
+        <div className="flex items-center justify-between rounded-md bg-background">
           <InteractiveButton
             title={`${price}$`}
             wrapperClass="rounded-none "
@@ -144,9 +144,9 @@ export default function ProductCard({
                 className: isPageShopping
                   ? "rounded-none w-full lg:p-2 max-[840px]:p-3 grid group cursor-pointer grid items-center bg-bg"
                   : isInFavorites
-                  ? "rounded-none w-full mr-[2px] lg:p-2 max-[840px]:p-3 grid group cursor-pointer bg-primary"
-                  : "rounded-none w-full lg:p-2 grid group max-[840px]:p-3 cursor-pointer ",
-              })
+                    ? "rounded-none w-full mr-[2px] lg:p-2 max-[840px]:p-3 grid group cursor-pointer bg-primary"
+                    : "rounded-none w-full lg:p-2 grid group max-[840px]:p-3 cursor-pointer ",
+              }),
             )}
             iconClass="group-hover:scale-125"
             showInfo
@@ -156,19 +156,19 @@ export default function ProductCard({
               isPageShopping
                 ? "Add"
                 : isInFavorites
-                ? "Go to Favorites"
-                : isPageFavorites
-                ? "Remove favorited"
-                : "Add to Favorites"
+                  ? "Go to Favorites"
+                  : isPageFavorites
+                    ? "Remove favorited"
+                    : "Add to Favorites"
             }
             onClick={
               isPageShopping
                 ? () => handleAddToCart.mutate(secondId)
                 : isPageFavorites
-                ? () => HandleRemoveFavorites.mutate(id)
-                : isInFavorites
-                ? () => navigate("/favorites")
-                : () => handleAddToFavorites.mutate(id)
+                  ? () => HandleRemoveFavorites.mutate(id)
+                  : isInFavorites
+                    ? () => navigate("/favorites")
+                    : () => handleAddToFavorites.mutate(id)
             }
           >
             {isPageShopping ? (
@@ -190,7 +190,7 @@ export default function ProductCard({
                 className: isInCart
                   ? "rounded-none w-full lg:p-2 relative rounded-r-md max-[840px]:p-3 group cursor-pointer bg-secondary"
                   : "rounded-none w-full lg:p-2 relative rounded-r-md max-[840px]:p-3 group cursor-pointer",
-              })
+              }),
             )}
             showInfo
             icon
@@ -199,19 +199,19 @@ export default function ProductCard({
               isInCart
                 ? "Go to Shopping"
                 : isPageShopping
-                ? "Remove"
-                : "Add to Cart"
+                  ? "Remove"
+                  : "Add to Cart"
             }
             onClick={
               isPageShopping
                 ? () => handleDecreaseCart.mutate(id)
                 : isInCart
-                ? () => navigate("/shopping")
-                : () => handleAddToCart.mutate(secondId)
+                  ? () => navigate("/shopping")
+                  : () => handleAddToCart.mutate(secondId)
             }
           >
             {isInCart ? (
-              <ShoppingCart className="animate-pulse " />
+              <ShoppingCart className="animate-pulse" />
             ) : isPageShopping ? (
               <ArrowBigDownDash />
             ) : handleAddToCart.isPending ? (
@@ -220,7 +220,7 @@ export default function ProductCard({
               <ShoppingCart />
             )}
             {total && !isPageShopping ? (
-              <div className="absolute -right-2 -top-2 rounded-md bg-primary font-mono tabular-nums px-2 font-bold outline outline-background">
+              <div className="absolute -right-2 -top-2 rounded-md bg-primary px-2 font-mono font-bold tabular-nums outline outline-background">
                 {total}
               </div>
             ) : null}
@@ -228,7 +228,7 @@ export default function ProductCard({
           {removeCartItem ? (
             <X
               className={twMerge(
-                "absolute top-2 left-2 bg-secondary rounded-md p-1 scale-125 hover:bg-primary cursor-pointer"
+                "absolute left-2 top-2 scale-125 cursor-pointer rounded-md bg-secondary p-1 hover:bg-primary",
               )}
               onClick={() => removeItem.mutate(id)}
             />

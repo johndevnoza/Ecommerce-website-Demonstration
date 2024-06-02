@@ -17,11 +17,11 @@ function HomeCategories(): JSX.Element | string {
 
   if (isPending)
     return (
-      <MaxWidthWrapper className="bg-secondary animate-pulse py-2 ">
+      <MaxWidthWrapper className="animate-pulse bg-secondary py-2">
         Loading Categories
       </MaxWidthWrapper>
     );
-  if (error) return <ErrorFetchingCategories/>;
+  if (error) return <ErrorFetchingCategories />;
 
   return (
     <Carousel
@@ -40,7 +40,7 @@ function HomeCategories(): JSX.Element | string {
         {categories.map((category: CategoriesProps) => (
           <CarouselItem
             key={category.id}
-            className="md:basis-1/3 lg:basis-1/5 basis-1/3 "
+            className="basis-1/3 md:basis-1/3 lg:basis-1/5"
           >
             <Link to={`/product-category/${category.name}`}>
               <Button variant={"secondary"}>{category.name}</Button>

@@ -67,8 +67,8 @@ const CreditCardForm = ({
 
   return (
     <>
-      <div className="flex md:flex-col w-full justify-between gap-2">
-        <div className="bg-orange-400 rounded-md flex-grow-1 md:w-auto">
+      <div className="flex w-full justify-between gap-2 md:flex-col">
+        <div className="flex-grow-1 rounded-md bg-orange-400 md:w-auto">
           <p>Card Number: {watchFields[0]}</p>
           <p>Holder Name: {watchFields[2]}</p>
           <p>Expiry Date: {watchFields[3]}</p>
@@ -85,13 +85,13 @@ const CreditCardForm = ({
         </div> */}
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex gap-2 flex-col w-max min-h-full"
+          className="flex min-h-full w-max flex-col gap-2"
         >
           <div className="relative">
             <Input
               {...register("holderName")}
               placeholder="Card Holder Name"
-              className="min-w-full placeholder-red-500 "
+              className="min-w-full placeholder-red-500"
             />
             <HoverInfoElement
               shouldHover={errors.holderName ? true : false}
@@ -100,7 +100,7 @@ const CreditCardForm = ({
               hoverContent={errors.holderName?.message}
             >
               {errors.holderName ? (
-                <Info className="text-primary absolute right-2 top-2" />
+                <Info className="absolute right-2 top-2 text-primary" />
               ) : null}
             </HoverInfoElement>
           </div>
@@ -117,7 +117,7 @@ const CreditCardForm = ({
               hoverContent={errors.cardNumber?.message}
             >
               {errors.cardNumber ? (
-                <Info className="text-primary absolute right-2 top-2" />
+                <Info className="absolute right-2 top-2 text-primary" />
               ) : null}
             </HoverInfoElement>
           </div>
@@ -134,7 +134,7 @@ const CreditCardForm = ({
               hoverContent={errors.expiryDate?.message}
             >
               {errors.expiryDate ? (
-                <Info className="text-primary absolute right-2 top-2" />
+                <Info className="absolute right-2 top-2 text-primary" />
               ) : null}
             </HoverInfoElement>
           </div>
@@ -151,7 +151,7 @@ const CreditCardForm = ({
               hoverContent={errors.cvv?.message}
             >
               {errors.cvv ? (
-                <Info className="text-primary absolute right-2 top-2" />
+                <Info className="absolute right-2 top-2 text-primary" />
               ) : null}
             </HoverInfoElement>
           </div>

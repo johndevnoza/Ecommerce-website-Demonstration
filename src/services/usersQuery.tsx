@@ -20,6 +20,7 @@ export const updateUser = async (user: User) => {
     .put(`user`, user, {})
     .then((res) => res.data)
     .catch(Error);
+    
 };
 
 export function useUsersQuery() {

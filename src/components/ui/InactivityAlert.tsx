@@ -21,11 +21,14 @@ const InactivityAlert = () => {
       let inactivityTimeout: NodeJS.Timeout;
       const resetInactivityTimeout = () => {
         clearTimeout(inactivityTimeout);
-        inactivityTimeout = setTimeout(() => {
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
-          setShowAlert(true);
-        }, (30 * 60 * 1000) / 2);
+        inactivityTimeout = setTimeout(
+          () => {
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            setShowAlert(true);
+          },
+          (30 * 60 * 1000) / 2,
+        );
       };
       resetInactivityTimeout();
       window.addEventListener("mousemove", resetInactivityTimeout);

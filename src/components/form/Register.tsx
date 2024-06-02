@@ -71,14 +71,11 @@ const Register = () => {
 
   return (
     <MaxWidthWrapper className="grid place-items-center">
-      <div className="md:w-[50%] flex flex-col mt-10 mb-44 p-2  rounded-lg gap-4 bg-card border-border border-2">
+      <div className="mb-44 mt-10 flex flex-col gap-4 rounded-lg border-2 border-border bg-card p-2 md:w-[50%]">
         <h2 className="m-auto font-bold">Register</h2>
-        <form
-          className="flex flex-col    gap-3"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className="flex lg:flex-row flex-col gap-1">
-            <div className="flex lg:w-1/2 flex-col gap-1 relative">
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col gap-1 lg:flex-row">
+            <div className="relative flex flex-col gap-1 lg:w-1/2">
               <Input
                 className=""
                 {...register("first_name")}
@@ -86,15 +83,15 @@ const Register = () => {
                 placeholder="First name"
               />
               {!errors.first_name ? (
-                <UserCheck className="absolute right-2  top-2" />
+                <UserCheck className="absolute right-2 top-2" />
               ) : (
-                <User className="absolute right-2 animate-pulse  top-2" />
+                <User className="absolute right-2 top-2 animate-pulse" />
               )}
               {errors.first_name && (
                 <div className="text-red-500">{errors.first_name.message}</div>
               )}
             </div>
-            <div className="flex relative lg:w-1/2 flex-col  gap-1">
+            <div className="relative flex flex-col gap-1 lg:w-1/2">
               <Input
                 {...register("last_name")}
                 type="text"
@@ -103,15 +100,15 @@ const Register = () => {
               {!errors.last_name ? (
                 <UserCheck className="absolute right-2 top-2" />
               ) : (
-                <User className="absolute right-2 animate-pulse top-2" />
+                <User className="absolute right-2 top-2 animate-pulse" />
               )}
               {errors.last_name && (
                 <div className="text-red-500">{errors.last_name.message}</div>
               )}
             </div>
           </div>
-          <div className="flex flex-col lg:flex-row gap-1 w-full">
-            <div className="flex relative flex-col lg:w-1/2 gap-1">
+          <div className="flex w-full flex-col gap-1 lg:flex-row">
+            <div className="relative flex flex-col gap-1 lg:w-1/2">
               <Input
                 {...register("password")}
                 type="password"
@@ -120,22 +117,22 @@ const Register = () => {
               {!errors.password ? (
                 <Component className="absolute right-2 top-2" />
               ) : (
-                <Component className="absolute right-2 animate-bounce top-2" />
+                <Component className="absolute right-2 top-2 animate-bounce" />
               )}
               {errors.password && (
                 <div className="text-red-500">{errors.password.message}</div>
               )}
             </div>
-            <div className="flex relative lg:w-1/2 flex-col gap-1">
+            <div className="relative flex flex-col gap-1 lg:w-1/2">
               <Input
                 {...register("phone_number")}
                 type="text"
                 placeholder="Phone Number"
               />
               {!errors.phone_number ? (
-                <PhoneCall className="absolute right-2  top-2" />
+                <PhoneCall className="absolute right-2 top-2" />
               ) : (
-                <Phone className="absolute right-2 animate-pulse  top-2" />
+                <Phone className="absolute right-2 top-2 animate-pulse" />
               )}
               {errors.phone_number && (
                 <div className="text-red-500">
@@ -144,12 +141,12 @@ const Register = () => {
               )}
             </div>
           </div>
-          <div className="flex relative flex-col gap-1">
+          <div className="relative flex flex-col gap-1">
             <Input {...register("email")} type="text" placeholder="Email" />
             {!errors.email ? (
-              <MailCheck className="absolute right-2  top-2" />
+              <MailCheck className="absolute right-2 top-2" />
             ) : (
-              <Mail className="absolute right-2 animate-pulse  top-2" />
+              <Mail className="absolute right-2 top-2 animate-pulse" />
             )}
             {errors.email && (
               <div className="text-red-500">{errors.email.message}</div>
@@ -162,7 +159,7 @@ const Register = () => {
             <div className="text-red-500">{errors.root.message}</div>
           )}
         </form>
-        <div className="flex  gap-1 items-center justify-center">
+        <div className="flex items-center justify-center gap-1">
           <p>Have an Account? </p>
           <Link
             className={cn(buttonVariants({ variant: "secondary" }))}

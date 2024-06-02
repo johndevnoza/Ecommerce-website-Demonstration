@@ -66,13 +66,13 @@ export default function ProductDetails({
   const navigate = useNavigate();
 
   return (
-    <MaxWidthWrapper className="flex  rounded-md justify-between mt-10 mb-44 border-none">
-      <div className="md:w-[450px] border-border border-2  w-[350px] flex-grow-1 md:hover:w-full group rounded-l-md bg-card hover:rounded-sm flex flex-col gap-1  p-4 hover:outline-border hover:outline hover:scale-110 hover:flex-grow-2 md:hover:translate-x-[-16px] transition-all duration-300">
+    <MaxWidthWrapper className="mb-44 mt-10 flex justify-between rounded-md border-none">
+      <div className="flex-grow-1 hover:flex-grow-2 group flex w-[350px] flex-col gap-1 rounded-l-md border-2 border-border bg-card p-4 transition-all duration-300 hover:scale-110 hover:rounded-sm hover:outline hover:outline-border md:w-[450px] md:hover:w-full md:hover:translate-x-[-16px]">
         <img
           src={image}
           alt={title}
           className={twMerge(
-            " object-cover h-[350px] group-hover:w-[600px] object-center rounded-md "
+            "h-[350px] rounded-md object-cover object-center group-hover:w-[600px]",
           )}
         />
         <div className="flex flex-col justify-between text-neutral-500">
@@ -86,10 +86,10 @@ export default function ProductDetails({
           </div>
         </div>
       </div>
-      <div className="bg-background min-w-1 lg:w-2"></div>
-      <CardHeader className="gap-2 p-4 w-full hover:rounded-sm flex-grow-0 border-border border-2  group bg-card hover:outline-border hover:outline hover:scale-110 transition-all duration-300">
-        <CardTitle className="p-0 min-w-0 ">{title}</CardTitle>
-        <CardDescription className="line-clamp-6 max-w-max group-hover:line-clamp-none group-hover:mt-2 transition-all">
+      <div className="min-w-1 bg-background lg:w-2"></div>
+      <CardHeader className="group w-full flex-grow-0 gap-2 border-2 border-border bg-card p-4 transition-all duration-300 hover:scale-110 hover:rounded-sm hover:outline hover:outline-border">
+        <CardTitle className="min-w-0 p-0">{title}</CardTitle>
+        <CardDescription className="line-clamp-6 max-w-max transition-all group-hover:mt-2 group-hover:line-clamp-none">
           {description}
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga harum,
           laborum neque deleniti placeat blanditiis, similique corporis fugit
@@ -98,9 +98,9 @@ export default function ProductDetails({
           consequuntur odit id doloremque perspiciatis nam sunt!
         </CardDescription>
       </CardHeader>
-      <div className="bg-background min-w-1 lg:w-2"></div>
-      <CardFooter className="p-4 rounded-r-md border-border border-2  hover:rounded-sm flex flex-col justify-around bg-card hover:outline-border hover:outline hover:scale-110 transition-all duration-300">
-        <div className=" flex flex-col w-full  rounded-md items-center justify-between ">
+      <div className="min-w-1 bg-background lg:w-2"></div>
+      <CardFooter className="flex flex-col justify-around rounded-r-md border-2 border-border bg-card p-4 transition-all duration-300 hover:scale-110 hover:rounded-sm hover:outline hover:outline-border">
+        <div className="flex w-full flex-col items-center justify-between rounded-md">
           <InteractiveButton
             buttonVariant="default"
             buttonClass="rounded-b-none hover:scale-95 p-3"
@@ -110,7 +110,7 @@ export default function ProductDetails({
             redirect="/shopping"
           />
 
-          <div className=" border-b-4 border-card h-1 w-full"></div>
+          <div className="h-1 w-full border-b-4 border-card"></div>
           <InteractiveButton
             wrapperClass={cn(
               buttonVariants({
@@ -118,7 +118,7 @@ export default function ProductDetails({
                 className: isInFavorites
                   ? "rounded-none  w-full lg:p-2 grid group cursor-pointer bg-primary"
                   : "rounded-none w-full lg:p-2 grid group cursor-pointer ",
-              })
+              }),
             )}
             iconClass="group-hover:scale-125"
             showInfo
@@ -128,15 +128,15 @@ export default function ProductDetails({
               isInFavorites
                 ? "Go to Favorites"
                 : isPageFavorites
-                ? "Remove favorited"
-                : "Add to Favorites"
+                  ? "Remove favorited"
+                  : "Add to Favorites"
             }
             onClick={
               isPageFavorites
                 ? () => HandleRemoveFavorites.mutate(id)
                 : isInFavorites
-                ? () => navigate("/favorites")
-                : () => handleAddToFavorites.mutate(id)
+                  ? () => navigate("/favorites")
+                  : () => handleAddToFavorites.mutate(id)
             }
           >
             {isInFavorites ? (
@@ -147,7 +147,7 @@ export default function ProductDetails({
               <FolderHeart />
             )}
           </InteractiveButton>
-          <div className=" border-b-4 border-card h-1 w-full"></div>
+          <div className="h-1 w-full border-b-4 border-card"></div>
           <InteractiveButton
             wrapperClass={cn(
               buttonVariants({
@@ -155,7 +155,7 @@ export default function ProductDetails({
                 className: isInCart
                   ? "rounded-none w-full lg:p-2  group cursor-pointer bg-primary"
                   : "rounded-none w-full lg:p-2  group cursor-pointer",
-              })
+              }),
             )}
             iconClass="group-hover:scale-125"
             showInfo
@@ -165,26 +165,26 @@ export default function ProductDetails({
               isInCart
                 ? "Go to Shopping"
                 : isPageShopping
-                ? "Remove from Cart"
-                : "Add to Cart"
+                  ? "Remove from Cart"
+                  : "Add to Cart"
             }
             onClick={
               isPageShopping
                 ? () => removeFromCartMutation.mutate(id)
                 : isInCart
-                ? () => navigate("/shopping")
-                : () => handleAddToCart.mutate(secondId)
+                  ? () => navigate("/shopping")
+                  : () => handleAddToCart.mutate(secondId)
             }
           >
             {isInCart ? (
-              <ShoppingCart className="animate-pulse " />
+              <ShoppingCart className="animate-pulse" />
             ) : isPageShopping ? (
               <X />
             ) : (
               <ShoppingCart />
             )}
           </InteractiveButton>
-          <div className=" border-b-4 border-card h-1 w-full"></div>
+          <div className="h-1 w-full border-b-4 border-card"></div>
           <InteractiveButton
             showInfo
             hoverContent="Feedback"
@@ -193,12 +193,12 @@ export default function ProductDetails({
               buttonVariants({
                 variant: "outline",
                 className: "w-full  rounded-none hover:scale-95",
-              })
+              }),
             )}
           >
             <MessagesSquare />
           </InteractiveButton>
-          <div className=" border-b-4 border-card h-1 w-full"></div>
+          <div className="h-1 w-full border-b-4 border-card"></div>
           <InteractiveButton
             showInfo
             hoverContent="Raiting"
@@ -207,12 +207,12 @@ export default function ProductDetails({
               buttonVariants({
                 variant: "outline",
                 className: "w-full  rounded-none hover:scale-95",
-              })
+              }),
             )}
           >
             <Star className="w-full" />
           </InteractiveButton>
-          <div className=" border-b-4 border-card h-1 w-full"></div>
+          <div className="h-1 w-full border-b-4 border-card"></div>
           <InteractiveButton
             showInfo
             hoverContent="Comments"
@@ -221,7 +221,7 @@ export default function ProductDetails({
               buttonVariants({
                 variant: "outline",
                 className: "w-full  rounded-none hover:scale-95 rounded-b-md",
-              })
+              }),
             )}
           >
             <MessageCircleMore />

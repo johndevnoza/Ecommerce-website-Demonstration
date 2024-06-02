@@ -17,11 +17,11 @@ const ErrorUrlPath = () => {
 
   return (
     <MaxWidthWrapper>
-      <div className="w-full border-border border-2 justify-center gap-4 rounded-md h-56 my-10 flex flex-col items-center">
-        <span className="text-4xl mt-2 text-destructive font-bold font-mono">
+      <div className="my-10 flex h-56 w-full flex-col items-center justify-center gap-4 rounded-md border-2 border-border">
+        <span className="mt-2 font-mono text-4xl font-bold text-destructive">
           Path Not Found
         </span>
-        <div className="flex gap-2 items-center w-full justify-center">
+        <div className="flex w-full items-center justify-center gap-2">
           <Button
             onClick={() => navigate(-1)}
             className="text-2xl"
@@ -33,8 +33,8 @@ const ErrorUrlPath = () => {
             className={cn(
               buttonVariants({
                 variant: "outline",
-                className: "font-mono tabular-nums text-2xl",
-              })
+                className: "font-mono text-2xl tabular-nums",
+              }),
             )}
           >
             Redirecting in : {second}

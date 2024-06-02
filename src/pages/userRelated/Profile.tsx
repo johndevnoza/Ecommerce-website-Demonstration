@@ -20,10 +20,10 @@ const Profile = () => {
     },
   });
   return (
-    <MaxWidthWrapper className="mt-10 mb-44">
-      <section className="flex gap-2 border-border border rounded-md p-2">
+    <MaxWidthWrapper className="mb-44 mt-10">
+      <section className="flex gap-2 rounded-md border border-border p-2">
         <div className="flex flex-col justify-between gap-4">
-          <div className="flex flex-col gap-2 w-min">
+          <div className="flex w-min flex-col gap-2">
             {profileNav.map((t) => (
               <Link key={t} to={`/profile/${t}`}>
                 <Button
@@ -38,7 +38,7 @@ const Profile = () => {
             Log out
           </Button>
         </div>
-        <div className="md:min-h-full bg-secondary w-2 rounded-md"></div>
+        <div className="w-2 rounded-md bg-secondary md:min-h-full"></div>
         <Outlet />
       </section>
     </MaxWidthWrapper>

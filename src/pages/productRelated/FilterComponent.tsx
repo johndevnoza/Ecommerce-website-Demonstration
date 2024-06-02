@@ -23,25 +23,25 @@ const FilterComponent = ({
   handleFilterClick,
 }: FilterProps) => {
   return (
-    <div className="border-border border-2 rounded-md flex flex-col p-2 mt-4 justify-evenly">
+    <div className="mt-4 flex flex-col justify-evenly rounded-md border-2 border-border p-2">
       {foundItems > 0 ? (
-        <span className="font-bold ">Found {foundItems} items</span>
+        <span className="font-bold">Found {foundItems} items</span>
       ) : (
-        <span className="font-bold ">No items found</span>
+        <span className="font-bold">No items found</span>
       )}
       <DropdownMenuSeparator />
       <div className="flex items-center justify-between gap-2">
         <div className="flex gap-1 max-[565px]:flex-col">
           <Input
             type="number"
-            className="bg-secondary w-min"
+            className="w-min bg-secondary"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
             placeholder="Max price"
           />
           <Input
             type="number"
-            className="bg-secondary w-min"
+            className="w-min bg-secondary"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
             placeholder="Min price"

@@ -24,7 +24,7 @@ const Shopping = () => {
   const totalPrice = cartProduct
     ? cartProduct.reduce(
         (acc, item) => acc + item.count * item.cartProduct.price,
-        0
+        0,
       )
     : 0;
   console.log(cartProduct);
@@ -36,46 +36,46 @@ const Shopping = () => {
     return <div>Error: {error.message}</div>;
   }
   return (
-    <MaxWidthWrapper className="mt-10 mb-44 ">
-      <div className=" flex flex-col gap-1">
-        <div className="w-full border-border border-2 rounded-md gap-2 h-full flex items-center">
-          <div className="w-max flex-1 flex-grow flex items-center justify-between">
+    <MaxWidthWrapper className="mb-44 mt-10">
+      <div className="flex flex-col gap-1">
+        <div className="flex h-full w-full items-center gap-2 rounded-md border-2 border-border">
+          <div className="flex w-max flex-1 flex-grow items-center justify-between">
             <Button
-              className="rounded-r-none rounded-l-sm"
+              className="rounded-l-sm rounded-r-none"
               variant={"secondary"}
             >
               Shopping
             </Button>
             <Button
               variant={"secondary"}
-              className="justify-self-center  rounded-none"
+              className="justify-self-center rounded-none"
             >
               Card Complition
             </Button>
             <Button
               variant={"secondary"}
-              className="justify-self-center rounded-none rounded-r-sm "
+              className="justify-self-center rounded-none rounded-r-sm"
             >
               Card
             </Button>
           </div>
-          <div className="w-max border-border border-2 rounded-md bg-border md:w-min  md:h-full"></div>
-          <div className="flex justify-between w-[265px]">
+          <div className="w-max rounded-md border-2 border-border bg-border md:h-full md:w-min"></div>
+          <div className="flex w-[265px] justify-between">
             <Button
               variant={"secondary"}
-              className="justify-self-center  rounded-none rounded-l-sm"
+              className="justify-self-center rounded-none rounded-l-sm"
             >
               Items {itemCount}
             </Button>
             <Button
               variant={"secondary"}
-              className="justify-self-center  rounded-none rounded-r-sm"
+              className="justify-self-center rounded-none rounded-r-sm"
             >
               Total Price: {totalPrice}$
             </Button>
           </div>
         </div>
-        <div className="md:flex-row p-2 justify-between md:h-[750px] sm:gap-3 flex flex-col space-y-4 md:space-y-0 mt-2 border-border border-2  rounded-md md:flex sm:flex sm:flex-col  lg:flex-row">
+        <div className="mt-2 flex flex-col justify-between space-y-4 rounded-md border-2 border-border p-2 sm:flex sm:flex-col sm:gap-3 md:flex md:h-[750px] md:flex-row md:space-y-0 lg:flex-row">
           <div className="w-max flex-1 flex-grow">
             <CreditCardForm
               product_id={isAdded}
@@ -83,10 +83,10 @@ const Shopping = () => {
               totalItems={itemCount}
             />
           </div>
-          <div className="w-full border-border border-2 rounded-md bg-border  md:block h-1  md:w-min md:h-full"></div>
-          <div className="md:flex-col md:flex md:h-full items-center h-min overflow-x-scroll  md:overflow-y-scroll md:overflow-hidden  gap-x-1 gap-y-2 flex max-w-min">
+          <div className="h-1 w-full rounded-md border-2 border-border bg-border md:block md:h-full md:w-min"></div>
+          <div className="flex h-min max-w-min items-center gap-x-1 gap-y-2 overflow-x-scroll md:flex md:h-full md:flex-col md:overflow-hidden md:overflow-y-scroll">
             {cartProduct?.map((f: CartProduct) => (
-              <div className=" w-64 md:w-60 relative " key={f.id}>
+              <div className="relative w-64 md:w-60" key={f.id}>
                 <ProductCard
                   onClick={(event) => event.preventDefault()}
                   link={`/product/productName/${f.cartProduct.title}`}

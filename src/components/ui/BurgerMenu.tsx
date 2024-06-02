@@ -19,14 +19,14 @@ const BurgerMenu = ({ user }: any) => {
         className={cn(
           buttonVariants({
             variant: "outline",
-            className: "md:hidden block data-[state=open]:bg-primary ",
-          })
+            className: "block data-[state=open]:bg-primary md:hidden",
+          }),
         )}
       >
         <Menu />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-full" sideOffset={1}>
-        <div className="flex items-center w-full gap-1">
+        <div className="flex w-full items-center gap-1">
           {!user ? <SignIn /> : <Profile />}
           {!user ? null : <Cart />}
           <ModeToggle />

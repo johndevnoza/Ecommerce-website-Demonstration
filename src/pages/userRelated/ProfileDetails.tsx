@@ -41,25 +41,25 @@ const ProfileDetails = () => {
 
   if (data)
     return (
-      <div className="flex flex-col md:gap-1  gap-4 md:flex-row w-full h-full  items-center justify-center  min-h-full md:px-0 px-4">
+      <div className="flex h-full min-h-full w-full flex-col items-center justify-center gap-4 px-4 md:flex-row md:gap-1 md:px-0">
         <form
           onSubmit={onSubmit}
-          className="flex w-full items-center md:flex-row flex-col justify-center"
+          className="flex w-full flex-col items-center justify-center md:flex-row"
         >
-          <div className="flex items-center gap-1 w-max md:order-1   self-start">
+          <div className="flex w-max items-center gap-1 self-start md:order-1">
             {editIcon ? (
               <Edit
                 onClick={() => setEditIcon(false)}
-                className="ml-1 cursor-pointer "
+                className="ml-1 cursor-pointer"
               />
             ) : (
-              <X className="ml-1 cursor-pointer " onClick={cancel} />
+              <X className="ml-1 cursor-pointer" onClick={cancel} />
             )}
             <Button
               className={`${
                 !editIcon
                   ? "ml-1 cursor-pointer"
-                  : "ml-1 cursor-pointer invisible"
+                  : "invisible ml-1 cursor-pointer"
               }`}
               type="submit"
             >
@@ -67,7 +67,7 @@ const ProfileDetails = () => {
             </Button>
           </div>
           <div className="flex flex-col gap-2">
-            <div className="flex items-center w-max justify-between">
+            <div className="flex w-max items-center justify-between">
               <label htmlFor="firstName" className="w-24">
                 First name
               </label>
@@ -75,28 +75,28 @@ const ProfileDetails = () => {
               <Input
                 disabled={editIcon}
                 type="text"
-                className="min-w-0 w-min"
+                className="w-min min-w-0"
                 value={user?.first_name}
                 onChange={(e) =>
                   setUser({ ...user, first_name: e.target.value })
                 }
               />
             </div>
-            <div className="flex items-center w-max justify-between">
+            <div className="flex w-max items-center justify-between">
               <label htmlFor="lastName" className="w-24">
                 Last name
               </label>
               <Input
                 disabled={editIcon}
                 type="text"
-                className="w-min  min-w-0"
+                className="w-min min-w-0"
                 value={user?.last_name}
                 onChange={(e) =>
                   setUser({ ...user, last_name: e.target.value })
                 }
               />
             </div>
-            <div className="flex items-center w-max justify-between">
+            <div className="flex w-max items-center justify-between">
               <label htmlFor="password" className="w-24">
                 Password
               </label>
@@ -108,7 +108,7 @@ const ProfileDetails = () => {
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
               />
             </div>
-            <div className="flex items-center w-max justify-between">
+            <div className="flex w-max items-center justify-between">
               <label htmlFor="phoneNumber" className="w-24">
                 Phone number
               </label>
@@ -122,7 +122,7 @@ const ProfileDetails = () => {
                 }
               />
             </div>
-            <div className="flex items-center w-max justify-between">
+            <div className="flex w-max items-center justify-between">
               <label htmlFor="email" className="w-24">
                 Email
               </label>

@@ -22,7 +22,7 @@ const Category = () => {
     categoryName,
     searchParams.get("maxPrice") || "",
     searchParams.get("minPrice") || "",
-    searchParams.get("sales") || ""
+    searchParams.get("sales") || "",
   );
   useEffect(() => {
     refetch();
@@ -65,18 +65,18 @@ const Category = () => {
 
   return (
     <div className="mt-10 flex flex-col gap-4">
-      <div className="border-border border-2 rounded-md flex flex-col p-2 justify-evenly">
+      <div className="flex flex-col justify-evenly rounded-md border-2 border-border p-2">
         {foundItems > 0 ? (
-          <span className="font-bold ">Found {foundItems} items</span>
+          <span className="font-bold">Found {foundItems} items</span>
         ) : (
-          <span className="font-bold ">No items found</span>
+          <span className="font-bold">No items found</span>
         )}
         <DropdownMenuSeparator />
-        <div className="flex items-center justify-between gap-2 ">
+        <div className="flex items-center justify-between gap-2">
           <div className="flex gap-1 max-[565px]:flex-col">
             <Input
               type="text"
-              className="bg-secondary w-min"
+              className="w-min bg-secondary"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
               placeholder="Max price"
@@ -84,23 +84,23 @@ const Category = () => {
 
             <Input
               type="text"
-              className="bg-secondary w-min"
+              className="w-min bg-secondary"
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
               placeholder="Min price"
             />
           </div>
-          <div className="flex max-[565px]:flex-col ">
+          <div className="flex max-[565px]:flex-col">
             <Button
               variant={"secondary"}
               onClick={handleReset}
-              className="max-[440px]:order-1 "
+              className="max-[440px]:order-1"
             >
               Reset
             </Button>
             <Button
               onClick={handleFilterClick}
-              className="justify-end  text-justify"
+              className="justify-end text-justify"
             >
               Filter
             </Button>
@@ -108,7 +108,7 @@ const Category = () => {
         </div>
       </div>
       {data?.products && (
-        <div className="grid md:grid-cols-3 gap-y-6 max-[440px]:grid-cols-1 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-6 max-[440px]:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-2">
           {data.products.map((item: ProductData) => (
             <div key={item.id}>
               <ProductCard

@@ -1,6 +1,6 @@
 //  EXPERIMENTAL COMPONENT
 const preventDefaultPropagtion = (
-  e: React.MouseEvent<HTMLElement, MouseEvent>
+  e: React.MouseEvent<HTMLElement, MouseEvent>,
 ) => {
   e.nativeEvent.stopImmediatePropagation();
   e.nativeEvent.preventDefault();

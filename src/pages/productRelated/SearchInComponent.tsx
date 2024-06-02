@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useQueryClient } from "@tanstack/react-query";
 import { Loader2, XCircle } from "lucide-react";
 import React from "react";
 type SearchComponent = {
@@ -15,9 +14,8 @@ const SearchInComponent = ({
   handleSearchTermChange,
   isPending,
 }: SearchComponent) => {
-  
   return (
-    <header className="flex justify-between items-center gap-4  border-border border-2 p-2  rounded-md">
+    <header className="flex items-center justify-between gap-4 rounded-md border-2 border-border p-2">
       <Button className="" variant={"secondary"}>
         Favorited
       </Button>
@@ -32,7 +30,7 @@ const SearchInComponent = ({
         {favoritesTerm && (
           <XCircle
             onClick={() => setFavoritesTerm("")}
-            className="absolute top-2 z-40 right-1 hover:scale-110 animate-pulse"
+            className="absolute right-1 top-2 z-40 animate-pulse hover:scale-110"
           />
         )}
         {isPending ? (

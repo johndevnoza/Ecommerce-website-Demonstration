@@ -57,9 +57,9 @@ const Login = () => {
   };
 
   return (
-    <MaxWidthWrapper className="mt-10 mb-44">
+    <MaxWidthWrapper className="mb-44 mt-10">
       <form
-        className="flex flex-col w-80 rounded-lg bg-card border-border border-2 m-auto p-4 gap-2 "
+        className="m-auto flex w-80 flex-col gap-2 rounded-lg border-2 border-border bg-card p-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="m-auto font-bold">Sign in</h2>
@@ -67,9 +67,9 @@ const Login = () => {
           <div className="relative">
             <Input {...register("email")} type="text" placeholder="Email" />
             {!errors.email ? (
-              <MailCheck className="absolute right-2  top-2" />
+              <MailCheck className="absolute right-2 top-2" />
             ) : (
-              <Mail className="absolute right-2 animate-pulse text-red-500 top-2" />
+              <Mail className="absolute right-2 top-2 animate-pulse text-red-500" />
             )}
             {errors.email && (
               <div className="text-red-500">{errors.email.message}</div>
@@ -84,13 +84,13 @@ const Login = () => {
             {!errors.password ? (
               <Component className="absolute right-2 top-2" />
             ) : (
-              <Component className="absolute right-2 animate-bounce  text-red-500 top-2" />
+              <Component className="absolute right-2 top-2 animate-bounce text-red-500" />
             )}
             {errors.password && (
               <div className="text-red-500">{errors.password.message}</div>
             )}
           </div>
-          <div className="w-full relative">
+          <div className="relative w-full">
             <Button
               variant={isSubmitting ? "secondary" : "default"}
               disabled={handleLogin.isPending}
@@ -100,13 +100,13 @@ const Login = () => {
               {isSubmitting ? "Loading..." : "Log in"}
             </Button>
             {handleLogin.isPending ? (
-              <Loader2Icon className="absolute top-2 right-24 animate-spin" />
+              <Loader2Icon className="absolute right-24 top-2 animate-spin" />
             ) : null}
           </div>
           {errors.root && (
             <div className="text-red-500">{errors.root.message}</div>
           )}
-          <div className="flex justify-around items-center">
+          <div className="flex items-center justify-around">
             <p>Dont have an Account?</p>
             <Button variant={"secondary"}>
               <Link to={"/register"}>Register</Link>

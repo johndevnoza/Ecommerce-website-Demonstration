@@ -16,14 +16,13 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   isFetching,
 }) => {
-
   const navigate = useNavigate();
   return (
-    <div className="flex gap-2 border-border border-2 p-2 rounded-lg items-center justify-around w-min mb-10 mt-20">
+    <div className="mb-10 mt-20 flex w-min items-center justify-around gap-2 rounded-lg border-2 border-border p-2">
       <Button
         variant={currentPage == 1 ? "secondary" : "default"}
         disabled={currentPage == 1 || isFetching}
-        className="rounded-sm rounded-r-none "
+        className="rounded-sm rounded-r-none"
         onClick={() => {
           navigate(`/products/page/${previous}`);
         }}

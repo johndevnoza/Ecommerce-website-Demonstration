@@ -28,8 +28,8 @@ const LanguageSwitch = () => {
         className={cn(
           buttonVariants({
             variant: "outline",
-            className: "flex gap-2  data-[state=open]:border-primary",
-          })
+            className: "flex gap-2 data-[state=open]:border-primary",
+          }),
         )}
       >
         <LucideLanguages />
@@ -43,7 +43,7 @@ const LanguageSwitch = () => {
               buttonVariants({
                 variant:
                   language.code === i18n.language ? "default" : "secondary",
-              })
+              }),
             )}
             key={language.code}
             onClick={() => handleLanguage(language.code)}

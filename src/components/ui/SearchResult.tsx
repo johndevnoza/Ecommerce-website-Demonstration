@@ -18,12 +18,12 @@ const SearchResults = ({
   isLoading,
 }: SearchResultsProps) => {
   return (
-    <section className="z-20 absolute top-[108%] md:w-[70%] w-[280px]">
+    <section className="absolute top-[108%] z-20 w-[280px] md:w-[70%]">
       {searchUrl && !isLoading && searchingProducts?.length > 0 ? (
-        <div className="flex flex-col bg-secondary rounded-md gap-1 p-1">
+        <div className="flex flex-col gap-1 rounded-md bg-secondary p-1">
           {searchingProducts.map((product: ProductData) => (
             <Link
-              className="w-full bg-card hover:bg-background/60 last:rounded-b-sm first:rounded-t-sm"
+              className="w-full bg-card first:rounded-t-sm last:rounded-b-sm hover:bg-background/60"
               key={product.id}
               to={`/product/productName/${product.title}`}
               onClick={clearInput}
@@ -33,11 +33,11 @@ const SearchResults = ({
           ))}
         </div>
       ) : searchUrl && !isResult && !isLoading ? (
-        <div className=" text-center bg-destructive  p-2 rounded-md">
+        <div className="rounded-md bg-destructive p-2 text-center">
           No results
         </div>
       ) : searchUrl && isLoading ? (
-        <div className="animate-pulse text-center  bg-secondary p-2 rounded-md">
+        <div className="animate-pulse rounded-md bg-secondary p-2 text-center">
           Loading...
         </div>
       ) : null}

@@ -8,26 +8,26 @@ import {
 // EXPERIMENTAL COMPONENT
 export const ErrorFetchingProducts = () => {
   return (
-    <div className="w-full rounded-md border-destructive border-2">
-      <div className="mb-2 font-bold text-center flex gap-2 justify-center">
+    <div className="w-full rounded-md border-2 border-destructive">
+      <div className="mb-2 flex justify-center gap-2 text-center font-bold">
         <Link
           to={"https://github.com/niko-cxvedadze/final-api"}
-          className="flex flex-col md:flex-row justify-between w-full items-center"
+          className="flex w-full flex-col items-center justify-between md:flex-row"
         >
-          <div className="p-2 rounded-sm bg-primary">
+          <div className="rounded-sm bg-primary p-2">
             Error Fetching Products
           </div>
           <Button
             variant={"outline"}
             size={"lg"}
-            className="flex gap-2 text-2xl justify-center font-bold"
+            className="flex justify-center gap-2 text-2xl font-bold"
           >
             <span>Network Error, Dockerize Backend:</span>
             <LinkIcon />
           </Button>
         </Link>
       </div>
-      <div className="grid max-[440px]:grid-cols-1  grid-cols-2 md:grid-cols-3 gap-y-6  gap-x-6 lg:grid-cols-4  lg:gap-x-2">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-6 max-[440px]:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-2">
         <ProductsSkeleton />
         <ProductsSkeleton />
         <ProductsSkeleton />
@@ -38,24 +38,24 @@ export const ErrorFetchingProducts = () => {
 };
 export const ErrorFetchingOffers = () => {
   return (
-    <div className="w-full rounded-md border-destructive border-2">
-      <div className="mb-2 font-bold text-center flex gap-2 justify-center">
+    <div className="w-full rounded-md border-2 border-destructive">
+      <div className="mb-2 flex justify-center gap-2 text-center font-bold">
         <Link
           to={"https://github.com/niko-cxvedadze/final-api"}
-          className="flex flex-col md:flex-row justify-between w-full items-center"
+          className="flex w-full flex-col items-center justify-between md:flex-row"
         >
-          <div className="p-2 rounded-sm bg-primary">Error Fetching Offers</div>
+          <div className="rounded-sm bg-primary p-2">Error Fetching Offers</div>
           <Button
             variant={"outline"}
             size={"lg"}
-            className="flex gap-2 text-2xl justify-center font-bold"
+            className="flex justify-center gap-2 text-2xl font-bold"
           >
             <span>Network Error, Dockerize Backend:</span>
             <LinkIcon />
           </Button>
         </Link>
       </div>
-      <div className="flex items-center justify-center gap-2 w-full">
+      <div className="flex w-full items-center justify-center gap-2">
         <SmallProductsSkeleton responsive="w-[24%]" />
         <SmallProductsSkeleton responsive="max-[375px]:hidden w-[24%]" />
         <SmallProductsSkeleton responsive="hidden md:block w-[24%]" />
@@ -66,17 +66,17 @@ export const ErrorFetchingOffers = () => {
 };
 export const ErrorFetchingCategories = () => {
   return (
-    <div className="w-full rounded-md border-destructive border-2">
-      <div className="  font-bold text-center flex gap-2 justify-center">
+    <div className="w-full rounded-md border-2 border-destructive">
+      <div className="flex justify-center gap-2 text-center font-bold">
         <Link
           to={"https://github.com/niko-cxvedadze/final-api"}
-          className="flex flex-col md:flex-row justify-between w-full items-center"
+          className="flex w-full flex-col items-center justify-between md:flex-row"
         >
-          <div className="p-2 rounded-sm bg-primary">Error Fetching Offers</div>
+          <div className="rounded-sm bg-primary p-2">Error Fetching Offers</div>
           <Button
             variant={"outline"}
             size={"lg"}
-            className="flex gap-2 text-2xl justify-center font-bold"
+            className="flex justify-center gap-2 text-2xl font-bold"
           >
             <span>Network Error, Dockerize Backend:</span>
             <LinkIcon />

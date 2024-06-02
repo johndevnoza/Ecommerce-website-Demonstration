@@ -31,28 +31,28 @@ export const ProductsLoading = ({
     <>
       {products && (
         <MaxWidthWrapper className="my-8">
-          <div className="min-w-max min-h-8 bg-secondary animate-pulse rounded-md"></div>
-          <div className="grid my-8 max-[440px]:grid-cols-1  md:grid-cols-3 max-[300px]:grid-cols-1 sm:grid-cols-2 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
+          <div className="min-h-8 min-w-max animate-pulse rounded-md bg-secondary"></div>
+          <div className="my-8 grid grid-cols-2 gap-x-6 gap-y-6 max-[440px]:grid-cols-1 max-[300px]:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-2">
             {cards}
           </div>
         </MaxWidthWrapper>
       )}
       {homePageProducts && (
         <div className="my-8">
-          <div className="w-40 min-h-8 bg-secondary font-bold p-2 animate-pulse text-center rounded-md">
+          <div className="min-h-8 w-40 animate-pulse rounded-md bg-secondary p-2 text-center font-bold">
             Loading Products
           </div>
-          <div className="grid my-8 max-[440px]:grid-cols-1  md:grid-cols-3 max-[300px]:grid-cols-1 sm:grid-cols-2 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
+          <div className="my-8 grid grid-cols-2 gap-x-6 gap-y-6 max-[440px]:grid-cols-1 max-[300px]:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-2">
             {cards}
           </div>
         </div>
       )}
       {homePageOffers && (
         <div>
-          <div className="w-36 min-h-10 bg-secondary animate-pulse text-center rounded-lg font-bold py-2">
+          <div className="min-h-10 w-36 animate-pulse rounded-lg bg-secondary py-2 text-center font-bold">
             Loading Offers
           </div>
-          <div className="grid my-2  md:grid-cols-3 max-[375px]:grid-cols-1 sm:grid-cols-2 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
+          <div className="my-2 grid grid-cols-2 gap-x-6 gap-y-6 max-[375px]:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-2">
             <SmallProductsSkeleton responsive="" />
             <SmallProductsSkeleton responsive="max-[375px]:hidden" />
             <SmallProductsSkeleton responsive="hidden md:block" />

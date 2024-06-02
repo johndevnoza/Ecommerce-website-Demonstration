@@ -19,7 +19,7 @@ const HoverInfoElement = ({
   hoverContent,
   side = "left",
   shouldHover = false,
-  hoverContentStyle
+  hoverContentStyle,
 }: PropsWithChildren<HoverElementProps>) => {
   return (
     <>

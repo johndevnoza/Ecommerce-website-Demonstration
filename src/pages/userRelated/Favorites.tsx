@@ -20,7 +20,7 @@ const Favorites = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setFavoritesTerm(e.target.value);
     },
-    []
+    [],
   );
 
   const {
@@ -37,7 +37,7 @@ const Favorites = () => {
         ? favorites?.filter((item: LikedProduct) =>
             item.likedProduct.title
               .toLowerCase()
-              .includes(debauncedSearch.toLowerCase())
+              .includes(debauncedSearch.toLowerCase()),
           )
         : null,
   });
@@ -65,14 +65,14 @@ const Favorites = () => {
 
   return (
     <MaxWidthWrapper>
-      <div className="flex w-full flex-col gap-6 my-8">
+      <div className="my-8 flex w-full flex-col gap-6">
         <SearchInComponent
           handleSearchTermChange={handleSearchTermChange}
           setFavoritesTerm={setFavoritesTerm}
           favoritesTerm={favoritesTerm}
           isPending={isLoading}
         />
-        <div className="grid max-[440px]:grid-cols-1 md:grid-cols-3 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-6 max-[440px]:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-2">
           {favorites?.map((f: LikedProduct) => (
             <div key={f.id}>
               <ProductCard

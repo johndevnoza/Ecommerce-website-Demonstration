@@ -19,7 +19,7 @@ export default function Links() {
         <NavigationMenuItem>
           <NavigationMenuTrigger
             className={cn(
-              buttonVariants({ className: "group-data-[state=open]:p-5" })
+              buttonVariants({ className: "group-data-[state=open]:p-5" }),
             )}
           ></NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -28,7 +28,7 @@ export default function Links() {
                 buttonVariants({
                   variant: "ghost",
                   className: "w-full cursor-pointer",
-                })
+                }),
               )}
             >
               <Link to="/products"> {t("allProducts")}</Link>
@@ -37,8 +37,8 @@ export default function Links() {
               className={cn(
                 buttonVariants({
                   variant: "ghost",
-                  className: "w-full  cursor-pointer",
-                })
+                  className: "w-full cursor-pointer",
+                }),
               )}
             >
               <Link to="/product-category"> {t("categories")}</Link>
@@ -48,7 +48,7 @@ export default function Links() {
                 buttonVariants({
                   variant: "ghost",
                   className: "w-full cursor-pointer",
-                })
+                }),
               )}
             >
               <Link to="/about"> {t("aboutUs")}</Link>
@@ -58,7 +58,7 @@ export default function Links() {
                 buttonVariants({
                   variant: "ghost",
                   className: "w-full cursor-pointer",
-                })
+                }),
               )}
             >
               <Link to="/contact"> {t("contact")}</Link>
@@ -68,7 +68,7 @@ export default function Links() {
                 buttonVariants({
                   variant: "ghost",
                   className: "w-full cursor-pointer",
-                })
+                }),
               )}
             >
               <Link to="/offices"> {t("offices")}</Link>
@@ -78,7 +78,7 @@ export default function Links() {
                 buttonVariants({
                   variant: "ghost",
                   className: "w-full cursor-pointer",
-                })
+                }),
               )}
             >
               <Link to="/map"> {t("map")}</Link>

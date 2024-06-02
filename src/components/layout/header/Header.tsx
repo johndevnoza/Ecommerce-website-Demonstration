@@ -23,7 +23,7 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="sticky z-50 top-0 bg-background border-b-2 border-border inset-x-0 h-16">
+    <div className="sticky inset-x-0 top-0 z-50 h-16 border-b-2 border-border bg-background">
       <InactivityAlert />
       <header className="relative w-full">
         <MaxWidthWrapper>
@@ -34,7 +34,7 @@ export default function Header() {
                 className={cn(
                   buttonVariants({
                     variant: "outline",
-                  })
+                  }),
                 )}
               >
                 Logo
@@ -42,7 +42,7 @@ export default function Header() {
               <Links />
             </div>
             <ProductSearchBar />
-            <div className="md:flex gap-1 hidden">
+            <div className="hidden gap-1 md:flex">
               {data?.first_name ? <NavProfile /> : <SignIn />}
               {data?.first_name ? <Cart /> : null}
               <HoverInfoElement hoverContent="Theme" shouldHover side="bottom">

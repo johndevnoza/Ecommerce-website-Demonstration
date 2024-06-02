@@ -34,7 +34,7 @@ const Sales = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSalesTerm(e.target.value);
     },
-    []
+    [],
   );
 
   const isAdded = carts ? carts.map((item) => item.product_id) : null;
@@ -46,7 +46,7 @@ const Sales = () => {
   if (error) return "An error has occurred: " + error.message;
 
   return (
-    <MaxWidthWrapper className="flex flex-col gap-4 my-8 ">
+    <MaxWidthWrapper className="my-8 flex flex-col gap-4">
       <header className="flex justify-between">
         <Button>Best offers </Button>
         <div className="relative">
@@ -60,7 +60,7 @@ const Sales = () => {
           {salesTerm && (
             <XCircle
               onClick={() => setSalesTerm("")}
-              className="absolute top-2 z-40 right-1 hover:scale-110 animate-pulse"
+              className="absolute right-1 top-2 z-40 animate-pulse hover:scale-110"
             />
           )}
           {isFetching ? (
@@ -69,7 +69,7 @@ const Sales = () => {
         </div>
       </header>
       <div className="flex w-full flex-col gap-6">
-        <div className="grid md:grid-cols-3 gap-y-6 grid-cols-2 gap-x-6 lg:grid-cols-4  lg:gap-x-2">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-2">
           {sales?.map((item: ProductData) => (
             <div key={item.id}>
               <ProductCard

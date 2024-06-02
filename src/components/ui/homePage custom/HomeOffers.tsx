@@ -51,16 +51,16 @@ const HomeOffers: React.FC = () => {
             {salesData.products?.map((item: ProductData) => (
               <CarouselItem
                 key={item.id}
-                className=" min-[375px]:basis-1/2 md:basis-1/3 lg:basis-1/4 "
+                className="min-[375px]:basis-1/2 md:basis-1/3 lg:basis-1/4"
               >
                 <div>
-                  <div className="bg-card rounded-md ">
-                    <div className="flex flex-col gap-4 p-2 lg:p-4 border-2 rounded-md border-border">
-                      <div className="flex flex-row items-center justify-between bg-background rounded-lg ">
-                        <CardTitle className="line-clamp-1 text-center justify-center px-3 max-[440px]:hidden">
+                  <div className="rounded-md bg-card">
+                    <div className="flex flex-col gap-4 rounded-md border-2 border-border p-2 lg:p-4">
+                      <div className="flex flex-row items-center justify-between rounded-lg bg-background">
+                        <CardTitle className="line-clamp-1 justify-center px-3 text-center max-[440px]:hidden">
                           {t(item.title)}
                         </CardTitle>
-                        <div className="flex ">
+                        <div className="flex">
                           <InteractiveButton
                             title={`${item.price}$`}
                             wrapperClass="rounded-none w-full"
@@ -78,7 +78,7 @@ const HomeOffers: React.FC = () => {
                           >
                             <Button
                               variant={"ghost"}
-                              className="rounded-s-none md:p-2 w-full border-border border-2 line-through"
+                              className="w-full rounded-s-none border-2 border-border line-through md:p-2"
                               disabled
                             >
                               {item.price - 1}$
@@ -93,7 +93,7 @@ const HomeOffers: React.FC = () => {
                         <img
                           src={item.image}
                           alt={item.title}
-                          className=" h-[100px] w-full object-cover rounded-sm"
+                          className="h-[100px] w-full rounded-sm object-cover"
                         />
                       </Link>
                     </div>

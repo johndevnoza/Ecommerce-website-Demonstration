@@ -10,7 +10,7 @@ export const useConditionalEffect = (
     | undefined
     | null
     | LikedProduct[],
-  animationType: AnimationType
+  animationType: AnimationType,
 ): string => {
   const animations = {
     cart: {
