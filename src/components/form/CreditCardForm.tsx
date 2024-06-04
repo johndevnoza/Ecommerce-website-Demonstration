@@ -7,8 +7,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import HoverInfoElement from "../ui/HoverInfoElement.tsx";
 import { authAxios } from "../../services/baseURLAxios.ts";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchCarts } from "@/services/useCartsQuery.tsx";
-import Cards from "react-credit-cards-2";
 import { CARTS_QUERY } from "@/utils/constants.tsx";
 const creditCardSchema = z.object({
   cardNumber: z.string(),
@@ -74,15 +72,6 @@ const CreditCardForm = ({
           <p>Expiry Date: {watchFields[3]}</p>
           <p>CVV: {watchFields[1]}</p>
         </div>
-
-        {/* <div>
-          <Cards
-            number={watchFields[0]}
-            expiry={watchFields[3]}
-            cvc={watchFields[1]}
-            name={watchFields[2]}
-          />
-        </div> */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex min-h-full w-max flex-col gap-2"

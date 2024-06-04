@@ -50,9 +50,6 @@ const Favorites = () => {
   );
   const firstFavoriteId =
     favorites && favorites.length > 0 ? favorites[0].id : "";
-  console.log(favorites && favorites[0].id);
-  console.log(favorites && favorites);
-
   const productCountMap = new Map();
   if (carts) {
     carts?.forEach((item) => {

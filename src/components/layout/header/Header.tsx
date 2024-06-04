@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/mode-toggle";
 import { buttonVariants } from "../../ui/button";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Links from "./links";
 import Cart from "@/components/user/Cart";
 import LanguageSwitch from "@/components/LanguageSwitch";

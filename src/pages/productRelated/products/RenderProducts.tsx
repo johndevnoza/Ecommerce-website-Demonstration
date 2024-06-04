@@ -7,7 +7,7 @@ type RenderProductsProps<T extends ProductDataUnion> = {
   isInFavorites: string[];
   productCountMap: Map<string, number>;
   isPageFavorites?: boolean;
-  secondId?: string;
+  secondId: string;
 };
 
 const RenderProducts = <T extends ProductDataUnion>({

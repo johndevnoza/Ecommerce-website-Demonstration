@@ -13,7 +13,7 @@ declare type ProductData = {
   isInFavorites?: boolean | null;
   imageStyle?: string;
   link?: string;
-  secondId?: string;
+  secondId: string;
   showElement?: boolean;
   likedProduct?: LikedProduct;
   cartProduct?: CartProduct;

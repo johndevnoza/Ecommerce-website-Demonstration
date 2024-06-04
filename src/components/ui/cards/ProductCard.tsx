@@ -37,6 +37,7 @@ export default function ProductCard({
   onClick,
   link,
   id,
+  total,
   secondId,
   isInCart,
   isInFavorites,
@@ -45,7 +46,6 @@ export default function ProductCard({
   isPageFavorites = false,
   removeCartItem = false,
   isLoading = false,
-  total,
 }: ProductData) {
   const queryClient = useQueryClient();
 
@@ -121,7 +121,6 @@ export default function ProductCard({
             link
           />
         ) : null}
-
         <CardDescription className="line-clamp-1 px-3">
           {description}
         </CardDescription>
@@ -138,7 +137,6 @@ export default function ProductCard({
             hoverContent="Buy now"
             redirect={"/shopping"}
           />
-
           <InteractiveButton
             wrapperClass={cn(
               buttonVariants({

@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 const Shopping = () => {
   const {
     data: cartProduct,
-    isLoading,
     isError,
     error,
     isPending,
@@ -27,9 +26,8 @@ const Shopping = () => {
         0,
       )
     : 0;
-  console.log(cartProduct);
 
-  if (isLoading || isPending) {
+  if (isPending) {
     return <MaxWidthWrapper>Loading...</MaxWidthWrapper>;
   }
   if (isError) {
@@ -85,20 +83,20 @@ const Shopping = () => {
           </div>
           <div className="h-1 w-full rounded-md border-2 border-border bg-border md:block md:h-full md:w-min"></div>
           <div className="flex h-min max-w-min items-center gap-x-1 gap-y-2 overflow-x-scroll md:flex md:h-full md:flex-col md:overflow-hidden md:overflow-y-scroll">
-            {cartProduct?.map((f: CartProduct) => (
-              <div className="relative w-64 md:w-60" key={f.id}>
+            {cartProduct?.map((i: CartProduct) => (
+              <div className="relative w-64 md:w-60" key={i.id}>
                 <ProductCard
                   onClick={(event) => event.preventDefault()}
-                  link={`/product/productName/${f.cartProduct.title}`}
-                  title={f.cartProduct.title}
-                  price={f.count * f.cartProduct.price}
-                  image={f.cartProduct.image}
-                  secondId={f.cartProduct.id}
-                  id={f.id}
+                  link={`/product/productName/${i.cartProduct.title}`}
+                  title={i.cartProduct.title}
+                  price={i.count * i.cartProduct.price}
+                  image={i.cartProduct.image}
+                  secondId={i.cartProduct.id}
+                  id={i.id}
                   isPageShopping
-                  total={f.count}
+                  total={i.count}
                   showElement={false}
-                  isInFavorites={isAdded && isAdded.includes(f.cartProduct.id)}
+                  isInFavorites={isAdded && isAdded.includes(i.cartProduct.id)}
                   removeCartItem
                 />
               </div>

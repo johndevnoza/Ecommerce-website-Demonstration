@@ -41,10 +41,19 @@ const InactivityAlert = () => {
       };
     }
   }, [token]);
-  const handleCancel = () => {
+
+  const handleLogin = async () => {
+    navigate("/login");
+    queryClient.clear();
+    await queryClient.invalidateQueries();
+    await queryClient.refetchQueries();
+    setShowAlert(false);
+  };
+  const handleCancel = async () => {
     navigate("/");
-    queryClient.invalidateQueries();
-    queryClient.refetchQueries();
+    queryClient.clear();
+    await queryClient.invalidateQueries();
+    await queryClient.refetchQueries();
     setShowAlert(false);
   };
   if (showAlert && !token) {
@@ -59,11 +68,9 @@ const InactivityAlert = () => {
               <AlertDialogCancel onClick={handleCancel}>
                 Cancel
               </AlertDialogCancel>
-              <Link to={"/login"}>
-                <AlertDialogAction onClick={() => setShowAlert(false)}>
-                  Log In
-                </AlertDialogAction>
-              </Link>
+              <AlertDialogAction onClick={handleLogin}>
+                Log In
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

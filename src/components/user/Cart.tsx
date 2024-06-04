@@ -27,11 +27,11 @@ import { useUsersQuery } from "@/services/usersQuery.tsx";
 const Cart = () => {
   const queryClient = useQueryClient();
   const { data: user } = useUsersQuery();
-
-  const { data, isLoading, isPending } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: [CARTS_QUERY],
     queryFn: fetchCarts,
   });
+
   const numberOfItems = data ? data?.length : 0;
   const totalPrice = data
     ? data.reduce((acc, item) => acc + item.count * item.cartProduct.price, 0)
@@ -57,7 +57,7 @@ const Cart = () => {
   });
 
   const addToCartAnimation = useConditionalEffect(data, "cart");
-  if (isLoading || isPending) {
+  if (isPending) {
     return (
       <div className="grid items-center rounded-sm border-2 border-border p-1">
         <Loader className="animate-spin" />
@@ -66,33 +66,28 @@ const Cart = () => {
   }
   return (
     <Sheet>
-      <HoverInfoElement hoverContent="Cart" shouldHover side="bottom">
-        {user?.first_name ? (
+      {user?.first_name ? (
+        <HoverInfoElement hoverContent="Cart" shouldHover side="bottom">
           <SheetTrigger className="m-auto flex items-center rounded-md bg-background p-2 ring-1 ring-border">
-            <>
-              <ShoppingCart
-                aria-hidden="true"
-                color={
-                  numberOfItems > 0
-                    ? "hsl(var(--primary))"
-                    : "hsl(var(--muted))"
-                }
-                className={addToCartAnimation}
-              />
-
-              <span
-                className={
-                  numberOfItems > 0
-                    ? "ml-2 animate-bounce text-sm font-medium text-primary"
-                    : "ml-2 text-sm font-medium text-muted"
-                }
-              >
-                {numberOfItems}
-              </span>
-            </>
+            <ShoppingCart
+              aria-hidden="true"
+              color={
+                numberOfItems > 0 ? "hsl(var(--primary))" : "hsl(var(--muted))"
+              }
+              className={addToCartAnimation}
+            />
+            <span
+              className={
+                numberOfItems > 0
+                  ? "ml-2 animate-bounce text-sm font-medium text-primary"
+                  : "ml-2 text-sm font-medium text-muted"
+              }
+            >
+              {numberOfItems}
+            </span>
           </SheetTrigger>
-        ) : null}
-      </HoverInfoElement>
+        </HoverInfoElement>
+      ) : null}
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
         <SheetHeader className="space-y-2.5 pr-6">
           <SheetTitle>cart </SheetTitle>
@@ -104,7 +99,7 @@ const Cart = () => {
             </div>
             <CartList
               data={data}
-              isLoading={isLoading}
+              isLoading={isPending}
               addToCartMutation={addToCartMutation.mutate}
               removeFromCartMutation={removeFromCartMutation.mutate}
               removeItem={removeItem.mutate}

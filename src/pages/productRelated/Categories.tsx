@@ -13,7 +13,7 @@ export default function Categories() {
         Loading Categories
       </MaxWidthWrapper>
     );
-  if (error) return <div>Error Categories</div>;
+  if (error) return <MaxWidthWrapper>Error Categories</MaxWidthWrapper>;
   return (
     <MaxWidthWrapper className="mb-44 mt-10">
       <section className="flex w-full flex-wrap gap-4 rounded-md border-2 border-border p-2">

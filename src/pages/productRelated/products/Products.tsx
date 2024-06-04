@@ -1,5 +1,4 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
-import ProductCard from "@/components/ui/cards/ProductCard";
 import { keepPreviousData, useQueries } from "@tanstack/react-query";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { fetchFav } from "@/services/FavoritesQuery";
@@ -72,7 +71,6 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
     favorites?.data?.map((item) => item.product_id) ?? []
   ).filter((id): id is string => !!id);
 
-
   const itemsPerPage = 4;
   const totalPages = Math.ceil(products?.data?.total / itemsPerPage);
   const pageNumbers = Array.from(
@@ -85,7 +83,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
       productCountMap.set(item.product_id, item.count);
     });
   }
-  if (products.isPending || products.isLoading)
+  if (products.isPending)
     return (
       <>
         {isHomePage ? (
