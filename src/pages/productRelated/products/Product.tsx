@@ -37,8 +37,10 @@ export default function Product() {
     ? favorites.map((item) => item.product_id)
     : null;
 
-  if (results[0].isPending) return <div>Loading...</div>;
-  if (results[0].error) return <div>An error occurred</div>;
+  if (results[0].isPending)
+    return <MaxWidthWrapper>Loading...</MaxWidthWrapper>;
+  if (results[0].error)
+    return <MaxWidthWrapper>An error occurred</MaxWidthWrapper>;
 
   return (
     <MaxWidthWrapper>

@@ -1,6 +1,5 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductCard from "@/components/ui/cards/ProductCard";
-import useSearchStore from "@/services/searchContext";
 import { keepPreviousData, useQueries } from "@tanstack/react-query";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { fetchFav } from "@/services/FavoritesQuery";
@@ -15,13 +14,15 @@ import { useParams } from "react-router-dom";
 import Pagination from "@/components/ui/Pagination";
 import { fetchAllProducts } from "@/services/productsApi";
 import { useCallback, useState } from "react";
-import useDebounce from "@/hooks/useDebounce";
 import { ErrorFetchingProducts } from "@/components/ui/ComponentErrors/ErrorFetchingProducts";
 import SearchInComponent from "../SearchInComponent";
+import useDebounce from "@/hooks/useDebounce";
+import RenderProducts from "./RenderProducts";
 
 export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
-  const { isSearchActive } = useSearchStore();
-  const goBlur: string = "blur mt-10 mb-44";
+  // const { isSearchActive } = useSearchStore();
+  // const goBlur: string = "blur mt-10 mb-44";
+
   // const [filterSelect, setFilterSelect] = useState({
   //   alphabetical: false,
   //   priceHigh: false,
@@ -32,11 +33,12 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
   const page = Number(useParams().page);
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearch = useDebounce(searchTerm, 300);
+
   const handleSearchTermChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(e.target.value);
     },
-    []
+    [],
   );
   const results = useQueries({
     queries: [
@@ -48,7 +50,9 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
           if (!isHomePage && debouncedSearch) {
             const filteredProducts = data.products?.filter(
               (item: ProductData) =>
-                item.title.toLowerCase().includes(debouncedSearch.toLowerCase())
+                item.title
+                  .toLowerCase()
+                  .includes(debouncedSearch.toLowerCase()),
             );
             return { ...data, products: filteredProducts };
           } else {
@@ -56,7 +60,6 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
           }
         },
       },
-
       {
         queryKey: [CARTS_QUERY],
         queryFn: fetchCarts,
@@ -71,16 +74,19 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
   const products = results[0];
   const carts = results[1];
   const favorites = results[2];
-  const isAdded = carts ? carts.data?.map((item) => item.product_id) : null;
-  const isFavorited = favorites
-    ? favorites.data?.map((item) => item.product_id)
-    : null;
+
+  const isAdded = (carts?.data?.map((item) => item.product_id) ?? []).filter(
+    (id): id is string => !!id,
+  );
+  const isFavorited = (
+    favorites?.data?.map((item) => item.product_id) ?? []
+  ).filter((id): id is string => !!id);
 
   const itemsPerPage = 4;
   const totalPages = Math.ceil(products?.data?.total / itemsPerPage);
   const pageNumbers = Array.from(
     { length: totalPages },
-    (_, index) => index + 1
+    (_, index) => index + 1,
   );
   const productCountMap = new Map();
   if (carts?.data) {
@@ -101,6 +107,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
           <div className="flex flex-col items-center">
             <ProductsLoading products numberOfCards={4} />
             <Pagination
+              isHomePage={isHomePage}
               totalPage={pageNumbers}
               currentPage={page}
               previous={page - 1}
@@ -114,9 +121,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
   if (products?.error) return <ErrorFetchingProducts />;
 
   return (
-    <MaxWidthWrapper
-      className={isSearchActive ? goBlur : isHomePage ? "px-0 md:px-0" : "mt-8"}
-    >
+    <MaxWidthWrapper className={isHomePage ? "px-0 md:px-0" : "mt-8"}>
       {isHomePage ? (
         <div>
           <InteractiveButton
@@ -135,6 +140,8 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
       ) : (
         <>
           <SearchInComponent
+            pageTitles="All Products"
+            isHomePage={isHomePage}
             setFavoritesTerm={setSearchTerm}
             favoritesTerm={searchTerm}
             isPending={false}
@@ -142,33 +149,23 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
           />
         </>
       )}
-      <div className="flex w-full flex-col gap-6 mt-2">
-        <div className="grid max-[440px]:grid-cols-1  grid-cols-2 md:grid-cols-3 gap-y-6  gap-x-6 lg:grid-cols-4  lg:gap-x-2">
-          {products.data.products?.map((item: ProductData) => (
-            <div key={item.id}>
-              <ProductCard
-                link={`/product/productName/${item.title}`}
-                {...item}
-                secondId={item.id}
-                id={item.id}
-                isInCart={isAdded && isAdded.includes(item.id)}
-                isInFavorites={isFavorited && isFavorited.includes(item.id)}
-                isLoading={products.isRefetching}
-                total={productCountMap.get(item.id) || null}
-              />
-            </div>
-          ))}
-        </div>
+      <div className="mt-2 flex w-full flex-col gap-6">
+        <RenderProducts<ProductData>
+          data={products.data.products}
+          isLoading={products.isRefetching}
+          isInCart={isAdded}
+          isInFavorites={isFavorited}
+          productCountMap={productCountMap}
+        />
         <div className="flex w-full justify-center">
-          {!isHomePage ? (
-            <Pagination
-              totalPage={pageNumbers}
-              currentPage={page}
-              previous={page - 1}
-              next={page + 1}
-              isFetching={products.isPlaceholderData}
-            />
-          ) : null}
+          <Pagination
+            isHomePage={isHomePage}
+            totalPage={pageNumbers}
+            currentPage={page}
+            previous={page - 1}
+            next={page + 1}
+            isFetching={products.isPlaceholderData}
+          />
         </div>
       </div>
     </MaxWidthWrapper>

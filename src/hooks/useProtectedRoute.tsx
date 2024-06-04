@@ -21,7 +21,6 @@ const UseProtectedRoute = () => {
         <Outlet />
       ) : (
         <AlertDialog defaultOpen>
-          <AlertDialogTrigger>asdasd</AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>

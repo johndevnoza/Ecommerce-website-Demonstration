@@ -4,7 +4,6 @@ import { buttonVariants } from "../../ui/button";
 import { Link, useLocation } from "react-router-dom";
 import Links from "./links";
 import Cart from "@/components/user/Cart";
-import SignIn from "@/components/user/SignIn";
 import LanguageSwitch from "@/components/LanguageSwitch";
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductSearchBar from "@/components/ui/ProductSearchBar";
@@ -12,16 +11,8 @@ import HoverInfoElement from "@/components/ui/HoverInfoElement";
 import InactivityAlert from "@/components/ui/InactivityAlert";
 import NavProfile from "@/components/user/NavProfile";
 import BurgerMenu from "@/components/ui/BurgerMenu";
-import { useUsersQuery } from "@/services/usersQuery";
-import { useEffect } from "react";
 
 export default function Header() {
-  const { data, refetch } = useUsersQuery();
-  const location = useLocation();
-  useEffect(() => {
-    if (location.pathname === "/login") refetch();
-  }, []);
-
   return (
     <div className="sticky inset-x-0 top-0 z-50 h-16 border-b-2 border-border bg-background">
       <InactivityAlert />
@@ -43,8 +34,8 @@ export default function Header() {
             </div>
             <ProductSearchBar />
             <div className="hidden gap-1 md:flex">
-              {data?.first_name ? <NavProfile /> : <SignIn />}
-              {data?.first_name ? <Cart /> : null}
+              <NavProfile />
+              <Cart />
               <HoverInfoElement hoverContent="Theme" shouldHover side="bottom">
                 <ModeToggle />
               </HoverInfoElement>
@@ -56,7 +47,7 @@ export default function Header() {
                 <LanguageSwitch />
               </HoverInfoElement>
             </div>
-            <BurgerMenu user={data?.first_name} />
+            <BurgerMenu />
           </div>
         </MaxWidthWrapper>
       </header>

@@ -99,6 +99,8 @@ export default function ProductCard({
           <img
             src={image}
             alt={title}
+            decoding="async"
+            loading="lazy"
             className={twMerge(
               "h-[200px] w-full self-center rounded-md object-cover object-center",
               imageStyle,
@@ -165,7 +167,7 @@ export default function ProductCard({
               isPageShopping
                 ? () => handleAddToCart.mutate(secondId)
                 : isPageFavorites
-                  ? () => HandleRemoveFavorites.mutate(id)
+                  ? () => HandleRemoveFavorites.mutate(secondId)
                   : isInFavorites
                     ? () => navigate("/favorites")
                     : () => handleAddToFavorites.mutate(id)

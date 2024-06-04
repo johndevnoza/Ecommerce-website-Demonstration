@@ -6,8 +6,8 @@ import { Products } from "./productRelated/products/Products";
 export default function Home() {
   return (
     <MaxWidthWrapper>
-      <div className="border-x-2 border-border">
-        <div className="flex w-full flex-col gap-6 py-8">
+      <div className="h-full">
+        <div className="flex w-full flex-col gap-6 border-x-2 border-border py-8">
           {/* Best Offers */}
           <HomeOffers />
           {/* home fancy categories carousel */}

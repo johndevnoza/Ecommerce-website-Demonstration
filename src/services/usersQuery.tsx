@@ -7,7 +7,6 @@ export async function fetchCurrentUser() {
   if (isLoggedIn) {
     try {
       const response = await authAxios.get(`user/current-user`);
-      console.log(response.data);
       return await response.data;
     } catch (error) {
       throw error;
@@ -20,7 +19,6 @@ export const updateUser = async (user: User) => {
     .put(`user`, user, {})
     .then((res) => res.data)
     .catch(Error);
-    
 };
 
 export function useUsersQuery() {

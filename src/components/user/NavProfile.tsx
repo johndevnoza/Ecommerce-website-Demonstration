@@ -19,7 +19,6 @@ import SignIn from "./SignIn";
 
 export default function NavProfile() {
   const { data: user } = useUsersQuery();
-
   const { data, isPending } = favoritesQuery();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -41,8 +40,8 @@ export default function NavProfile() {
   const addFavoritesAnim = useConditionalEffect(data, "favorites");
   if (isPending) {
     return (
-      <div className="border-border border-2 rounded-md p-1 grid items-center">
-        <div className="min-w-14 bg-secondary animate-pulse h-full rounded-sm" />
+      <div className="grid items-center rounded-md border-2 border-border p-1">
+        <div className="h-full min-w-14 animate-pulse rounded-sm bg-secondary" />
       </div>
     );
   }
@@ -54,27 +53,27 @@ export default function NavProfile() {
             buttonVariants({
               variant: "outline",
               className: addFavoritesAnim,
-            })
+            }),
           )}
         >
           {user?.first_name}
         </DropdownMenuTrigger>
       ) : (
-        <SignIn />
+        <SignIn isAuthed={user?.first_name > 0} />
       )}
       <DropdownMenuContent>
         <DropdownMenuLabel
           onClick={() => navigate("profile/Details")}
-          className="flex items-center gap-1 hover:bg-secondary rounded-t-sm cursor-pointer"
+          className="flex cursor-pointer items-center gap-1 rounded-t-sm hover:bg-secondary"
         >
           <User2 />
           <span>{t("profile")}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex  gap-1">
+        <DropdownMenuItem className="flex gap-1">
           <FolderHeart className="w-5" />
           <Link to={"favorites"}> {t("favorites")}</Link>
-          <div className="rounded-full bg-primary text-center size-5">
+          <div className="size-5 rounded-full bg-primary text-center">
             {data?.length}
           </div>
         </DropdownMenuItem>
@@ -91,7 +90,7 @@ export default function NavProfile() {
             e.preventDefault();
             logout.mutate(), navigate("/");
           }}
-          className="flex gap-1 cursor-pointer"
+          className="flex cursor-pointer gap-1"
         >
           <LogOut className="w-5" />
           <span onClick={() => logout.mutate()}> {t("logOut")}</span>

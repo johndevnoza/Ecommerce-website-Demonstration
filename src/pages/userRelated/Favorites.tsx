@@ -1,16 +1,13 @@
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
-import ProductCard from "@/components/ui/cards/ProductCard";
 import useDebounce from "@/hooks/useDebounce";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { fetchFav } from "@/services/FavoritesQuery";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { ProductsLoading } from "@/components/ui/loadings/ProductListLoading";
-import { Loader2, XCircle } from "lucide-react";
 import { useCallback, useState } from "react";
 import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 import SearchInComponent from "../productRelated/SearchInComponent";
+import RenderProducts from "../productRelated/products/RenderProducts";
 
 const Favorites = () => {
   const [favoritesTerm, setFavoritesTerm] = useState("");
@@ -41,13 +38,20 @@ const Favorites = () => {
           )
         : null,
   });
+  console.log(favorites);
 
   const { data: carts } = useQuery({
     queryKey: [CARTS_QUERY],
     queryFn: async () => await fetchCarts(),
   });
 
-  const isAdded = carts ? carts.map((item) => item.product_id) : null;
+  const isAdded = (carts?.map((item) => item.product_id) ?? []).filter(
+    (id): id is string => !!id,
+  );
+  const firstFavoriteId =
+    favorites && favorites.length > 0 ? favorites[0].id : "";
+  console.log(favorites && favorites[0].id);
+  console.log(favorites && favorites);
 
   const productCountMap = new Map();
   if (carts) {
@@ -67,33 +71,23 @@ const Favorites = () => {
     <MaxWidthWrapper>
       <div className="my-8 flex w-full flex-col gap-6">
         <SearchInComponent
+          pageTitles="Favorites"
           handleSearchTermChange={handleSearchTermChange}
           setFavoritesTerm={setFavoritesTerm}
           favoritesTerm={favoritesTerm}
           isPending={isLoading}
         />
-        <div className="grid grid-cols-2 gap-x-6 gap-y-6 max-[440px]:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-2">
-          {favorites?.map((f: LikedProduct) => (
-            <div key={f.id}>
-              <ProductCard
-                link={`/product/productName/${f.likedProduct.title}`}
-                title={f.likedProduct.title}
-                price={f.likedProduct.price}
-                description={f.likedProduct.description}
-                image={f.likedProduct.image}
-                secondId={f.likedProduct.id}
-                id={f.id}
-                total={productCountMap.get(f.likedProduct.id) || 0}
-                category_name={f.likedProduct.category_name}
-                isPageFavorites
-                isInCart={isAdded && isAdded.includes(f.likedProduct.id)}
-                isLoading={isLoading}
-              />
-            </div>
-          ))}
-        </div>
+        <RenderProducts<LikedProduct>
+          data={favorites?.map((f) => f.likedProduct) ?? []}
+          isLoading={isLoading}
+          secondId={firstFavoriteId}
+          isInCart={isAdded}
+          productCountMap={productCountMap}
+          isPageFavorites
+        />
       </div>
     </MaxWidthWrapper>
   );
 };
+
 export default Favorites;

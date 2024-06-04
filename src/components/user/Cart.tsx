@@ -24,7 +24,7 @@ import CartList from "./CartList.tsx";
 import { useConditionalEffect } from "@/hooks/useConditionalEffect.tsx";
 import { useUsersQuery } from "@/services/usersQuery.tsx";
 
-const Cart: React.FC = () => {
+const Cart = () => {
   const queryClient = useQueryClient();
   const { data: user } = useUsersQuery();
 
@@ -59,8 +59,8 @@ const Cart: React.FC = () => {
   const addToCartAnimation = useConditionalEffect(data, "cart");
   if (isLoading || isPending) {
     return (
-      <div className="border-border border-2 rounded-sm p-1 grid items-center">
-        <Loader className="animate-spin  " />
+      <div className="grid items-center rounded-sm border-2 border-border p-1">
+        <Loader className="animate-spin" />
       </div>
     );
   }
@@ -68,7 +68,7 @@ const Cart: React.FC = () => {
     <Sheet>
       <HoverInfoElement hoverContent="Cart" shouldHover side="bottom">
         {user?.first_name ? (
-          <SheetTrigger className="flex m-auto   items-center ring-border ring-1 bg-background rounded-md p-2">
+          <SheetTrigger className="m-auto flex items-center rounded-md bg-background p-2 ring-1 ring-border">
             <>
               <ShoppingCart
                 aria-hidden="true"
@@ -83,8 +83,8 @@ const Cart: React.FC = () => {
               <span
                 className={
                   numberOfItems > 0
-                    ? "text-primary ml-2 text-sm font-medium animate-bounce "
-                    : " ml-2 text-sm font-medium text-muted"
+                    ? "ml-2 animate-bounce text-sm font-medium text-primary"
+                    : "ml-2 text-sm font-medium text-muted"
                 }
               >
                 {numberOfItems}
@@ -93,8 +93,8 @@ const Cart: React.FC = () => {
           </SheetTrigger>
         ) : null}
       </HoverInfoElement>
-      <SheetContent className=" flex w-full flex-col pr-0  sm:max-w-lg ">
-        <SheetHeader className="space-y-2.5 pr-6 ">
+      <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
+        <SheetHeader className="space-y-2.5 pr-6">
           <SheetTitle>cart </SheetTitle>
         </SheetHeader>
         {data?.length ? (
@@ -112,7 +112,7 @@ const Cart: React.FC = () => {
             <div className="space-y-4 pr-6">
               <Separator />
               <div className="space-y-1.5 text-sm">
-                <div className="flex ">
+                <div className="flex">
                   <span className="flex-1">
                     Total Price: {totalPrice > 0 ? totalPrice : 0}$
                   </span>
@@ -125,7 +125,7 @@ const Cart: React.FC = () => {
                     className={cn(
                       buttonVariants({
                         className: "w-full",
-                      })
+                      }),
                     )}
                   >
                     Continue to Checkout
@@ -136,14 +136,14 @@ const Cart: React.FC = () => {
           </>
         ) : (
           // if cart is empty
-          <div className="flex h-full flex-col  items-center justify-center space-y-1 ">
+          <div className="flex h-full flex-col items-center justify-center space-y-1">
             <div
               aria-hidden="true"
-              className=" relative mb-4 h-60 w-60 text-muted-foreground"
+              className="relative mb-4 h-60 w-60 text-muted-foreground"
             >
-              <ShoppingBagIcon className="w-44 h-44 grid m-auto" />
+              <ShoppingBagIcon className="m-auto grid h-44 w-44" />
             </div>
-            <div className="text-xl font-semibold ">Your cart is empty</div>
+            <div className="text-xl font-semibold">Your cart is empty</div>
             <SheetTrigger asChild>
               <Link
                 to=""
@@ -152,7 +152,7 @@ const Cart: React.FC = () => {
                     variant: "link",
                     size: "sm",
                     className: "text-sm text-muted-foreground",
-                  })
+                  }),
                 )}
               >
                 Add items to your cart to checkout
