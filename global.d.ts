@@ -4,7 +4,7 @@ declare type ProductData = {
   category_name?: string;
   description?: string;
   image?: string;
-  price?: number | bigint;
+  price?: number;
   salePrice?: null | number;
   title: string;
   updated_at?: string;
@@ -13,7 +13,7 @@ declare type ProductData = {
   isInFavorites?: boolean | null;
   imageStyle?: string;
   link?: string;
-  secondId: string;
+  secondId?: string;
   showElement?: boolean;
   likedProduct?: LikedProduct;
   cartProduct?: CartProduct;
@@ -27,13 +27,13 @@ declare type ProductData = {
 };
 
 declare type CartProduct = {
-  cartProduct: {
+  cartProduct?: {
     category_name: string;
     created_at: string;
     description: string;
     id: string;
     image: string;
-    price: number | bigint;
+    price: number;
     salePrice: null;
     title: string;
     updated_at: string;
@@ -50,19 +50,28 @@ declare type CartProduct = {
 };
 
 declare type LikedProduct = {
-  cartProduct: CartProduct;
+  cartProduct?: CartProduct;
   likedProduct: {
     category_name: string;
     created_at: string;
     description: string;
     id: string;
     image: string;
-    price: number | bigint;
+    price: number;
     salePrice: null;
     title: string;
     updated_at: string;
   };
-  count: number;
+  category_name: string;
+  created_at: string;
+  description: string;
+  id: string;
+  image: string;
+  price: number;
+  salePrice: null;
+  title: string;
+  updated_at: string;
+  count?: number;
   created_at: string;
   id: string;
   product_id?: string;

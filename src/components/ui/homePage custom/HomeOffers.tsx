@@ -62,7 +62,7 @@ const HomeOffers: React.FC = () => {
                         </CardTitle>
                         <div className="flex">
                           <InteractiveButton
-                            title={`${item.price}$`}
+                            title={`${item.salePrice}$`}
                             wrapperClass="rounded-none w-full"
                             buttonVariant="default"
                             buttonClass=" lg:p-2 rounded-r-none"
@@ -81,7 +81,7 @@ const HomeOffers: React.FC = () => {
                               className="w-full rounded-s-none border-2 border-border line-through md:p-2"
                               disabled
                             >
-                              {item.price - 1}$
+                              {item.price}$
                             </Button>
                           </HoverInfoElement>
                         </div>
@@ -93,6 +93,8 @@ const HomeOffers: React.FC = () => {
                         <img
                           src={item.image}
                           alt={item.title}
+                          decoding="async"
+                          loading="lazy"
                           className="h-[100px] w-full rounded-sm object-cover"
                         />
                       </Link>

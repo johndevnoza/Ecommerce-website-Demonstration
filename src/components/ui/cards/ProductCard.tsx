@@ -209,7 +209,7 @@ export default function ProductCard({
                 ? () => handleDecreaseCart.mutate(id)
                 : isInCart
                   ? () => navigate("/shopping")
-                  : () => handleAddToCart.mutate(secondId)
+                  : () => handleAddToCart.mutate(id)
             }
           >
             {isInCart ? (

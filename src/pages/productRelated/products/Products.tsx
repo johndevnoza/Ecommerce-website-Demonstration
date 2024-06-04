@@ -20,16 +20,6 @@ import useDebounce from "@/hooks/useDebounce";
 import RenderProducts from "./RenderProducts";
 
 export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
-  // const { isSearchActive } = useSearchStore();
-  // const goBlur: string = "blur mt-10 mb-44";
-
-  // const [filterSelect, setFilterSelect] = useState({
-  //   alphabetical: false,
-  //   priceHigh: false,
-  //   priceLow: false,
-  //   newest: false,
-  //   oldest: false,
-  // });
   const page = Number(useParams().page);
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearch = useDebounce(searchTerm, 300);
@@ -82,6 +72,7 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
     favorites?.data?.map((item) => item.product_id) ?? []
   ).filter((id): id is string => !!id);
 
+
   const itemsPerPage = 4;
   const totalPages = Math.ceil(products?.data?.total / itemsPerPage);
   const pageNumbers = Array.from(
@@ -94,10 +85,6 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
       productCountMap.set(item.product_id, item.count);
     });
   }
-
-  // const TestSort = products?.data?.products?.sort((a, b) => a.price - b.price);
-  // console.log(products.data?.products);
-  // console.log(TestSort, "sort");
   if (products.isPending || products.isLoading)
     return (
       <>
