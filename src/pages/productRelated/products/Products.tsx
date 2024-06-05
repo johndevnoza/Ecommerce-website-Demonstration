@@ -11,12 +11,12 @@ import {
 import { ProductsLoading } from "@/components/ui/loadings/ProductListLoading";
 import { useParams } from "react-router-dom";
 import Pagination from "@/components/ui/Pagination";
-import { fetchAllProducts } from "@/services/productsApi";
 import { useCallback, useState } from "react";
 import { ErrorFetchingProducts } from "@/components/ui/ComponentErrors/ErrorFetchingProducts";
 import SearchInComponent from "../SearchInComponent";
 import useDebounce from "@/hooks/useDebounce";
 import RenderProducts from "./RenderProducts";
+import { fetchAllProducts } from "@/services/apiCalls/productsApi";
 
 export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
   const page = Number(useParams().page);

@@ -1,11 +1,11 @@
 import { useQueries } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { fetchSingle } from "@/services/productsApi";
 import { fetchCarts } from "@/services/useCartsQuery";
 import { fetchFav } from "@/services/FavoritesQuery";
 import { PRODUCT_QUERY, CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductDetails from "@/components/ui/cards/ProductDetails";
+import { fetchSingle } from "@/services/apiCalls/productsApi";
 
 export default function Product() {
   const { id } = useParams() as { id: string };

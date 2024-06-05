@@ -1,10 +1,10 @@
 import { XCircle } from "lucide-react";
-import { fetchProductSearch } from "@/services/productsApi";
 import { useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import SearchResults from "./SearchResult";
 import useDebounce from "@/hooks/useDebounce";
+import { fetchProductSearch } from "@/services/apiCalls/productsApi";
 
 const ProductSearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");

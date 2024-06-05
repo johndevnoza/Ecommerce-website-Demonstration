@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Component, Loader2Icon, Mail, MailCheck } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { mutateLogin } from "@/services/apiCalls";
+import { mutateLogin } from "@/services/apiCalls/authCalls";
 import MaxWidthWrapper from "../ui/MaxWidthWrapper";
 import { useEffect } from "react";
 import { useUsersQuery } from "@/services/usersQuery";

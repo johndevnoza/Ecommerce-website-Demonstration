@@ -1,5 +1,4 @@
 import ProductCard from "@/components/ui/cards/ProductCard";
-
 type RenderProductsProps<T extends ProductDataUnion> = {
   data: T[];
   isLoading: boolean;
@@ -19,8 +18,6 @@ const RenderProducts = <T extends ProductDataUnion>({
   isPageFavorites,
   secondId,
 }: RenderProductsProps<T>) => {
-  console.log(secondId);
-
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-6 max-[440px]:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-2">
       {data?.map((item: T) => (

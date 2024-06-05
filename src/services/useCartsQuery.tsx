@@ -3,7 +3,8 @@ import { authAxios } from "./baseURLAxios.ts";
 export const fetchCarts = async () => {
   try {
     const response = await authAxios.get("cart");
-    return (await response.data) as CartProduct[];
+    if(response) return (await response.data) as CartProduct[];
+    else return [];
   } catch (error) {
     throw error;
   }
@@ -32,10 +33,5 @@ export const buyItems = async ({
     totalPrice: totalPrice,
     totalItems: totalItems,
   };
-  authAxios.post(
-    `purchases`,
-    requestBody,
-
-    {}
-  );
+  authAxios.post(`purchases`, requestBody, {});
 };

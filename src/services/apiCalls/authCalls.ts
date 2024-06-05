@@ -1,4 +1,4 @@
-import { loginAxios } from "./baseURLAxios";
+import { loginAxios } from "../baseURLAxios";
 import { NavigateFunction } from "react-router-dom";
 const LOGIN_URL = "auth/login";
 const REGISTER_URL = "auth/register";
@@ -16,10 +16,9 @@ export const postRegister = async (data: User) => {
 
 export const mutateLogin = async (
   data: LoginProps,
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
 ) => {
   let errorOccurred = false;
-
   return await loginAxios
     .post(LOGIN_URL, {
       email: data.email,

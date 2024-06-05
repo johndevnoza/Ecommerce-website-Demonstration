@@ -9,7 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAccesToken } from "@/services/baseURLAxios";
 const InactivityAlert = () => {
   const [showAlert, setShowAlert] = useState(false);

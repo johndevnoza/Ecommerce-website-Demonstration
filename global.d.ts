@@ -27,7 +27,7 @@ declare type ProductData = {
 };
 
 declare type CartProduct = {
-  cartProduct?: {
+  cartProduct: {
     category_name: string;
     created_at: string;
     description: string;
@@ -41,7 +41,7 @@ declare type CartProduct = {
   count: number;
   created_at: string;
   id: string;
-  product_id?: string;
+  product_id: string;
   updated_at?: string;
   user_id?: string;
   onClick?: (event: React.MouseEvent) => void;
@@ -62,15 +62,6 @@ declare type LikedProduct = {
     title: string;
     updated_at: string;
   };
-  category_name: string;
-  created_at: string;
-  description: string;
-  id: string;
-  image: string;
-  price: number;
-  salePrice: null;
-  title: string;
-  updated_at: string;
   count?: number;
   created_at: string;
   id: string;
@@ -114,7 +105,7 @@ declare type User = {
 };
 
 declare type PaymentProps = {
-  product_id: string | undefined;
+  product_id: string[];
   totalPrice: number;
   totalItems: number;
 };

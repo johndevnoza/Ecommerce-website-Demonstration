@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postRegister } from "@/services/apiCalls";
+import { postRegister } from "@/services/apiCalls/authCalls";
 import { useEffect } from "react";
 import { getAccesToken } from "@/services/baseURLAxios";
 export const schema = z.object({

@@ -13,9 +13,9 @@ import InteractiveButton from "../InteractiveButton";
 import HoverInfoElement from "../HoverInfoElement";
 import { ProductsLoading } from "../loadings/ProductListLoading";
 import { useQuery } from "@tanstack/react-query";
-import { fetchSales } from "@/services/productsApi";
 import { SALES_QUERY } from "@/utils/constants";
 import { ErrorFetchingOffers } from "../ComponentErrors/ErrorFetchingProducts";
+import { fetchSales } from "@/services/apiCalls/productsApi";
 
 const HomeOffers: React.FC = () => {
   const {

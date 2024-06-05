@@ -5,7 +5,7 @@ import {
   fetchProductSearch,
   fetchSales,
   fetchSingleCategory,
-} from "./productsApi";
+} from "./apiCalls/productsApi";
 import { useSearchParams } from "react-router-dom";
 import {
   CATEGORIES_QUERY,
@@ -30,7 +30,7 @@ export function useSalesQuery(debauncedSearch: string) {
     select: (sales) =>
       sales
         ? sales.products?.filter((item: ProductData) =>
-            item.title.toLowerCase().includes(debauncedSearch.toLowerCase())
+            item.title.toLowerCase().includes(debauncedSearch.toLowerCase()),
           )
         : null,
   });
@@ -45,7 +45,7 @@ export function useSingleCategoryQuery(
   categoryName: string | undefined,
   maxPriceFetch?: string,
   minPriceFetch?: string,
-  salesFetch?: string
+  salesFetch?: string,
 ) {
   const queryParams = useSearchParams({
     category: categoryName || "",
@@ -61,7 +61,7 @@ export function useSingleCategoryQuery(
         categoryName!,
         maxPriceFetch,
         minPriceFetch,
-        salesFetch
+        salesFetch,
       ),
     enabled: !!categoryName,
   });

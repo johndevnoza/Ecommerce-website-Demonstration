@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "../ui/sheet.tsx";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { buttonVariants } from "../ui/button.tsx";
 import { Separator } from "../ui/separator.tsx";
 import HoverInfoElement from "../ui/HoverInfoElement.tsx";
@@ -23,18 +23,24 @@ import { CARTS_QUERY } from "@/utils/constants.tsx";
 import CartList from "./CartList.tsx";
 import { useConditionalEffect } from "@/hooks/useConditionalEffect.tsx";
 import { useUsersQuery } from "@/services/usersQuery.tsx";
+import { useEffect } from "react";
 
 const Cart = () => {
   const queryClient = useQueryClient();
+  const location = useLocation();
   const { data: user } = useUsersQuery();
-  const { data, isPending } = useQuery({
+  const { data, isPending, refetch } = useQuery({
     queryKey: [CARTS_QUERY],
     queryFn: fetchCarts,
   });
-
+  useEffect(() => {
+    return () => {
+      if (location.pathname === "/login") refetch();
+    };
+  }, []);
   const numberOfItems = data ? data?.length : 0;
   const totalPrice = data
-    ? data.reduce((acc, item) => acc + item.count * item.cartProduct.price, 0)
+    ? data?.reduce((acc, item) => acc + item.count * item.cartProduct.price, 0)
     : 0;
 
   const removeFromCartMutation = useMutation({

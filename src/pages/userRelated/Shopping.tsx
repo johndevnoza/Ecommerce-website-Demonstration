@@ -17,8 +17,9 @@ const Shopping = () => {
     queryFn: fetchCarts,
   });
   const isAdded = cartProduct
-    ? cartProduct.map((item) => item.product_id)
-    : null;
+    ? cartProduct?.map((item) => item.product_id)
+    : [];
+
   const itemCount = cartProduct ? cartProduct.length : 0;
   const totalPrice = cartProduct
     ? cartProduct.reduce(
@@ -81,7 +82,14 @@ const Shopping = () => {
               totalItems={itemCount}
             />
           </div>
-          <div className="h-1 w-full rounded-md border-2 border-border bg-border md:block md:h-full md:w-min"></div>
+          {!cartProduct?.length && (
+            <div className="text-center text-2xl font-bold">
+              No items in cart
+            </div>
+          )}
+          {cartProduct?.length ? (
+            <div className="h-1 w-full rounded-md border-2 border-border bg-border md:block md:h-full md:w-min"></div>
+          ) : null}
           <div className="flex h-min max-w-min items-center gap-x-1 gap-y-2 overflow-x-scroll md:flex md:h-full md:flex-col md:overflow-hidden md:overflow-y-scroll">
             {cartProduct?.map((i: CartProduct) => (
               <div className="relative w-64 md:w-60" key={i.id}>

@@ -31,7 +31,7 @@ export default function Links() {
                 }),
               )}
             >
-              <Link to="/products"> {t("allProducts")}</Link>
+              <Link to="/products/page/1"> {t("allProducts")}</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(

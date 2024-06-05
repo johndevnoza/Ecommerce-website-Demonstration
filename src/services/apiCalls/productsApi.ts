@@ -1,4 +1,4 @@
-import { axiosBase } from "./baseURLAxios";
+import { axiosBase } from "../baseURLAxios";
 export async function fetchAllProducts(page: string | number) {
   return await axiosBase
     .get(`/product?page=${page}&pageSize=4`)
@@ -19,7 +19,7 @@ export async function fetchSingleCategory(
   categoryId: string,
   maxPriceFetch?: string,
   minPriceFetch?: string,
-  salesFetch?: string
+  salesFetch?: string,
 ) {
   let url = `product?categoryName=${categoryId}`;
   if (maxPriceFetch) {
