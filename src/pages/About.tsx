@@ -1,3 +1,11 @@
+import {
+  CssLogo,
+  HtmlLogo,
+  JsLogo,
+  ReactIcon,
+  Shadcn,
+  TailwindIcon,
+} from "@/assets/images/svgs/Icons";
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
@@ -19,16 +27,35 @@ const About = () => {
               orientation="vertical"
               className="min-h-8 min-w-[3px] bg-orange-500"
             />
-            <Link to="/html" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://www.w3schools.com/html/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               HTML
+              <HtmlLogo />
             </Link>
             <Separator orientation="vertical" className="min-h-8 min-w-[3px]" />
-            <Link to="/css" className="p-2 hover:bg-secondary">
+
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://www.w3schools.com/css/default.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               CSS
+              <CssLogo />
             </Link>
             <Separator orientation="vertical" className="min-h-8 min-w-[3px]" />
-            <Link to="/javascript" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://www.w3schools.com/js/default.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               JavaScript
+              <JsLogo />
             </Link>
           </section>
           <Separator />
@@ -40,8 +67,14 @@ const About = () => {
               orientation="vertical"
               className="min-h-8 min-w-[3px] bg-yellow-500"
             />
-            <Link to="/react" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://reactjs.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               React
+              <ReactIcon />
             </Link>
           </section>
           <Separator />
@@ -53,8 +86,14 @@ const About = () => {
               orientation="vertical"
               className="min-h-8 min-w-[3px] bg-sky-500"
             />
-            <Link to="/tailwind" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://tailwindcss.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Tailwind
+              <TailwindIcon />
             </Link>
           </section>
           <Separator />
@@ -66,8 +105,14 @@ const About = () => {
               orientation="vertical"
               className="min-h-8 min-w-[3px] bg-blue-500"
             />
-            <Link to="/shadcn-ui" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://ui.shadcn.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Shadcn UI
+              <Shadcn />
             </Link>
           </section>
           <Separator />
@@ -79,11 +124,21 @@ const About = () => {
               orientation="vertical"
               className="min-h-8 min-w-[3px] bg-green-500"
             />
-            <Link to="/zustand" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://zustand-demo.pmnd.rs/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Zustand
             </Link>
             <Separator orientation="vertical" className="min-h-8 min-w-[3px]" />
-            <Link to="/react-context" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://react.dev/reference/react/useContext"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               React Context
             </Link>
           </section>
@@ -96,23 +151,48 @@ const About = () => {
               orientation="vertical"
               className="min-h-8 min-w-[3px] bg-green-500"
             />
-            <Link to="/tanstack-query" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://tanstack.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Tanstack Query
             </Link>
             <Separator orientation="vertical" className="min-h-8 min-w-[3px]" />
-            <Link to="/i18next" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://www.i18next.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               i18next
             </Link>
             <Separator orientation="vertical" className="min-h-8 min-w-[3px]" />
-            <Link to="/zod" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://zod.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Zod
             </Link>
             <Separator orientation="vertical" className="min-h-8 min-w-[3px]" />
-            <Link to="/axios" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://axios-http.com/docs/intro"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               axios
             </Link>
             <Separator orientation="vertical" className="min-h-8 min-w-[3px]" />
-            <Link to="/tailwind-merge" className="p-2 hover:bg-secondary">
+            <Link
+              className="flex items-center gap-1 p-2 hover:bg-secondary"
+              to="https://www.npmjs.com/package/tailwind-merge"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               tailwind-merge
             </Link>
           </section>
