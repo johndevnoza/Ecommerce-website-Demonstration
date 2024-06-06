@@ -10,6 +10,8 @@ import {
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { MenuSquare } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 export default function Links() {
   const { t } = useTranslation();
@@ -21,7 +23,9 @@ export default function Links() {
             className={cn(
               buttonVariants({ className: "group-data-[state=open]:p-5" }),
             )}
-          ></NavigationMenuTrigger>
+          >
+            <MenuSquare />
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <NavigationMenuLink
               className={cn(
@@ -43,6 +47,7 @@ export default function Links() {
             >
               <Link to="/product-category"> {t("categories")}</Link>
             </NavigationMenuLink>
+            <Separator />
             <NavigationMenuLink
               className={cn(
                 buttonVariants({
@@ -62,16 +67,6 @@ export default function Links() {
               )}
             >
               <Link to="/contact"> {t("contact")}</Link>
-            </NavigationMenuLink>
-            <NavigationMenuLink
-              className={cn(
-                buttonVariants({
-                  variant: "ghost",
-                  className: "w-full cursor-pointer",
-                }),
-              )}
-            >
-              <Link to="/offices"> {t("offices")}</Link>
             </NavigationMenuLink>
             <NavigationMenuLink
               className={cn(

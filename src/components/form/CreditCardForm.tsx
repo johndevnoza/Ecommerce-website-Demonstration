@@ -10,7 +10,6 @@ import HoverInfoElement from "../ui/HoverInfoElement.tsx";
 import { CARTS_QUERY } from "@/utils/constants.tsx";
 import { authAxios } from "@/services/baseURLAxios.ts";
 import { useState } from "react";
-import { Dialog } from "@radix-ui/react-dialog";
 import { AlertDialog } from "@radix-ui/react-alert-dialog";
 import {
   AlertDialogAction,
@@ -111,7 +110,7 @@ const CreditCardForm = ({
         </AlertDialog>
       ) : (
         <div className="flex w-full justify-between gap-2 md:flex-col">
-          <div className="flex-grow-1 rounded-md bg-orange-400 md:w-auto">
+          <div className="flex-grow-1 w-[300px] flex-col rounded-md bg-orange-400 p-2">
             <p>Card Number: {watchFields[0]}</p>
             <p>Holder Name: {watchFields[2]}</p>
             <p>Expiry Date: {watchFields[3]}</p>
@@ -119,9 +118,9 @@ const CreditCardForm = ({
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex min-h-full w-max flex-col gap-2"
+            className="flex min-h-full w-full flex-col gap-2"
           >
-            <div className="relative">
+            <div className="relative w-full">
               <Input
                 {...register("holderName")}
                 placeholder="Card Holder Name"

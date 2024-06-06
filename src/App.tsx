@@ -15,6 +15,8 @@ import Profile from "./pages/userRelated/Profile";
 import Orders from "./pages/userRelated/Orders";
 import ProfileDetails from "./pages/userRelated/ProfileDetails";
 import ErrorUrlPath from "./components/ui/ComponentErrors/ErrorUrlPath";
+import Contact from "./pages/Contact";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
         <Route
           path="/products/page/:page"
           element={<Products isHomePage={false} />}
