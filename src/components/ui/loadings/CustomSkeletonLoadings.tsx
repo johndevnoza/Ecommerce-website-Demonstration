@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { Input } from "../input";
 import { Button } from "../button";
 import { Edit } from "lucide-react";
-
+// EXPERIMENTAL COMPONENT
 export const ProductsSkeleton: React.FC = () => {
   return (
     <div className="flex w-[100%] flex-col gap-4">

@@ -41,9 +41,3 @@ export async function fetchProductSearch(searchUrl: string) {
     .then((res) => res.data)
     .catch((error) => error.message);
 }
-export async function fetchSingle(productId: string) {
-  return await axiosBase
-    .get(`/product?productName=${productId}`)
-    .then((res) => res.data)
-    .catch((error) => error.message);
-}

@@ -1,11 +1,11 @@
 import { useQueries } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { fetchCarts } from "@/services/useCartsQuery";
 import { fetchFav } from "@/services/FavoritesQuery";
-import { PRODUCT_QUERY, CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
+import { fetchCarts } from "@/services/useCartsQuery";
+import { fetchProductSearch } from "@/services/apiCalls/productsApi";
 import MaxWidthWrapper from "@/components/ui/MaxWidthWrapper";
 import ProductDetails from "@/components/ui/cards/ProductDetails";
-import { fetchSingle } from "@/services/apiCalls/productsApi";
+import { PRODUCT_QUERY, CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
 
 export default function Product() {
   const { id } = useParams() as { id: string };
@@ -14,7 +14,7 @@ export default function Product() {
     queries: [
       {
         queryKey: [PRODUCT_QUERY, id],
-        queryFn: async () => await fetchSingle(id),
+        queryFn: async () => await fetchProductSearch(id),
         staleTime: Infinity,
       },
       {
@@ -43,7 +43,7 @@ export default function Product() {
     return <MaxWidthWrapper>An error occurred</MaxWidthWrapper>;
 
   return (
-    <MaxWidthWrapper>
+    <MaxWidthWrapper className="h-full py-20">
       {data?.map((product: ProductData) => (
         <ProductDetails
           {...product}

@@ -66,7 +66,7 @@ const ProfileDetails = () => {
               Update
             </Button>
           </div>
-          <div className="flex flex-col gap-2">
+          <section className="flex flex-col gap-2">
             <div className="flex w-max items-center justify-between">
               <label htmlFor="firstName" className="w-24">
                 First name
@@ -134,7 +134,7 @@ const ProfileDetails = () => {
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
               />
             </div>
-          </div>
+          </section>
         </form>
       </div>
     );

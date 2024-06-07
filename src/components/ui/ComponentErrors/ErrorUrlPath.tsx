@@ -17,7 +17,7 @@ const ErrorUrlPath = () => {
 
   return (
     <MaxWidthWrapper>
-      <div className="my-10 flex h-56 w-full flex-col items-center justify-center gap-4 rounded-md border-2 border-border">
+      <section className="my-10 flex h-56 w-full flex-col items-center justify-center gap-4 rounded-md border-2 border-border">
         <span className="mt-2 font-mono text-4xl font-bold text-destructive">
           Path Not Found
         </span>
@@ -40,7 +40,7 @@ const ErrorUrlPath = () => {
             Redirecting in : {second}
           </div>
         </div>
-      </div>
+      </section>
     </MaxWidthWrapper>
   );
 };

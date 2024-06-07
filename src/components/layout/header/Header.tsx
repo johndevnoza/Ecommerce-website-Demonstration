@@ -17,7 +17,7 @@ export default function Header() {
     <div className="sticky inset-x-0 top-0 z-50 h-16 border-b-2 border-border bg-background">
       <InactivityAlert />
       <header className="relative w-full">
-        <MaxWidthWrapper>
+        <MaxWidthWrapper className="h-auto">
           <div className="flex h-16 items-center justify-between">
             <div className="flex gap-2">
               <Link

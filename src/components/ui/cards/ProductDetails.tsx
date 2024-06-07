@@ -66,11 +66,13 @@ export default function ProductDetails({
   const navigate = useNavigate();
 
   return (
-    <MaxWidthWrapper className="mb-44 mt-10 flex justify-between rounded-md border-none">
-      <div className="flex-grow-1 hover:flex-grow-2 group flex w-[350px] flex-col gap-1 rounded-l-md border-2 border-border bg-card p-4 transition-all duration-300 hover:scale-110 hover:rounded-sm hover:outline hover:outline-border md:w-[450px] md:hover:w-full md:hover:translate-x-[-16px]">
+    <MaxWidthWrapper className="flex justify-between rounded-md border-none">
+      <section className="flex-grow-1 hover:flex-grow-2 group flex w-[350px] flex-col justify-between gap-1 rounded-l-md border-2 border-border bg-card p-4 transition-all duration-300 hover:scale-110 hover:rounded-sm hover:outline hover:outline-border md:w-[450px] md:hover:w-full md:hover:translate-x-[-16px]">
         <img
           src={image}
           alt={title}
+          decoding="async"
+          loading="lazy"
           className={twMerge(
             "h-[350px] rounded-md object-cover object-center group-hover:w-[600px]",
           )}
@@ -85,7 +87,7 @@ export default function ProductDetails({
             <p>{updated_at ? updated_at.substring(0, 10) : "N/A"}</p>
           </div>
         </div>
-      </div>
+      </section>
       <div className="min-w-1 bg-background lg:w-2"></div>
       <CardHeader className="group w-full flex-grow-0 gap-2 border-2 border-border bg-card p-4 transition-all duration-300 hover:scale-110 hover:rounded-sm hover:outline hover:outline-border">
         <CardTitle className="min-w-0 p-0">{title}</CardTitle>

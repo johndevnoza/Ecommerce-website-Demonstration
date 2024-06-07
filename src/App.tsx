@@ -17,10 +17,11 @@ import ProfileDetails from "./pages/userRelated/ProfileDetails";
 import ErrorUrlPath from "./components/ui/ComponentErrors/ErrorUrlPath";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
+import Footer from "./components/layout/footer/Footer";
 
 function App() {
   return (
-    <>
+    <div className="h-screen flex flex-col justify-between">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -47,7 +48,8 @@ function App() {
         </Route>
         <Route path="*" element={<ErrorUrlPath />} />
       </Routes>
-    </>
+      <Footer />
+    </div>
   );
 }
 

@@ -35,9 +35,9 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
         queryKey: [PRODUCTS_QUERY, page],
         queryFn: () => fetchAllProducts(page),
         placeholderData: keepPreviousData,
-        select: (data) => {
+        select: (data: ProductData) => {
           if (!isHomePage && debouncedSearch) {
-            const filteredProducts = data.products?.filter(
+            const filteredProducts = data?.products?.filter(
               (item: ProductData) =>
                 item.title
                   .toLowerCase()
@@ -106,53 +106,55 @@ export const Products = ({ isHomePage }: { isHomePage: boolean }) => {
   if (products?.error) return <ErrorFetchingProducts />;
 
   return (
-    <MaxWidthWrapper className={isHomePage ? "px-0 md:px-0" : "mt-8"}>
-      {isHomePage ? (
-        <div>
-          <InteractiveButton
-            title={"All products"}
-            buttonVariant="secondary"
-            buttonClass="w-min"
-            link
-            redirect={`/products/page/${1}`}
-            showInfo
-            hoverSide="right"
-            hoverContent="View all products in details"
-            showDialog={false}
-            wrapperClass="mb-2"
+    <div>
+      <MaxWidthWrapper className={isHomePage ? "px-0 md:px-0" : "mt-8"}>
+        {isHomePage ? (
+          <div>
+            <InteractiveButton
+              title={"All products"}
+              buttonVariant="secondary"
+              buttonClass="w-min"
+              link
+              redirect={`/products/page/${1}`}
+              showInfo
+              hoverSide="right"
+              hoverContent="View all products in details"
+              showDialog={false}
+              wrapperClass="mb-2"
+            />
+          </div>
+        ) : (
+          <>
+            <SearchInComponent
+              pageTitles="All Products"
+              isHomePage={isHomePage}
+              setFavoritesTerm={setSearchTerm}
+              favoritesTerm={searchTerm}
+              isPending={false}
+              handleSearchTermChange={handleSearchTermChange}
+            />
+          </>
+        )}
+        <section className="mt-2 flex flex-col">
+          <RenderProducts<ProductData>
+            data={products.data.products}
+            isLoading={products.isRefetching}
+            isInCart={isAdded}
+            isInFavorites={isFavorited}
+            productCountMap={productCountMap}
           />
-        </div>
-      ) : (
-        <>
-          <SearchInComponent
-            pageTitles="All Products"
-            isHomePage={isHomePage}
-            setFavoritesTerm={setSearchTerm}
-            favoritesTerm={searchTerm}
-            isPending={false}
-            handleSearchTermChange={handleSearchTermChange}
-          />
-        </>
-      )}
-      <div className="mt-2 flex w-full flex-col gap-6">
-        <RenderProducts<ProductData>
-          data={products.data.products}
-          isLoading={products.isRefetching}
-          isInCart={isAdded}
-          isInFavorites={isFavorited}
-          productCountMap={productCountMap}
-        />
-        <div className="flex w-full justify-center">
-          <Pagination
-            isHomePage={isHomePage}
-            totalPage={pageNumbers}
-            currentPage={page}
-            previous={page - 1}
-            next={page + 1}
-            isFetching={products.isPlaceholderData}
-          />
-        </div>
-      </div>
-    </MaxWidthWrapper>
+          <div className="flex w-full justify-center">
+            <Pagination
+              isHomePage={isHomePage}
+              totalPage={pageNumbers}
+              currentPage={page}
+              previous={page - 1}
+              next={page + 1}
+              isFetching={products.isPlaceholderData}
+            />
+          </div>
+        </section>
+      </MaxWidthWrapper>
+    </div>
   );
 };

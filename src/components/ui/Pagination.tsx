@@ -22,7 +22,7 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <>
       {!isHomePage ? (
-        <div className="mb-10 mt-20 flex w-min items-center justify-around gap-2 rounded-lg border-2 border-border p-2">
+        <section className="mb-10 mt-20 flex w-min items-center justify-around gap-2 rounded-lg border-2 border-border p-2">
           <Button
             variant={currentPage == 1 ? "secondary" : "default"}
             disabled={currentPage == 1 || isFetching}
@@ -57,7 +57,7 @@ const Pagination: React.FC<PaginationProps> = ({
           >
             Next
           </Button>
-        </div>
+        </section>
       ) : null}
     </>
   );

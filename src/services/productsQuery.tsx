@@ -70,6 +70,5 @@ export function useSearchQuery() {
   return useQuery({
     queryKey: [SEARCH_QUERY],
     queryFn: () => fetchProductSearch,
-    staleTime: Infinity,
   });
 }

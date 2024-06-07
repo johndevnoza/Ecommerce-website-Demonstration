@@ -5,9 +5,9 @@ import { Products } from "./productRelated/products/Products";
 
 export default function Home() {
   return (
-    <MaxWidthWrapper>
-      <div className="h-full">
-        <div className="flex w-full flex-col gap-6 border-x-2 border-border py-8">
+    <div className="min-h-screen">
+      <MaxWidthWrapper className="h-screen">
+        <div className="flex h-full w-full flex-col gap-6 border-x-2 border-border py-8">
           {/* Best Offers */}
           <HomeOffers />
           {/* home fancy categories carousel */}
@@ -15,7 +15,7 @@ export default function Home() {
           {/* Homepage All products */}
           <Products isHomePage={true} />
         </div>
-      </div>
-    </MaxWidthWrapper>
+      </MaxWidthWrapper>
+    </div>
   );
 }

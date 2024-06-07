@@ -5,7 +5,6 @@ type SearchState = {
   activateSearch: () => void;
   deactivateSearch: () => void;
 };
-
 const useSearchStore = create<SearchState>((set) => ({
   isSearchActive: false,
   activateSearch: () => {

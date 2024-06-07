@@ -14,7 +14,7 @@ type SkeletonLoadingProps = {
 };
 
 // ProductsLoading.jsx
-
+// EXPERIMENTAL COMPONENT
 export const ProductsLoading = ({
   numberOfCards,
   products,

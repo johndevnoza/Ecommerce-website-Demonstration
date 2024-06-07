@@ -6,14 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import InteractiveButton from "../InteractiveButton";
-import {
-  ArrowBigDownDash,
-  ArrowBigUpDash,
-  FolderHeart,
-  Loader,
-  ShoppingCart,
-  X,
-} from "lucide-react";
+import { X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
 import { cn } from "@/lib/utils";
@@ -26,6 +19,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addToFavorites, removeFromFavorites } from "@/services/FavoritesQuery";
 import { CARTS_QUERY, FAVORITES_QUERY } from "@/utils/constants";
+import { DisplayCartButton, DisplayFavoriteButton } from "./DisplayButtons";
 
 export default function ProductCard({
   image,
@@ -171,17 +165,12 @@ export default function ProductCard({
                     : () => handleAddToFavorites.mutate(id)
             }
           >
-            {isPageShopping ? (
-              <ArrowBigUpDash />
-            ) : isInFavorites ? (
-              <FolderHeart className="animate-bounce" />
-            ) : isPageFavorites ? (
-              <X className="max-[840px]:text-" />
-            ) : handleAddToFavorites.isPending ? (
-              <Loader className="animate-spin" />
-            ) : (
-              <FolderHeart />
-            )}
+            <DisplayFavoriteButton
+              isPageShopping={isPageShopping}
+              isInFavorites={isInFavorites}
+              isPageFavorites={isPageFavorites}
+              isLoading={handleAddToFavorites.isPending}
+            />
           </InteractiveButton>
           <InteractiveButton
             wrapperClass={cn(
@@ -210,15 +199,11 @@ export default function ProductCard({
                   : () => handleAddToCart.mutate(id)
             }
           >
-            {isInCart ? (
-              <ShoppingCart className="animate-pulse" />
-            ) : isPageShopping ? (
-              <ArrowBigDownDash />
-            ) : handleAddToCart.isPending ? (
-              <Loader className="animate-spin" />
-            ) : (
-              <ShoppingCart />
-            )}
+            <DisplayCartButton
+              isInCart={isInCart}
+              isPageShopping={isPageShopping}
+              isLoading={handleAddToCart.isPending}
+            />
             {total && !isPageShopping ? (
               <div className="absolute -right-2 -top-2 rounded-md bg-primary px-2 font-mono font-bold tabular-nums outline outline-background">
                 {total}
