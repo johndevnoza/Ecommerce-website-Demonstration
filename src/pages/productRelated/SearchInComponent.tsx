@@ -30,8 +30,7 @@ const SearchInComponent = ({
               type="text "
               value={favoritesTerm}
               onChange={handleSearchTermChange}
-              placeholder="Search favorited"
-              className=""
+              placeholder={"Search products"}
             />
             {favoritesTerm && (
               <XCircle
