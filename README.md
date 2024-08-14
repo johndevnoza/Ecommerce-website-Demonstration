@@ -1,7 +1,6 @@
 
 🌐 Ecommerce website Demonstration 
 Developed a sophisticated e-commerce website showcasing advanced frontend skills for a modern, user-friendly application. Focused on performance, scalability, and accessibility.
-Key features and technologies:
 ---
 🎥 Watch the Demo Video
 [Click here to watch the demo ](https://www.youtube.com/watch?v=JhrGoL0inOY)
