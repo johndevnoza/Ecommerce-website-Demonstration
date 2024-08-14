@@ -1,8 +1,12 @@
 
-Ecommerce website Demonstration
+🌐 Ecommerce website Demonstration 
 Developed a sophisticated e-commerce website showcasing advanced frontend skills for a modern, user-friendly application. Focused on performance, scalability, and accessibility.
 Key features and technologies:
-
+---
+🎥 Watch the Demo Video
+[Click here to watch the demo ](https://www.youtube.com/watch?v=JhrGoL0inOY)
+---
+🔧 Key Features and Technologies:
 1. React & TypeScript: Built dynamic, responsive UI with type safety.
 2. Tailwind CSS: Applied for streamlined, customizable styling.
 3. State Management: Used Zustand for efficient state handling.
@@ -17,7 +21,7 @@ Key features and technologies:
 12. Version Control: Utilized Git for collaboration.
 13. Deployment: Used Docker for consistent performance.
 
-The project demonstrates:
+🚀 The Project Demonstrates:
 - Proficiency in creating robust, feature-rich applications
 - Ability to handle various frontend challenges
 - Strong foundation in modern web development practices
