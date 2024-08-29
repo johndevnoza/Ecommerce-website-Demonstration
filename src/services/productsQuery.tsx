@@ -72,3 +72,4 @@ export function useSearchQuery() {
     queryFn: () => fetchProductSearch,
   });
 }
+// testing commit
